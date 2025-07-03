@@ -4,6 +4,7 @@
 !.gitignore
 !*.py
 !*.sh
+!*.gnuplot
 !README
 !README.*
 # Allow all directories,
