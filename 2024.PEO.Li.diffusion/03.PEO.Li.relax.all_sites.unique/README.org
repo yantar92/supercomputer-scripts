@@ -1,0 +1,1 @@
+The original relaxation outputs are in oimalyi/PEO_paper_1/03.PEO.Li.relax.RELAX_POS.all_sites

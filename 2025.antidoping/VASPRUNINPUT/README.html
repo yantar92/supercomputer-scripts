@@ -1,0 +1,3689 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-01-08 Wed 15:02 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Result description</title>
+<meta name="author" content="Ihor Radchenko" />
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Result description</h1>
+<div id="outline-container-org1ccea51" class="outline-2">
+<h2 id="org1ccea51"><span class="section-number-2">1.</span> Overview</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>All the VASP input files are generated using the .py scripts inside
+<ul class="org-ul">
+<li>Generally mpXXXXXX folders contain volume relaxation runs</li>
+<li>mpXXXXX/Relax are subsequent position relaxation</li>
+<li>mpXXXXX/DOS is electronic structure data</li>
+<li>gorun_N_date folders contain runs computed in several iterations
+<ul class="org-ul">
+<li>gorun_1 is the initial iteration</li>
+<li>gorun_2 is from gorun_1, and so on</li>
+<li>the final iteration is the parent folder</li>
+</ul></li>
+<li>overall sequence of calculations:
+mpXXXX/gorun_1 -&gt; mpXXXX/gorun_2 -&gt; &#x2026; -&gt; mpXXXX/ -&gt; mpXXXX/Relax/gorun_1 -&gt; &#x2026; mpXXX/Relax -&gt; mpXXX/DOS/gorun_1 -&gt; &#x2026; -&gt; mpXXX/DOS</li>
+</ul></li>
+<li>I have tweaked several INCARs to converge the results
+<ul class="org-ul">
+<li>in all the cases, the old INCAR is saved into INCAR.old</li>
+</ul></li>
+<li><b>In one case, system did not converge (see below)</b></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org95c60dc" class="outline-2">
+<h2 id="org95c60dc"><span class="section-number-2">2.</span> Convergence problems</h2>
+<div class="outline-text-2" id="text-2">
+<ol class="org-ol">
+<li>Did not converge in one go
+<ul class="org-ul">
+<li><code>PBERUN/IBCANDIDATES/hIBcandidates/mp541134</code> (volume relaxation)</li>
+<li><code>PBERUN/IBCANDIDATES/hIBcandidates/mp568423</code> (volume relaxation)</li>
+</ul></li>
+<li>Converged with increased <code>NELM</code>
+<ul class="org-ul">
+<li><code>SCANRUN/IBCANDIDATES/eIBcandidates/mp1105583/DOS</code></li>
+</ul></li>
+<li><b>Did not converge at all</b>
+<ul class="org-ul">
+<li><code>SCANRUN/IBCANDIDATES/eIBcandidates/mp1102399</code>
+<ul class="org-ul">
+<li>there were problems with convergence all the way through</li>
+<li>I only managed to converge volume relaxation and position relaxation
+using IBRION=1 and increased NELMIN=6</li>
+<li>DOS did not converge at all; may need to try different mixing</li>
+</ul></li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org899257a" class="outline-2">
+<h2 id="org899257a"><span class="section-number-2">3.</span> Summary of all the data</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>Note that some systems had pretty large volume change during volume relax runs, see %vol in the table below</li>
+</ul>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Directory</th>
+<th scope="col" class="org-right">Energy</th>
+<th scope="col" class="org-right">E/Atom</th>
+<th scope="col" class="org-right">Magnetization</th>
+<th scope="col" class="org-right">%vol</th>
+<th scope="col" class="org-right">a</th>
+<th scope="col" class="org-right">b</th>
+<th scope="col" class="org-right">c</th>
+<th scope="col" class="org-right">%a</th>
+<th scope="col" class="org-right">%b</th>
+<th scope="col" class="org-right">%c</th>
+<th scope="col" class="org-right">α</th>
+<th scope="col" class="org-right">β</th>
+<th scope="col" class="org-right">γ</th>
+<th scope="col" class="org-right">%α</th>
+<th scope="col" class="org-right">%β</th>
+<th scope="col" class="org-right">%γ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp1079487/DOS</td>
+<td class="org-right">-52.28362</td>
+<td class="org-right">-5.22836</td>
+<td class="org-right">-0.000338</td>
+<td class="org-right">0</td>
+<td class="org-right">6.6322</td>
+<td class="org-right">6.63638</td>
+<td class="org-right">8.09909</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90.1603</td>
+<td class="org-right">110.701</td>
+<td class="org-right">119.212</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp1079487/Relax</td>
+<td class="org-right">-52.28362</td>
+<td class="org-right">-5.22836</td>
+<td class="org-right">-2.29e-05</td>
+<td class="org-right">0</td>
+<td class="org-right">6.6322</td>
+<td class="org-right">6.63638</td>
+<td class="org-right">8.09909</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90.1603</td>
+<td class="org-right">110.701</td>
+<td class="org-right">119.212</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp1079487</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-0</td>
+<td class="org-right"><b>9.19</b></td>
+<td class="org-right">6.6322</td>
+<td class="org-right">6.63638</td>
+<td class="org-right">8.09909</td>
+<td class="org-right">0.14</td>
+<td class="org-right">0.12</td>
+<td class="org-right">7.16</td>
+<td class="org-right">90.1603</td>
+<td class="org-right">110.701</td>
+<td class="org-right">119.212</td>
+<td class="org-right">0.23</td>
+<td class="org-right">-1.25</td>
+<td class="org-right">-0.27</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp1102399/DOS</td>
+<td class="org-right">-81.30090</td>
+<td class="org-right">-7.39099</td>
+<td class="org-right">7.99998</td>
+<td class="org-right">0</td>
+<td class="org-right">4.64836</td>
+<td class="org-right">5.13709</td>
+<td class="org-right">5.8476</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">101.303</td>
+<td class="org-right">100.836</td>
+<td class="org-right">100.538</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp1102399/Relax</td>
+<td class="org-right">-81.30091</td>
+<td class="org-right">-7.39099</td>
+<td class="org-right">8</td>
+<td class="org-right">0</td>
+<td class="org-right">4.64836</td>
+<td class="org-right">5.13709</td>
+<td class="org-right">5.8476</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">101.303</td>
+<td class="org-right">100.836</td>
+<td class="org-right">100.538</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp1102399</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">8</td>
+<td class="org-right">1.76</td>
+<td class="org-right">4.64836</td>
+<td class="org-right">5.13709</td>
+<td class="org-right">5.8476</td>
+<td class="org-right">1.44</td>
+<td class="org-right">-3.03</td>
+<td class="org-right">3.86</td>
+<td class="org-right">101.303</td>
+<td class="org-right">100.836</td>
+<td class="org-right">100.538</td>
+<td class="org-right">-2.09</td>
+<td class="org-right">2.3</td>
+<td class="org-right">1.23</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp1105583/DOS</td>
+<td class="org-right">-242.23039</td>
+<td class="org-right">-4.03717</td>
+<td class="org-right">0.0005876</td>
+<td class="org-right">0</td>
+<td class="org-right">15.5491</td>
+<td class="org-right">15.5491</td>
+<td class="org-right">10.8823</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp1105583/Relax</td>
+<td class="org-right">-242.23039</td>
+<td class="org-right">-4.03717</td>
+<td class="org-right">0.0005876</td>
+<td class="org-right">0</td>
+<td class="org-right">15.5491</td>
+<td class="org-right">15.5491</td>
+<td class="org-right">10.8823</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp1105583</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">2.75e-05</td>
+<td class="org-right">3.19</td>
+<td class="org-right">15.5491</td>
+<td class="org-right">15.5491</td>
+<td class="org-right">10.8823</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1.16</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp1105706/DOS</td>
+<td class="org-right">-245.36222</td>
+<td class="org-right">-4.08937</td>
+<td class="org-right">-0.0003755</td>
+<td class="org-right">0</td>
+<td class="org-right">15.692</td>
+<td class="org-right">15.692</td>
+<td class="org-right">11.0149</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp1105706/Relax</td>
+<td class="org-right">-245.36222</td>
+<td class="org-right">-4.08937</td>
+<td class="org-right">-0.0003755</td>
+<td class="org-right">0</td>
+<td class="org-right">15.692</td>
+<td class="org-right">15.692</td>
+<td class="org-right">11.0149</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp1105706</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">1.2e-06</td>
+<td class="org-right">2.9</td>
+<td class="org-right">15.692</td>
+<td class="org-right">15.692</td>
+<td class="org-right">11.0149</td>
+<td class="org-right">0.86</td>
+<td class="org-right">0.86</td>
+<td class="org-right">1.15</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp1189272/DOS</td>
+<td class="org-right">-69.40445</td>
+<td class="org-right">-3.47022</td>
+<td class="org-right">0.0012563</td>
+<td class="org-right">0</td>
+<td class="org-right">7.40592</td>
+<td class="org-right">14.1719</td>
+<td class="org-right">8.4066</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">103.844</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp1189272/Relax</td>
+<td class="org-right">-69.40445</td>
+<td class="org-right">-3.47022</td>
+<td class="org-right">0.0012563</td>
+<td class="org-right">0</td>
+<td class="org-right">7.40592</td>
+<td class="org-right">14.1719</td>
+<td class="org-right">8.4066</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">103.844</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp1189272</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">0</td>
+<td class="org-right">3.41</td>
+<td class="org-right">7.40592</td>
+<td class="org-right">14.1719</td>
+<td class="org-right">8.4066</td>
+<td class="org-right">1.7</td>
+<td class="org-right">0.32</td>
+<td class="org-right">1.33</td>
+<td class="org-right">90</td>
+<td class="org-right">103.844</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">-0.07</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp22976/DOS</td>
+<td class="org-right">-281.52131</td>
+<td class="org-right">-5.02717</td>
+<td class="org-right">-0.0018538</td>
+<td class="org-right">0</td>
+<td class="org-right">10.5257</td>
+<td class="org-right">17.4457</td>
+<td class="org-right">10.0181</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">115.733</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp22976/Relax</td>
+<td class="org-right">-281.52131</td>
+<td class="org-right">-5.02717</td>
+<td class="org-right">-0.0018056</td>
+<td class="org-right">0</td>
+<td class="org-right">10.5257</td>
+<td class="org-right">17.4457</td>
+<td class="org-right">10.0181</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">115.733</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp22976</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-0</td>
+<td class="org-right"><b>5.68</b></td>
+<td class="org-right">10.5257</td>
+<td class="org-right">17.4457</td>
+<td class="org-right">10.0181</td>
+<td class="org-right">-0.27</td>
+<td class="org-right">3.07</td>
+<td class="org-right">2.18</td>
+<td class="org-right">90</td>
+<td class="org-right">115.733</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">-0.61</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp23361/DOS</td>
+<td class="org-right">-113.15964</td>
+<td class="org-right">-4.04142</td>
+<td class="org-right">5.99982</td>
+<td class="org-right">0</td>
+<td class="org-right">7.31312</td>
+<td class="org-right">10.256</td>
+<td class="org-right">7.2784</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp23361/Relax</td>
+<td class="org-right">-113.15964</td>
+<td class="org-right">-4.04142</td>
+<td class="org-right">5.99982</td>
+<td class="org-right">0</td>
+<td class="org-right">7.31312</td>
+<td class="org-right">10.256</td>
+<td class="org-right">7.2784</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp23361</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">6</td>
+<td class="org-right">3.93</td>
+<td class="org-right">7.31312</td>
+<td class="org-right">10.256</td>
+<td class="org-right">7.2784</td>
+<td class="org-right">1.47</td>
+<td class="org-right">1.38</td>
+<td class="org-right">1.02</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp27362/DOS</td>
+<td class="org-right">-109.53287</td>
+<td class="org-right">-5.47664</td>
+<td class="org-right">-0.0002791</td>
+<td class="org-right">0</td>
+<td class="org-right">6.35936</td>
+<td class="org-right">11.1767</td>
+<td class="org-right">7.58902</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">110.153</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp27362/Relax</td>
+<td class="org-right">-109.53287</td>
+<td class="org-right">-5.47664</td>
+<td class="org-right">-0.0002791</td>
+<td class="org-right">0</td>
+<td class="org-right">6.35936</td>
+<td class="org-right">11.1767</td>
+<td class="org-right">7.58902</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">110.153</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp27362</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-0</td>
+<td class="org-right"><b>9.06</b></td>
+<td class="org-right">6.35936</td>
+<td class="org-right">11.1767</td>
+<td class="org-right">7.58902</td>
+<td class="org-right">0.58</td>
+<td class="org-right">-0.15</td>
+<td class="org-right">7.89</td>
+<td class="org-right">90</td>
+<td class="org-right">110.153</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">-0.89</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp28344/DOS</td>
+<td class="org-right">-411.46128</td>
+<td class="org-right">-4.89835</td>
+<td class="org-right">-0.0005716</td>
+<td class="org-right">0</td>
+<td class="org-right">15.7203</td>
+<td class="org-right">15.8887</td>
+<td class="org-right">13.1519</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp28344/Relax</td>
+<td class="org-right">-411.46128</td>
+<td class="org-right">-4.89835</td>
+<td class="org-right">-0.0005716</td>
+<td class="org-right">0</td>
+<td class="org-right">15.7203</td>
+<td class="org-right">15.8887</td>
+<td class="org-right">13.1519</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp28344</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-1e-07</td>
+<td class="org-right">6.78</td>
+<td class="org-right">15.7203</td>
+<td class="org-right">15.8887</td>
+<td class="org-right">13.1519</td>
+<td class="org-right">6.64</td>
+<td class="org-right">-0.34</td>
+<td class="org-right">0.47</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp28913/DOS</td>
+<td class="org-right">-463.45894</td>
+<td class="org-right">-5.51737</td>
+<td class="org-right">-0.000891</td>
+<td class="org-right">0</td>
+<td class="org-right">13.4687</td>
+<td class="org-right">13.476</td>
+<td class="org-right">11.2748</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp28913/Relax</td>
+<td class="org-right">-463.45894</td>
+<td class="org-right">-5.51737</td>
+<td class="org-right">-0.000891</td>
+<td class="org-right">0</td>
+<td class="org-right">13.4687</td>
+<td class="org-right">13.476</td>
+<td class="org-right">11.2748</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp28913</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">0</td>
+<td class="org-right"><b>11.44</b></td>
+<td class="org-right">13.4687</td>
+<td class="org-right">13.476</td>
+<td class="org-right">11.2748</td>
+<td class="org-right">9.16</td>
+<td class="org-right">-0.14</td>
+<td class="org-right">2.23</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp28938/DOS</td>
+<td class="org-right">-120.47734</td>
+<td class="org-right">-5.47624</td>
+<td class="org-right">0.0002771</td>
+<td class="org-right">0</td>
+<td class="org-right">6.96088</td>
+<td class="org-right">6.96088</td>
+<td class="org-right">13.9859</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp28938/Relax</td>
+<td class="org-right">-120.47734</td>
+<td class="org-right">-5.47624</td>
+<td class="org-right">0.0002771</td>
+<td class="org-right">0</td>
+<td class="org-right">6.96088</td>
+<td class="org-right">6.96088</td>
+<td class="org-right">13.9859</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp28938</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-0</td>
+<td class="org-right"><b>5.67</b></td>
+<td class="org-right">6.96088</td>
+<td class="org-right">6.96088</td>
+<td class="org-right">13.9859</td>
+<td class="org-right">0.04</td>
+<td class="org-right">0.04</td>
+<td class="org-right">5.59</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp29689/DOS</td>
+<td class="org-right">-101.00815</td>
+<td class="org-right">-4.59128</td>
+<td class="org-right">-2.29e-05</td>
+<td class="org-right">0</td>
+<td class="org-right">7.72047</td>
+<td class="org-right">7.72047</td>
+<td class="org-right">15.0446</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp29689/Relax</td>
+<td class="org-right">-101.00815</td>
+<td class="org-right">-4.59128</td>
+<td class="org-right">-2.29e-05</td>
+<td class="org-right">0</td>
+<td class="org-right">7.72047</td>
+<td class="org-right">7.72047</td>
+<td class="org-right">15.0446</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp29689</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-0</td>
+<td class="org-right">3.96</td>
+<td class="org-right">7.72047</td>
+<td class="org-right">7.72047</td>
+<td class="org-right">15.0446</td>
+<td class="org-right">-0.15</td>
+<td class="org-right">-0.15</td>
+<td class="org-right">4.26</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp29924/DOS</td>
+<td class="org-right">-267.06356</td>
+<td class="org-right">-6.67659</td>
+<td class="org-right">-0.00042</td>
+<td class="org-right">0</td>
+<td class="org-right">6.75952</td>
+<td class="org-right">8.1322</td>
+<td class="org-right">14.8078</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp29924/Relax</td>
+<td class="org-right">-267.06356</td>
+<td class="org-right">-6.67659</td>
+<td class="org-right">-0.0001208</td>
+<td class="org-right">0</td>
+<td class="org-right">6.75952</td>
+<td class="org-right">8.1322</td>
+<td class="org-right">14.8078</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp29924</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-0</td>
+<td class="org-right">0.49</td>
+<td class="org-right">6.75952</td>
+<td class="org-right">8.1322</td>
+<td class="org-right">14.8078</td>
+<td class="org-right">0.16</td>
+<td class="org-right">-0.25</td>
+<td class="org-right">0.59</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp29985/DOS</td>
+<td class="org-right">-267.87120</td>
+<td class="org-right">-5.15137</td>
+<td class="org-right">-7.13e-05</td>
+<td class="org-right">0</td>
+<td class="org-right">7.11526</td>
+<td class="org-right">6.85594</td>
+<td class="org-right">28.5651</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp29985/Relax</td>
+<td class="org-right">-267.87120</td>
+<td class="org-right">-5.15137</td>
+<td class="org-right">-7.76e-05</td>
+<td class="org-right">0</td>
+<td class="org-right">7.11526</td>
+<td class="org-right">6.85594</td>
+<td class="org-right">28.5651</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp29985</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">0</td>
+<td class="org-right"><b>7.58</b></td>
+<td class="org-right">7.11526</td>
+<td class="org-right">6.85594</td>
+<td class="org-right">28.5651</td>
+<td class="org-right">6.3</td>
+<td class="org-right">0.2</td>
+<td class="org-right">1</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp30149/DOS</td>
+<td class="org-right">-220.01718</td>
+<td class="org-right">-2.50020</td>
+<td class="org-right">-0.0001915</td>
+<td class="org-right">0</td>
+<td class="org-right">10.1161</td>
+<td class="org-right">17.4151</td>
+<td class="org-right">20.0216</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">104.033</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp30149/Relax</td>
+<td class="org-right">-220.01718</td>
+<td class="org-right">-2.50020</td>
+<td class="org-right">-1.79e-05</td>
+<td class="org-right">0</td>
+<td class="org-right">10.1161</td>
+<td class="org-right">17.4151</td>
+<td class="org-right">20.0216</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">104.033</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp30149</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">0</td>
+<td class="org-right">3.29</td>
+<td class="org-right">10.1161</td>
+<td class="org-right">17.4151</td>
+<td class="org-right">20.0216</td>
+<td class="org-right">0.93</td>
+<td class="org-right">1.58</td>
+<td class="org-right">0.72</td>
+<td class="org-right">90</td>
+<td class="org-right">104.033</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">-0.06</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp31012/DOS</td>
+<td class="org-right">-128.18101</td>
+<td class="org-right">-4.57789</td>
+<td class="org-right">0.0005799</td>
+<td class="org-right">0</td>
+<td class="org-right">10.3924</td>
+<td class="org-right">10.4269</td>
+<td class="org-right">10.707</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">120.887</td>
+<td class="org-right">114.554</td>
+<td class="org-right">77.7078</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp31012/Relax</td>
+<td class="org-right">-128.18101</td>
+<td class="org-right">-4.57789</td>
+<td class="org-right">0.0005799</td>
+<td class="org-right">0</td>
+<td class="org-right">10.3924</td>
+<td class="org-right">10.4269</td>
+<td class="org-right">10.707</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">120.887</td>
+<td class="org-right">114.554</td>
+<td class="org-right">77.7078</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp31012</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">0</td>
+<td class="org-right"><b>5.66</b></td>
+<td class="org-right">10.3924</td>
+<td class="org-right">10.4269</td>
+<td class="org-right">10.707</td>
+<td class="org-right">2.63</td>
+<td class="org-right">1.61</td>
+<td class="org-right">0.77</td>
+<td class="org-right">120.887</td>
+<td class="org-right">114.554</td>
+<td class="org-right">77.7078</td>
+<td class="org-right">-0.23</td>
+<td class="org-right">-0.27</td>
+<td class="org-right">0.35</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp540822/DOS</td>
+<td class="org-right">-101.24626</td>
+<td class="org-right">-3.61594</td>
+<td class="org-right">-1.66e-05</td>
+<td class="org-right">0</td>
+<td class="org-right">8.56988</td>
+<td class="org-right">8.56988</td>
+<td class="org-right">20.7745</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp540822/Relax</td>
+<td class="org-right">-101.24634</td>
+<td class="org-right">-3.61594</td>
+<td class="org-right">8.89e-05</td>
+<td class="org-right">0</td>
+<td class="org-right">8.56988</td>
+<td class="org-right">8.56988</td>
+<td class="org-right">20.7745</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp540822</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">0</td>
+<td class="org-right"><b>5.43</b></td>
+<td class="org-right">8.56988</td>
+<td class="org-right">8.56988</td>
+<td class="org-right">20.7745</td>
+<td class="org-right">1.47</td>
+<td class="org-right">1.47</td>
+<td class="org-right">2.38</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">-0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp541646/DOS</td>
+<td class="org-right">-109.62566</td>
+<td class="org-right">-3.91520</td>
+<td class="org-right">0.0109083</td>
+<td class="org-right">0</td>
+<td class="org-right">7.48541</td>
+<td class="org-right">7.48541</td>
+<td class="org-right">18.0815</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp541646/Relax</td>
+<td class="org-right">-109.62566</td>
+<td class="org-right">-3.91520</td>
+<td class="org-right">0.0109083</td>
+<td class="org-right">0</td>
+<td class="org-right">7.48541</td>
+<td class="org-right">7.48541</td>
+<td class="org-right">18.0815</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp541646</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">4e-07</td>
+<td class="org-right"><b>6.5</b></td>
+<td class="org-right">7.48541</td>
+<td class="org-right">7.48541</td>
+<td class="org-right">18.0815</td>
+<td class="org-right">2.2</td>
+<td class="org-right">2.2</td>
+<td class="org-right">1.96</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">-0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp550070/DOS</td>
+<td class="org-right">-99.58165</td>
+<td class="org-right">-6.22385</td>
+<td class="org-right">0.0023197</td>
+<td class="org-right">0</td>
+<td class="org-right">15.5903</td>
+<td class="org-right">3.92477</td>
+<td class="org-right">7.08323</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">104.338</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp550070/Relax</td>
+<td class="org-right">-99.58165</td>
+<td class="org-right">-6.22385</td>
+<td class="org-right">0.0023197</td>
+<td class="org-right">0</td>
+<td class="org-right">15.5903</td>
+<td class="org-right">3.92477</td>
+<td class="org-right">7.08323</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">104.338</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp550070</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">0</td>
+<td class="org-right">9</td>
+<td class="org-right">15.5903</td>
+<td class="org-right">3.92477</td>
+<td class="org-right">7.08323</td>
+<td class="org-right">8.19</td>
+<td class="org-right">0.06</td>
+<td class="org-right">0.31</td>
+<td class="org-right">90</td>
+<td class="org-right">104.338</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">-0.78</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp554769/DOS</td>
+<td class="org-right">-304.41963</td>
+<td class="org-right">-6.34208</td>
+<td class="org-right">-1.19e-05</td>
+<td class="org-right">0</td>
+<td class="org-right">10.0664</td>
+<td class="org-right">10.0664</td>
+<td class="org-right">10.0664</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp554769/Relax</td>
+<td class="org-right">-304.41963</td>
+<td class="org-right">-6.34208</td>
+<td class="org-right">-1.2e-05</td>
+<td class="org-right">0</td>
+<td class="org-right">10.0664</td>
+<td class="org-right">10.0664</td>
+<td class="org-right">10.0664</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp554769</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">0</td>
+<td class="org-right">1.07</td>
+<td class="org-right">10.0664</td>
+<td class="org-right">10.0664</td>
+<td class="org-right">10.0664</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.35</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp569853/DOS</td>
+<td class="org-right">-153.06197</td>
+<td class="org-right">-4.78319</td>
+<td class="org-right">-0.0001195</td>
+<td class="org-right">0</td>
+<td class="org-right">7.63779</td>
+<td class="org-right">7.41732</td>
+<td class="org-right">16.9906</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp569853/Relax</td>
+<td class="org-right">-153.06197</td>
+<td class="org-right">-4.78319</td>
+<td class="org-right">1.9e-06</td>
+<td class="org-right">0</td>
+<td class="org-right">7.63779</td>
+<td class="org-right">7.41732</td>
+<td class="org-right">16.9906</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp569853</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">0</td>
+<td class="org-right"><b>5.15</b></td>
+<td class="org-right">7.63779</td>
+<td class="org-right">7.41732</td>
+<td class="org-right">16.9906</td>
+<td class="org-right">4.9</td>
+<td class="org-right">0.69</td>
+<td class="org-right">-0.45</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp648932/DOS</td>
+<td class="org-right">-300.42997</td>
+<td class="org-right">-5.77750</td>
+<td class="org-right">-0.0002565</td>
+<td class="org-right">0</td>
+<td class="org-right">8.00973</td>
+<td class="org-right">12.9551</td>
+<td class="org-right">15.1822</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp648932/Relax</td>
+<td class="org-right">-300.42997</td>
+<td class="org-right">-5.77750</td>
+<td class="org-right">-0.0002565</td>
+<td class="org-right">0</td>
+<td class="org-right">8.00973</td>
+<td class="org-right">12.9551</td>
+<td class="org-right">15.1822</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/eIBcandidates/mp648932</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-0</td>
+<td class="org-right"><b>12.58</b></td>
+<td class="org-right">8.00973</td>
+<td class="org-right">12.9551</td>
+<td class="org-right">15.1822</td>
+<td class="org-right">6.91</td>
+<td class="org-right">-0.81</td>
+<td class="org-right">6.16</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/hIBcandidates/mp23361/DOS</td>
+<td class="org-right">-113.15964</td>
+<td class="org-right">-4.04142</td>
+<td class="org-right">5.99982</td>
+<td class="org-right">0</td>
+<td class="org-right">7.31312</td>
+<td class="org-right">10.256</td>
+<td class="org-right">7.2784</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/hIBcandidates/mp23361/Relax</td>
+<td class="org-right">-113.15964</td>
+<td class="org-right">-4.04142</td>
+<td class="org-right">5.99982</td>
+<td class="org-right">0</td>
+<td class="org-right">7.31312</td>
+<td class="org-right">10.256</td>
+<td class="org-right">7.2784</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/hIBcandidates/mp23361</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">6</td>
+<td class="org-right">3.93</td>
+<td class="org-right">7.31312</td>
+<td class="org-right">10.256</td>
+<td class="org-right">7.2784</td>
+<td class="org-right">1.47</td>
+<td class="org-right">1.38</td>
+<td class="org-right">1.02</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/hIBcandidates/mp31039/DOS</td>
+<td class="org-right">-322.99237</td>
+<td class="org-right">-4.74989</td>
+<td class="org-right">0.011031</td>
+<td class="org-right">0</td>
+<td class="org-right">12.3031</td>
+<td class="org-right">12.956</td>
+<td class="org-right">11.2354</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">123.326</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/hIBcandidates/mp31039/Relax</td>
+<td class="org-right">-322.99237</td>
+<td class="org-right">-4.74989</td>
+<td class="org-right">0.0103425</td>
+<td class="org-right">0</td>
+<td class="org-right">12.3031</td>
+<td class="org-right">12.956</td>
+<td class="org-right">11.2354</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">123.326</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/hIBcandidates/mp31039</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">0.0005936</td>
+<td class="org-right"><b>6.06</b></td>
+<td class="org-right">12.3031</td>
+<td class="org-right">12.956</td>
+<td class="org-right">11.2354</td>
+<td class="org-right">2.03</td>
+<td class="org-right">2.23</td>
+<td class="org-right">1.89</td>
+<td class="org-right">90</td>
+<td class="org-right">123.326</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0.15</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/hIBcandidates/mp540619/DOS</td>
+<td class="org-right">-89.08642</td>
+<td class="org-right">-3.18166</td>
+<td class="org-right">0.0016512</td>
+<td class="org-right">0</td>
+<td class="org-right">9.78502</td>
+<td class="org-right">13.9236</td>
+<td class="org-right">9.75036</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">117.073</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/hIBcandidates/mp540619/Relax</td>
+<td class="org-right">-89.08642</td>
+<td class="org-right">-3.18166</td>
+<td class="org-right">0.0016512</td>
+<td class="org-right">0</td>
+<td class="org-right">9.78502</td>
+<td class="org-right">13.9236</td>
+<td class="org-right">9.75036</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">117.073</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/hIBcandidates/mp540619</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">0</td>
+<td class="org-right">3.09</td>
+<td class="org-right">9.78502</td>
+<td class="org-right">13.9236</td>
+<td class="org-right">9.75036</td>
+<td class="org-right">1.31</td>
+<td class="org-right">1.17</td>
+<td class="org-right">0.93</td>
+<td class="org-right">90</td>
+<td class="org-right">117.073</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0.34</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/hIBcandidates/mp541134/DOS</td>
+<td class="org-right">-44.32061</td>
+<td class="org-right">-2.21603</td>
+<td class="org-right">0.0666037</td>
+<td class="org-right">0</td>
+<td class="org-right">8.62265</td>
+<td class="org-right">9.41964</td>
+<td class="org-right">11.0162</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90.8779</td>
+<td class="org-right">71.8233</td>
+<td class="org-right">82.9232</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/hIBcandidates/mp541134/Relax</td>
+<td class="org-right">-44.32061</td>
+<td class="org-right">-2.21603</td>
+<td class="org-right">0.0666037</td>
+<td class="org-right">0</td>
+<td class="org-right">8.62265</td>
+<td class="org-right">9.41964</td>
+<td class="org-right">11.0162</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90.8779</td>
+<td class="org-right">71.8233</td>
+<td class="org-right">82.9232</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/hIBcandidates/mp541134/gorun_1_2025_01_07T12_11_02</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">0.076363</td>
+<td class="org-right"><b>19.05</b></td>
+<td class="org-right">8.62141</td>
+<td class="org-right">9.41964</td>
+<td class="org-right">11.0151</td>
+<td class="org-right">7.41</td>
+<td class="org-right">3.83</td>
+<td class="org-right">6.93</td>
+<td class="org-right">90.8835</td>
+<td class="org-right">71.8283</td>
+<td class="org-right">82.921</td>
+<td class="org-right">4.25</td>
+<td class="org-right">0.1</td>
+<td class="org-right">-0.28</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/hIBcandidates/mp541134</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">0.0712432</td>
+<td class="org-right">0.02</td>
+<td class="org-right">8.62265</td>
+<td class="org-right">9.41964</td>
+<td class="org-right">11.0162</td>
+<td class="org-right">0.01</td>
+<td class="org-right">0</td>
+<td class="org-right">0.01</td>
+<td class="org-right">90.8779</td>
+<td class="org-right">71.8233</td>
+<td class="org-right">82.9232</td>
+<td class="org-right">-0.01</td>
+<td class="org-right">-0.01</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/hIBcandidates/mp568423/DOS</td>
+<td class="org-right">-99.31945</td>
+<td class="org-right">-2.48299</td>
+<td class="org-right">-0.0009257</td>
+<td class="org-right">0</td>
+<td class="org-right">11.7152</td>
+<td class="org-right">12.2262</td>
+<td class="org-right">16.3319</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/hIBcandidates/mp568423/Relax</td>
+<td class="org-right">-99.31945</td>
+<td class="org-right">-2.48299</td>
+<td class="org-right">-0.0009257</td>
+<td class="org-right">0</td>
+<td class="org-right">11.7152</td>
+<td class="org-right">12.2262</td>
+<td class="org-right">16.3319</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/hIBcandidates/mp568423/gorun_1_2025_01_07T13_15_11</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-5e-07</td>
+<td class="org-right"><b>20.58</b></td>
+<td class="org-right">11.6652</td>
+<td class="org-right">12.1433</td>
+<td class="org-right">16.4442</td>
+<td class="org-right">8.36</td>
+<td class="org-right">7.31</td>
+<td class="org-right">3.7</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">PBERUN/IBCANDIDATES/hIBcandidates/mp568423</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-0</td>
+<td class="org-right">0.42</td>
+<td class="org-right">11.7152</td>
+<td class="org-right">12.2262</td>
+<td class="org-right">16.3319</td>
+<td class="org-right">0.43</td>
+<td class="org-right">0.68</td>
+<td class="org-right">-0.68</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp1079487/DOS</td>
+<td class="org-right">-192.24672</td>
+<td class="org-right">-19.22467</td>
+<td class="org-right">0.000412</td>
+<td class="org-right">0</td>
+<td class="org-right">6.58049</td>
+<td class="org-right">6.58974</td>
+<td class="org-right">7.47332</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90.2328</td>
+<td class="org-right">112.197</td>
+<td class="org-right">119.207</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp1079487/Relax</td>
+<td class="org-right">-192.24672</td>
+<td class="org-right">-19.22467</td>
+<td class="org-right">1.25e-05</td>
+<td class="org-right">0</td>
+<td class="org-right">6.58049</td>
+<td class="org-right">6.58974</td>
+<td class="org-right">7.47332</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90.2328</td>
+<td class="org-right">112.197</td>
+<td class="org-right">119.207</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp1079487</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-5.1e-06</td>
+<td class="org-right">-2.17</td>
+<td class="org-right">6.58049</td>
+<td class="org-right">6.58974</td>
+<td class="org-right">7.47332</td>
+<td class="org-right">-0.64</td>
+<td class="org-right">-0.58</td>
+<td class="org-right">-1.12</td>
+<td class="org-right">90.2328</td>
+<td class="org-right">112.197</td>
+<td class="org-right">119.207</td>
+<td class="org-right">0.31</td>
+<td class="org-right">0.09</td>
+<td class="org-right">-0.28</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp1102399/DOS/gorun_1_2025_01_08T11_24_08</td>
+<td class="org-right">-123.24406</td>
+<td class="org-right">-11.20401</td>
+<td class="org-right">8.0003</td>
+<td class="org-right">0</td>
+<td class="org-right">4.50619</td>
+<td class="org-right">5.15925</td>
+<td class="org-right">5.56927</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">103.06</td>
+<td class="org-right">98.6821</td>
+<td class="org-right">99.6241</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp1102399/Relax/gorun_1_2025_01_08T08_13_20</td>
+<td class="org-right">-123.68590</td>
+<td class="org-right">-11.24417</td>
+<td class="org-right">8</td>
+<td class="org-right">0</td>
+<td class="org-right">4.50619</td>
+<td class="org-right">5.15925</td>
+<td class="org-right">5.56927</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">103.06</td>
+<td class="org-right">98.6821</td>
+<td class="org-right">99.6241</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp1102399/Relax</td>
+<td class="org-right">-123.68703</td>
+<td class="org-right">-11.24428</td>
+<td class="org-right">8</td>
+<td class="org-right">0</td>
+<td class="org-right">4.50619</td>
+<td class="org-right">5.15925</td>
+<td class="org-right">5.56927</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">103.06</td>
+<td class="org-right">98.6821</td>
+<td class="org-right">99.6241</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp1102399/gorun_1_2025_01_07T12_11_45</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">8</td>
+<td class="org-right"><b>-5.65</b></td>
+<td class="org-right">4.49995</td>
+<td class="org-right">5.16917</td>
+<td class="org-right">5.53462</td>
+<td class="org-right">-1.8</td>
+<td class="org-right">-2.42</td>
+<td class="org-right">-1.7</td>
+<td class="org-right">103.228</td>
+<td class="org-right">98.3046</td>
+<td class="org-right">99.4167</td>
+<td class="org-right">-0.23</td>
+<td class="org-right">-0.27</td>
+<td class="org-right">0.1</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp1102399/gorun_2_2025_01_07T12_52_15</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">8</td>
+<td class="org-right">0.49</td>
+<td class="org-right">4.51283</td>
+<td class="org-right">5.16208</td>
+<td class="org-right">5.56216</td>
+<td class="org-right">0.29</td>
+<td class="org-right">-0.14</td>
+<td class="org-right">0.5</td>
+<td class="org-right">103.174</td>
+<td class="org-right">98.5748</td>
+<td class="org-right">99.631</td>
+<td class="org-right">-0.05</td>
+<td class="org-right">0.27</td>
+<td class="org-right">0.22</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp1102399/gorun_3_2025_01_07T13_13_30</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">8</td>
+<td class="org-right">0</td>
+<td class="org-right">4.51283</td>
+<td class="org-right">5.16208</td>
+<td class="org-right">5.56216</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">103.174</td>
+<td class="org-right">98.5748</td>
+<td class="org-right">99.631</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp1102399</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">8</td>
+<td class="org-right"><b>-15.56</b></td>
+<td class="org-right">4.50619</td>
+<td class="org-right">5.15925</td>
+<td class="org-right">5.56927</td>
+<td class="org-right">-6.44</td>
+<td class="org-right">-4.66</td>
+<td class="org-right">-5.17</td>
+<td class="org-right">103.06</td>
+<td class="org-right">98.6821</td>
+<td class="org-right">99.6241</td>
+<td class="org-right">-0.45</td>
+<td class="org-right">1.19</td>
+<td class="org-right">-0.03</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp1105583/DOS</td>
+<td class="org-right">-2509.59532</td>
+<td class="org-right">-41.82659</td>
+<td class="org-right">0.0904287</td>
+<td class="org-right">0</td>
+<td class="org-right">15.3205</td>
+<td class="org-right">15.3205</td>
+<td class="org-right">10.7219</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp1105583/Relax</td>
+<td class="org-right">-2509.59538</td>
+<td class="org-right">-41.82659</td>
+<td class="org-right">0.0160983</td>
+<td class="org-right">0</td>
+<td class="org-right">15.3205</td>
+<td class="org-right">15.3205</td>
+<td class="org-right">10.7219</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp1105583</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">0.0007222</td>
+<td class="org-right">-1.29</td>
+<td class="org-right">15.3205</td>
+<td class="org-right">15.3205</td>
+<td class="org-right">10.7219</td>
+<td class="org-right">-0.49</td>
+<td class="org-right">-0.49</td>
+<td class="org-right">-0.33</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp1105706/DOS</td>
+<td class="org-right">-2437.26669</td>
+<td class="org-right">-40.62111</td>
+<td class="org-right">0.148253</td>
+<td class="org-right">0</td>
+<td class="org-right">15.4823</td>
+<td class="org-right">15.4823</td>
+<td class="org-right">10.8465</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp1105706/Relax</td>
+<td class="org-right">-2437.26676</td>
+<td class="org-right">-40.62111</td>
+<td class="org-right">0.0591237</td>
+<td class="org-right">0</td>
+<td class="org-right">15.4823</td>
+<td class="org-right">15.4823</td>
+<td class="org-right">10.8465</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp1105706</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">0.0086089</td>
+<td class="org-right">-1.36</td>
+<td class="org-right">15.4823</td>
+<td class="org-right">15.4823</td>
+<td class="org-right">10.8465</td>
+<td class="org-right">-0.48</td>
+<td class="org-right">-0.48</td>
+<td class="org-right">-0.4</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">-0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp1189272/DOS</td>
+<td class="org-right">-644.38456</td>
+<td class="org-right">-32.21923</td>
+<td class="org-right">0.0030206</td>
+<td class="org-right">0</td>
+<td class="org-right">7.30129</td>
+<td class="org-right">14.0092</td>
+<td class="org-right">8.24676</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">103.656</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp1189272/Relax</td>
+<td class="org-right">-644.38456</td>
+<td class="org-right">-32.21923</td>
+<td class="org-right">-0</td>
+<td class="org-right">0</td>
+<td class="org-right">7.30129</td>
+<td class="org-right">14.0092</td>
+<td class="org-right">8.24676</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">103.656</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp1189272</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">2e-07</td>
+<td class="org-right">-1.06</td>
+<td class="org-right">7.30129</td>
+<td class="org-right">14.0092</td>
+<td class="org-right">8.24676</td>
+<td class="org-right">0.26</td>
+<td class="org-right">-0.83</td>
+<td class="org-right">-0.6</td>
+<td class="org-right">90</td>
+<td class="org-right">103.656</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">-0.25</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp22976/DOS</td>
+<td class="org-right">-947.04505</td>
+<td class="org-right">-16.91152</td>
+<td class="org-right">-0.0002099</td>
+<td class="org-right">0</td>
+<td class="org-right">10.491</td>
+<td class="org-right">16.8017</td>
+<td class="org-right">9.71636</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">116.594</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp22976/Relax</td>
+<td class="org-right">-947.04505</td>
+<td class="org-right">-16.91152</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">10.491</td>
+<td class="org-right">16.8017</td>
+<td class="org-right">9.71636</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">116.594</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp22976</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-0</td>
+<td class="org-right">-2.34</td>
+<td class="org-right">10.491</td>
+<td class="org-right">16.8017</td>
+<td class="org-right">9.71636</td>
+<td class="org-right">-0.59</td>
+<td class="org-right">-0.74</td>
+<td class="org-right">-0.9</td>
+<td class="org-right">90</td>
+<td class="org-right">116.594</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0.13</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp23361/DOS</td>
+<td class="org-right">-241.56722</td>
+<td class="org-right">-8.62740</td>
+<td class="org-right">5.98926</td>
+<td class="org-right">0</td>
+<td class="org-right">7.18119</td>
+<td class="org-right">10.0649</td>
+<td class="org-right">7.16959</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp23361/Relax</td>
+<td class="org-right">-241.56721</td>
+<td class="org-right">-8.62740</td>
+<td class="org-right">5.9892</td>
+<td class="org-right">0</td>
+<td class="org-right">7.18119</td>
+<td class="org-right">10.0649</td>
+<td class="org-right">7.16959</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp23361</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">5.99455</td>
+<td class="org-right">-1.34</td>
+<td class="org-right">7.18119</td>
+<td class="org-right">10.0649</td>
+<td class="org-right">7.16959</td>
+<td class="org-right">-0.36</td>
+<td class="org-right">-0.51</td>
+<td class="org-right">-0.49</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp27362/DOS</td>
+<td class="org-right">-297.47174</td>
+<td class="org-right">-14.87359</td>
+<td class="org-right">-8.77e-05</td>
+<td class="org-right">0</td>
+<td class="org-right">6.30297</td>
+<td class="org-right">11.1128</td>
+<td class="org-right">6.95099</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">111.543</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp27362/Relax</td>
+<td class="org-right">-297.47174</td>
+<td class="org-right">-14.87359</td>
+<td class="org-right">-8.62e-05</td>
+<td class="org-right">0</td>
+<td class="org-right">6.30297</td>
+<td class="org-right">11.1128</td>
+<td class="org-right">6.95099</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">111.543</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp27362</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-1e-07</td>
+<td class="org-right">-2.47</td>
+<td class="org-right">6.30297</td>
+<td class="org-right">11.1128</td>
+<td class="org-right">6.95099</td>
+<td class="org-right">-0.32</td>
+<td class="org-right">-0.72</td>
+<td class="org-right">-1.18</td>
+<td class="org-right">90</td>
+<td class="org-right">111.543</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0.36</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp28344/DOS</td>
+<td class="org-right">-2925.19291</td>
+<td class="org-right">-34.82373</td>
+<td class="org-right">7.88e-05</td>
+<td class="org-right">0</td>
+<td class="org-right">14.6832</td>
+<td class="org-right">15.8574</td>
+<td class="org-right">13.0071</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp28344/Relax</td>
+<td class="org-right">-2925.19292</td>
+<td class="org-right">-34.82373</td>
+<td class="org-right">6.1e-06</td>
+<td class="org-right">0</td>
+<td class="org-right">14.6832</td>
+<td class="org-right">15.8574</td>
+<td class="org-right">13.0071</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp28344</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">0</td>
+<td class="org-right">-1.56</td>
+<td class="org-right">14.6832</td>
+<td class="org-right">15.8574</td>
+<td class="org-right">13.0071</td>
+<td class="org-right">-0.39</td>
+<td class="org-right">-0.54</td>
+<td class="org-right">-0.64</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp28913/DOS</td>
+<td class="org-right">-1024.11345</td>
+<td class="org-right">-12.19183</td>
+<td class="org-right">0.0013125</td>
+<td class="org-right">0</td>
+<td class="org-right">12.2873</td>
+<td class="org-right">13.4415</td>
+<td class="org-right">10.9611</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp28913/Relax</td>
+<td class="org-right">-1024.11345</td>
+<td class="org-right">-12.19183</td>
+<td class="org-right">-0</td>
+<td class="org-right">0</td>
+<td class="org-right">12.2873</td>
+<td class="org-right">13.4415</td>
+<td class="org-right">10.9611</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp28913</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-0</td>
+<td class="org-right">-1.42</td>
+<td class="org-right">12.2873</td>
+<td class="org-right">13.4415</td>
+<td class="org-right">10.9611</td>
+<td class="org-right">-0.41</td>
+<td class="org-right">-0.4</td>
+<td class="org-right">-0.61</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp28938/DOS</td>
+<td class="org-right">-416.40893</td>
+<td class="org-right">-18.92768</td>
+<td class="org-right">0.0005399</td>
+<td class="org-right">0</td>
+<td class="org-right">6.91037</td>
+<td class="org-right">6.91037</td>
+<td class="org-right">13.0253</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp28938/Relax</td>
+<td class="org-right">-416.40893</td>
+<td class="org-right">-18.92768</td>
+<td class="org-right">7.3e-06</td>
+<td class="org-right">0</td>
+<td class="org-right">6.91037</td>
+<td class="org-right">6.91037</td>
+<td class="org-right">13.0253</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp28938</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-0</td>
+<td class="org-right">-3.01</td>
+<td class="org-right">6.91037</td>
+<td class="org-right">6.91037</td>
+<td class="org-right">13.0253</td>
+<td class="org-right">-0.69</td>
+<td class="org-right">-0.69</td>
+<td class="org-right">-1.66</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">-0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp29689/DOS</td>
+<td class="org-right">-801.11901</td>
+<td class="org-right">-36.41450</td>
+<td class="org-right">0.0019492</td>
+<td class="org-right">0</td>
+<td class="org-right">7.69622</td>
+<td class="org-right">7.69622</td>
+<td class="org-right">14.3527</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp29689/Relax</td>
+<td class="org-right">-801.11901</td>
+<td class="org-right">-36.41450</td>
+<td class="org-right">0.0005268</td>
+<td class="org-right">0</td>
+<td class="org-right">7.69622</td>
+<td class="org-right">7.69622</td>
+<td class="org-right">14.3527</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp29689</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-1.07e-05</td>
+<td class="org-right">-1.44</td>
+<td class="org-right">7.69622</td>
+<td class="org-right">7.69622</td>
+<td class="org-right">14.3527</td>
+<td class="org-right">-0.46</td>
+<td class="org-right">-0.46</td>
+<td class="org-right">-0.53</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">-0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp29924/DOS</td>
+<td class="org-right">-684.22918</td>
+<td class="org-right">-17.10573</td>
+<td class="org-right">-9.82e-05</td>
+<td class="org-right">0</td>
+<td class="org-right">6.7118</td>
+<td class="org-right">8.07292</td>
+<td class="org-right">14.6127</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp29924/Relax</td>
+<td class="org-right">-684.22917</td>
+<td class="org-right">-17.10573</td>
+<td class="org-right">1e-07</td>
+<td class="org-right">0</td>
+<td class="org-right">6.7118</td>
+<td class="org-right">8.07292</td>
+<td class="org-right">14.6127</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp29924</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">2e-07</td>
+<td class="org-right">-2.25</td>
+<td class="org-right">6.7118</td>
+<td class="org-right">8.07292</td>
+<td class="org-right">14.6127</td>
+<td class="org-right">-0.55</td>
+<td class="org-right">-0.98</td>
+<td class="org-right">-0.74</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp29985/DOS</td>
+<td class="org-right">-787.04260</td>
+<td class="org-right">-15.13543</td>
+<td class="org-right">0.0006358</td>
+<td class="org-right">0</td>
+<td class="org-right">6.55818</td>
+<td class="org-right">6.7966</td>
+<td class="org-right">28.1562</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp29985/Relax</td>
+<td class="org-right">-787.04260</td>
+<td class="org-right">-15.13543</td>
+<td class="org-right">-0</td>
+<td class="org-right">0</td>
+<td class="org-right">6.55818</td>
+<td class="org-right">6.7966</td>
+<td class="org-right">28.1562</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp29985</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">0</td>
+<td class="org-right">-3.11</td>
+<td class="org-right">6.55818</td>
+<td class="org-right">6.7966</td>
+<td class="org-right">28.1562</td>
+<td class="org-right">-2.02</td>
+<td class="org-right">-0.67</td>
+<td class="org-right">-0.44</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp30149/DOS</td>
+<td class="org-right">-2494.76323</td>
+<td class="org-right">-28.34958</td>
+<td class="org-right">0.0003431</td>
+<td class="org-right">0</td>
+<td class="org-right">9.94496</td>
+<td class="org-right">17.0561</td>
+<td class="org-right">19.7783</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">104.198</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp30149/Relax</td>
+<td class="org-right">-2494.76323</td>
+<td class="org-right">-28.34958</td>
+<td class="org-right">3.6e-06</td>
+<td class="org-right">0</td>
+<td class="org-right">9.94496</td>
+<td class="org-right">17.0561</td>
+<td class="org-right">19.7783</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">104.198</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp30149</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-3.2e-06</td>
+<td class="org-right">-1.83</td>
+<td class="org-right">9.94496</td>
+<td class="org-right">17.0561</td>
+<td class="org-right">19.7783</td>
+<td class="org-right">-0.78</td>
+<td class="org-right">-0.52</td>
+<td class="org-right">-0.51</td>
+<td class="org-right">90</td>
+<td class="org-right">104.198</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0.1</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp31012/DOS</td>
+<td class="org-right">-618.17298</td>
+<td class="org-right">-22.07761</td>
+<td class="org-right">-0.0001228</td>
+<td class="org-right">0</td>
+<td class="org-right">10.0473</td>
+<td class="org-right">10.1765</td>
+<td class="org-right">10.6119</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">121.453</td>
+<td class="org-right">115.003</td>
+<td class="org-right">77.3541</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp31012/Relax</td>
+<td class="org-right">-618.17298</td>
+<td class="org-right">-22.07761</td>
+<td class="org-right">-0</td>
+<td class="org-right">0</td>
+<td class="org-right">10.0473</td>
+<td class="org-right">10.1765</td>
+<td class="org-right">10.6119</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">121.453</td>
+<td class="org-right">115.003</td>
+<td class="org-right">77.3541</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp31012</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">0</td>
+<td class="org-right">-2.13</td>
+<td class="org-right">10.0473</td>
+<td class="org-right">10.1765</td>
+<td class="org-right">10.6119</td>
+<td class="org-right">-0.77</td>
+<td class="org-right">-0.83</td>
+<td class="org-right">-0.13</td>
+<td class="org-right">121.453</td>
+<td class="org-right">115.003</td>
+<td class="org-right">77.3541</td>
+<td class="org-right">0.23</td>
+<td class="org-right">0.12</td>
+<td class="org-right">-0.1</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp540822/DOS</td>
+<td class="org-right">-1048.28353</td>
+<td class="org-right">-37.43870</td>
+<td class="org-right">4.03813</td>
+<td class="org-right">0</td>
+<td class="org-right">8.38469</td>
+<td class="org-right">8.38469</td>
+<td class="org-right">20.3099</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp540822/Relax</td>
+<td class="org-right">-1048.28353</td>
+<td class="org-right">-37.43870</td>
+<td class="org-right">4.03766</td>
+<td class="org-right">0</td>
+<td class="org-right">8.38469</td>
+<td class="org-right">8.38469</td>
+<td class="org-right">20.3099</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp540822</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">3.98939</td>
+<td class="org-right">-1.34</td>
+<td class="org-right">8.38469</td>
+<td class="org-right">8.38469</td>
+<td class="org-right">20.3099</td>
+<td class="org-right">-0.72</td>
+<td class="org-right">-0.72</td>
+<td class="org-right">0.1</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">-0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp541646/DOS</td>
+<td class="org-right">-549.65987</td>
+<td class="org-right">-19.63071</td>
+<td class="org-right">-0.285121</td>
+<td class="org-right">0</td>
+<td class="org-right">7.28738</td>
+<td class="org-right">7.28738</td>
+<td class="org-right">17.5799</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp541646/Relax</td>
+<td class="org-right">-549.65987</td>
+<td class="org-right">-19.63071</td>
+<td class="org-right">0.282675</td>
+<td class="org-right">0</td>
+<td class="org-right">7.28738</td>
+<td class="org-right">7.28738</td>
+<td class="org-right">17.5799</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp541646</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-0.254343</td>
+<td class="org-right">-1.86</td>
+<td class="org-right">7.28738</td>
+<td class="org-right">7.28738</td>
+<td class="org-right">17.5799</td>
+<td class="org-right">-0.5</td>
+<td class="org-right">-0.5</td>
+<td class="org-right">-0.87</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">120</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp550070/DOS</td>
+<td class="org-right">-340.89013</td>
+<td class="org-right">-21.30563</td>
+<td class="org-right">0.0041924</td>
+<td class="org-right">0</td>
+<td class="org-right">14.3262</td>
+<td class="org-right">3.89238</td>
+<td class="org-right">7.03119</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">105.259</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp550070/Relax</td>
+<td class="org-right">-340.89013</td>
+<td class="org-right">-21.30563</td>
+<td class="org-right">0.0005331</td>
+<td class="org-right">0</td>
+<td class="org-right">14.3262</td>
+<td class="org-right">3.89238</td>
+<td class="org-right">7.03119</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">105.259</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp550070</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-2.9e-06</td>
+<td class="org-right">-1.81</td>
+<td class="org-right">14.3262</td>
+<td class="org-right">3.89238</td>
+<td class="org-right">7.03119</td>
+<td class="org-right">-0.58</td>
+<td class="org-right">-0.76</td>
+<td class="org-right">-0.42</td>
+<td class="org-right">90</td>
+<td class="org-right">105.259</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0.1</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp554769/DOS</td>
+<td class="org-right">-1064.15870</td>
+<td class="org-right">-22.16997</td>
+<td class="org-right">0.000165</td>
+<td class="org-right">0</td>
+<td class="org-right">10.0285</td>
+<td class="org-right">10.0285</td>
+<td class="org-right">10.0285</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp554769/Relax</td>
+<td class="org-right">-1064.15870</td>
+<td class="org-right">-22.16997</td>
+<td class="org-right">-2e-06</td>
+<td class="org-right">0</td>
+<td class="org-right">10.0285</td>
+<td class="org-right">10.0285</td>
+<td class="org-right">10.0285</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp554769</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-7.7e-06</td>
+<td class="org-right">-0.07</td>
+<td class="org-right">10.0285</td>
+<td class="org-right">10.0285</td>
+<td class="org-right">10.0285</td>
+<td class="org-right">-0.02</td>
+<td class="org-right">-0.02</td>
+<td class="org-right">-0.02</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp569853/DOS</td>
+<td class="org-right">-805.43859</td>
+<td class="org-right">-25.16996</td>
+<td class="org-right">-0.0001043</td>
+<td class="org-right">0</td>
+<td class="org-right">7.19507</td>
+<td class="org-right">7.33457</td>
+<td class="org-right">17.0012</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp569853/Relax</td>
+<td class="org-right">-805.43858</td>
+<td class="org-right">-25.16996</td>
+<td class="org-right">-1e-07</td>
+<td class="org-right">0</td>
+<td class="org-right">7.19507</td>
+<td class="org-right">7.33457</td>
+<td class="org-right">17.0012</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp569853</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-0</td>
+<td class="org-right">-1.99</td>
+<td class="org-right">7.19507</td>
+<td class="org-right">7.33457</td>
+<td class="org-right">17.0012</td>
+<td class="org-right">-1.18</td>
+<td class="org-right">-0.44</td>
+<td class="org-right">-0.39</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp648932/DOS</td>
+<td class="org-right">-728.53636</td>
+<td class="org-right">-14.01031</td>
+<td class="org-right">0.0023281</td>
+<td class="org-right">0</td>
+<td class="org-right">7.41739</td>
+<td class="org-right">12.9649</td>
+<td class="org-right">14.1933</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp648932/Relax</td>
+<td class="org-right">-728.53636</td>
+<td class="org-right">-14.01031</td>
+<td class="org-right">-0</td>
+<td class="org-right">0</td>
+<td class="org-right">7.41739</td>
+<td class="org-right">12.9649</td>
+<td class="org-right">14.1933</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/eIBcandidates/mp648932</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">0</td>
+<td class="org-right">-2.46</td>
+<td class="org-right">7.41739</td>
+<td class="org-right">12.9649</td>
+<td class="org-right">14.1933</td>
+<td class="org-right">-1</td>
+<td class="org-right">-0.73</td>
+<td class="org-right">-0.75</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/hIBcandidates/mp23361/DOS</td>
+<td class="org-right">-241.56735</td>
+<td class="org-right">-8.62741</td>
+<td class="org-right">5.9891</td>
+<td class="org-right">0</td>
+<td class="org-right">7.18118</td>
+<td class="org-right">10.0655</td>
+<td class="org-right">7.16953</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/hIBcandidates/mp23361/Relax</td>
+<td class="org-right">-241.56735</td>
+<td class="org-right">-8.62741</td>
+<td class="org-right">5.9891</td>
+<td class="org-right">0</td>
+<td class="org-right">7.18118</td>
+<td class="org-right">10.0655</td>
+<td class="org-right">7.16953</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/hIBcandidates/mp23361</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">5.99448</td>
+<td class="org-right">-1.34</td>
+<td class="org-right">7.18118</td>
+<td class="org-right">10.0655</td>
+<td class="org-right">7.16953</td>
+<td class="org-right">-0.36</td>
+<td class="org-right">-0.5</td>
+<td class="org-right">-0.49</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/hIBcandidates/mp31039/DOS</td>
+<td class="org-right">-1127.14208</td>
+<td class="org-right">-16.57562</td>
+<td class="org-right">-0.316186</td>
+<td class="org-right">0</td>
+<td class="org-right">12.0122</td>
+<td class="org-right">12.663</td>
+<td class="org-right">11.003</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">123.133</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/hIBcandidates/mp31039/Relax</td>
+<td class="org-right">-1127.14209</td>
+<td class="org-right">-16.57562</td>
+<td class="org-right">-0.313781</td>
+<td class="org-right">0</td>
+<td class="org-right">12.0122</td>
+<td class="org-right">12.663</td>
+<td class="org-right">11.003</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">123.133</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/hIBcandidates/mp31039</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-0.312456</td>
+<td class="org-right">-0.67</td>
+<td class="org-right">12.0122</td>
+<td class="org-right">12.663</td>
+<td class="org-right">11.003</td>
+<td class="org-right">-0.38</td>
+<td class="org-right">-0.08</td>
+<td class="org-right">-0.22</td>
+<td class="org-right">90</td>
+<td class="org-right">123.133</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">-0.01</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/hIBcandidates/mp540619/DOS</td>
+<td class="org-right">-717.01141</td>
+<td class="org-right">-25.60755</td>
+<td class="org-right">0.0009465</td>
+<td class="org-right">0</td>
+<td class="org-right">9.6282</td>
+<td class="org-right">13.6878</td>
+<td class="org-right">9.59917</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">116.514</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/hIBcandidates/mp540619/Relax</td>
+<td class="org-right">-717.01142</td>
+<td class="org-right">-25.60755</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">9.6282</td>
+<td class="org-right">13.6878</td>
+<td class="org-right">9.59917</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">116.514</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/hIBcandidates/mp540619</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-0</td>
+<td class="org-right">-1.34</td>
+<td class="org-right">9.6282</td>
+<td class="org-right">13.6878</td>
+<td class="org-right">9.59917</td>
+<td class="org-right">-0.31</td>
+<td class="org-right">-0.54</td>
+<td class="org-right">-0.63</td>
+<td class="org-right">90</td>
+<td class="org-right">116.514</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">-0.14</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/hIBcandidates/mp541134/DOS</td>
+<td class="org-right">-528.51044</td>
+<td class="org-right">-26.42552</td>
+<td class="org-right">0.107325</td>
+<td class="org-right">0</td>
+<td class="org-right">7.92801</td>
+<td class="org-right">9.0076</td>
+<td class="org-right">10.1395</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">86.8822</td>
+<td class="org-right">72.1839</td>
+<td class="org-right">82.9576</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/hIBcandidates/mp541134/Relax</td>
+<td class="org-right">-528.51044</td>
+<td class="org-right">-26.42552</td>
+<td class="org-right">0.110067</td>
+<td class="org-right">0</td>
+<td class="org-right">7.92801</td>
+<td class="org-right">9.0076</td>
+<td class="org-right">10.1395</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">86.8822</td>
+<td class="org-right">72.1839</td>
+<td class="org-right">82.9576</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/hIBcandidates/mp541134</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">0.111985</td>
+<td class="org-right">-3.29</td>
+<td class="org-right">7.92801</td>
+<td class="org-right">9.0076</td>
+<td class="org-right">10.1395</td>
+<td class="org-right">-1.23</td>
+<td class="org-right">-0.71</td>
+<td class="org-right">-1.57</td>
+<td class="org-right">86.8822</td>
+<td class="org-right">72.1839</td>
+<td class="org-right">82.9576</td>
+<td class="org-right">-0.34</td>
+<td class="org-right">0.59</td>
+<td class="org-right">-0.24</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/hIBcandidates/mp568423/DOS</td>
+<td class="org-right">-1260.83542</td>
+<td class="org-right">-31.52089</td>
+<td class="org-right">0.0001258</td>
+<td class="org-right">0</td>
+<td class="org-right">10.6671</td>
+<td class="org-right">11.2089</td>
+<td class="org-right">15.718</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/hIBcandidates/mp568423/Relax</td>
+<td class="org-right">-1260.83542</td>
+<td class="org-right">-31.52089</td>
+<td class="org-right">-0</td>
+<td class="org-right">0</td>
+<td class="org-right">10.6671</td>
+<td class="org-right">11.2089</td>
+<td class="org-right">15.718</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">SCANRUN/IBCANDIDATES/hIBcandidates/mp568423</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">unreliable</td>
+<td class="org-right">-1e-07</td>
+<td class="org-right">-2.72</td>
+<td class="org-right">10.6671</td>
+<td class="org-right">11.2089</td>
+<td class="org-right">15.718</td>
+<td class="org-right">-0.91</td>
+<td class="org-right">-0.95</td>
+<td class="org-right">-0.88</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">90</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Ihor Radchenko</p>
+<p class="date">Created: 2025-01-08 Wed 15:02</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

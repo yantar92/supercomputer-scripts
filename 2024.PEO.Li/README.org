@@ -1,0 +1,51 @@
+#+TITLE: Overview of PEO+Li calculation folder
+#+AUTHOR: Ihor Radchenko
+
+If you have any questions, feel free to ask me.
+WeChat: yantar92
+
+This folder contains DFT calculations of a single Li inside PEO.
+The calculations are performed using various available DFT
+approximations for many-body interactions (mostly different
+approximations of vdW interaction).
+
+#+begin_note
+Folders named like =2024_10_25_08_37_49= can be ignored - they contain
+intermediate calculation snapshots.
+#+end_note
+
+- =00.PEO.experimental-structure= :: reference structure for PEO
+- =01.PEO.base-input= :: reference VASP input files
+- =02.PEO.relax.FIX_NONE= :: Lattice parameter optimization via different DFT potentials
+  - Here and in the other folders, the sub-folders are named after
+    specific DFT potentials used:
+    - PBE, PBEsol: Ignore vdW interactions
+    - optB86b-vdW, optB88-vdW, PBE+D2, PBE+TS, vdW-DF, vdW-DF2:
+      various vdW approximations
+  - The final structure can be found in CONTCAR files
+- =03.PEO.relax.RELAX_POS= :: Final fine structure optimization (atom positions)
+  - Subfolders are organized as =POTENTIAL/PERTURBATION-TYPE=
+    - =POTENTIAL= is DFT potential
+    - =PERTURBATION-TYPE= is either structure obtained from
+      =02.PEO.reax.FIX_NONE= or the same structure with atom positions
+      randomly perturbed
+- =03.PEO.Li.relax.RELAX_POS= :: PEO from =03.PEO.relax.RELAX_POS= with added Li atom
+  - Subfolders =POTENTIAL/Li-POSITION#=
+    - =Li-POSITION#= refers to different initial Li positions (before relaxation)
+      Some of the initial Li positions end up converging to the same structure
+    - Several subfolders are named as =Li-POSITION#.PERTURB...= - these
+      have initial positions of the atoms perturbed to check for DFT
+      converging into local minima
+- =03.Li.SCF= :: Reference calculation for DFT energy of a Li atom in vacuum
+- =04.PEO.Li.C2H4.del.Li= :: DFT testing of unusual structures from
+  =03.PEO.Li.relax.RELAX_POS= where =C2H4= molecule is replaced with
+  Li in PEO structure. The testing removes the added Li to test
+  whether the process is reversible
+- =04.PEO.Li.C2H4.vdW→PBE= :: =C2H4=-containing structures from
+  =03.PEO.Li.relax.RELAX_POS= re-relaxed using PBE (no vdW
+  interaction) potential. Used to test whether vdW interactions are
+  the cause of =C2H4= removal.
+- =05.PEO.Li.C2H4.vdW→PBE.charged= :: Same as
+  =04.PEO.Li.C2H4.vdW→PBE=, but done with Li atom replaced with Li+ ion.
+- =06.PEO.Li+.relax.RELAX_POS= :: The PEO structures from
+  =03.PEO.relax.RELAX_POS= with _Li+ ion_ added.

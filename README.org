@@ -1,0 +1,106 @@
+#+TITLE: VASP scripts and projects (master repo without data)
+#+AUTHOR: Ihor Radchenko
+#+EMAIL: yantar92@posteo.net
+
+This repository contains common scripts used in my work projects.
+The repository is a monorepo inside supercomputer, pointing to my
+data folders with scripts, simulation inputs, and simulation results.
+
+However, the =.gitignore= is configured only to include certain files
+that are suitable for version control system (no data!).
+
+* Data organization on cluster
+ #folder_structure
+
+I simply name folders as =<number>.name=. By using numbers, I can make
+folders appear in the same order I want them to.
+
+The hierarchy is the following:
+1. =0000.scripts= contains common scripts not tied to any specific project
+   - I add this folder to =PATH= environment variable, so that the scripts are
+     accessibe anywhere
+2. =<year>.<project name>= for each project
+3. =9999.test= folder for quick tests
+   - Used not to flood the top-level folder structure when I need to
+     check something quickly
+4. =<NN>.<calculation or data>= for each step of the calculation inside a project
+5. I also create =9999.test= folders per-project to store failed/unused results
+   - This way, =<NN>.<calculation>= folders at the top level always remain most relevant
+   - If some calculation is considered as not good/useful as the project evolves, it simply
+     moves into =9999.test=
+6. Deeper levels depend on the details of the calculation
+
+Illustration of the major folder structure:
+
+[[file:.img/top-structure.png]]
+
+Below is an example of "PEO" project folder.
+- "00" is simply the experimental structure, so no deeper nesting is needed
+- other steps are VASP calculations where we computed the same system,
+  but using DFT functionals (different atom/electron interaction
+  models). So, there is a folder for each functional: "PBE", "vdW-DF", etc.
+  - these levels are usually geenrated by scripts
+  - example bash script
+    #+begin_src bash
+      ## This example uses "imdg" command to manipulate VASP inputs
+
+      # Create boxed Li atom
+      imdg create "Li 20x20x20"
+      # Enable magnetism; set non-standard ENCUT=550 to be consistent with other calculations
+      imdg derive ./Li.boxed incar ISPIN:2 ENCUT:550.0
+      # Create SCF calculation
+      imdg derive ./ISPIN.2,ENCUT.550.0 scf
+
+      ## The above steps simply created initial common calculation setup
+      ## (structure + common simulation parameters)
+
+      ## Now, we create multiple VASP inputs each using separate functional
+      for functional in PBE PBE+D2 PBE+TS PBEsol vdW-DF vdW-DF2 optB88-vdW optB86b-vdW; do
+          # In this case "imdg" create a folder named after <functional> and
+          # puts VASP input inside
+          imdg derive ./SCF functional $functional;
+      done
+
+      ## Cleanup intermediate VASP inputs that we are not going to run
+      rm -rf Li.boxed
+      rm -rf ./ISPIN.2,ENCUT.550.0
+      rm -rf SCF
+
+      ## Run VASP simulation in each created dir
+      ## Uses my common script walk-dirs-level
+      walk-dirs-level 1 gorun-helios 1 0:10:00
+    #+end_src
+  - example python script that will automatically created named structures (.cif files)
+    #+begin_src python
+      ## This will take structure from cellulose_ibeta.POSCAR file
+      ## and generate many structures with Zn inserted
+      import numpy as np
+      import pymatgen.core as pmg
+      from IMDgroup.pymatgen.transformations.insert_molecule\
+          import InsertMoleculeTransformation
+
+      ## Setup insertion generator
+      transformer = InsertMoleculeTransformation(
+          'Zn',  # we insert Zn
+          step=0.1,  # we scan all possible positions with 0.1A step
+          multithread=True,  # utilize multiple CPU for speed
+          # criteria to reject candidate Zn sites when they are too close to
+          # other atoms in the initial structure or to already known
+          # accepted candidate Zn insertions
+          # 0.75 means reject if <distance to any atom> < 0.75 * (sum of Zn and neighbor atomic radii)
+          proximity_threshold=0.75
+      )
+
+      ## Run the generator to obtain the list of structures with Zn inserted
+      ## Note that you can also pass the filename directly; not necessary to
+      ## read structure manually
+      structures = transformer.all_inserts('cellulose_ibeta.POSCAR')
+
+      ## iterate over generated structures
+      for idx, structure in enumerate(structures):
+          ## and save to numbered .cif files
+          structure.to_file(f'cellulose_ibeta_Zn_{idx:03d}.cif')
+    #+end_src
+
+[[file:.img/project-structure.png]]
+

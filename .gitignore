@@ -1,0 +1,12 @@
+# Ignore everything
+*
+# Except these:
+!.gitignore
+!*.py
+!*.sh
+!README
+!README.*
+# Allow all directories,
+!*/
+# but not
+.ipynb_checkpoints/
