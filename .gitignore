@@ -10,4 +10,6 @@
 !*/
 # but not
 .ipynb_checkpoints/
+0000.lumi
+# special files
 !0000.scripts/walk-dirs-level
