@@ -1,0 +1,1 @@
+../../2025.graphite.Li.CE/03.CE.fix_lattice.KPOINTS.10k/run_all.py

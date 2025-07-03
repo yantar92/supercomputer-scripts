@@ -1,0 +1,1 @@
+cp -r ../03.CE.fix_lattice.KPOINTS.10k/AA/strain.c.0.30.simplify.sublattice/_relax/82990.relax ./
