@@ -1,0 +1,1 @@
+../../2025.graphite.Li.CE/04.CE.relax.KPOINTS.10k/atat-plot.gnuplot
