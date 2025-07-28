@@ -23,6 +23,7 @@ def _get_normalized_energy(index_dir, ion, base_N):
     BASE_N is the number of atoms in base structure.
     """
     if not (index_dir / "ATAT.SCF").is_dir():
+        print(f"{index_dir}: inf")
         return float('inf')
     vaspdir = IMDGVaspDir(index_dir / "ATAT.SCF")
     if vaspdir.final_energy is None:
@@ -30,8 +31,11 @@ def _get_normalized_energy(index_dir, ion, base_N):
     N_ion = len([s for s in vaspdir.initial_structure if s.specie == ion])
     N_nonion = len(vaspdir.initial_structure) - N_ion
     if vaspdir.final_energy is None:
+        print(f"{index_dir}: inf")
         return float('inf')
-    return vaspdir.final_energy / N_nonion * base_N
+    energy = vaspdir.final_energy / N_nonion * base_N
+    print(f"{index_dir}: {energy}")
+    return energy
 
 
 def _get_true_gs(gs_data, fit_data, extra_paths, ion, base_N):
