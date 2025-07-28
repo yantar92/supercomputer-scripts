@@ -58,6 +58,7 @@ def _get_true_gs(gs_data, fit_data, extra_paths, ion, base_N):
          'energy': energies,
          'index': dirs})
     # Find index of min energy row for each concentration
+    print(df)
     min_indices = df.groupby('concentration')['energy'].idxmin()
     min_df = df.loc[min_indices].reset_index(drop=True)
     min_df = min_df.sort_values('concentration')
