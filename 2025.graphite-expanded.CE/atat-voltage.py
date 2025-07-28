@@ -61,7 +61,6 @@ def _get_true_gs(gs_data, fit_data, extra_paths, ion, base_N):
     min_indices = df.groupby('concentration')['energy'].idxmin()
     min_df = df.loc[min_indices].reset_index(drop=True)
     min_df = min_df.sort_values('concentration')
-    print(min_df)
     # Build ground state line (lowest-energy phase diagram)
     gs_concentrations = []
     gs_energies = []
@@ -106,6 +105,7 @@ def _get_true_gs(gs_data, fit_data, extra_paths, ion, base_N):
             continue
         atat_index = gs_data.loc[mask, 'index'].min()
         atat_energy = _get_normalized_energy(Path(str(atat_index)), ion, base_N)
+        print(f"ATAT energy = {atat_energy} ({atat_index}); new = {energy} ({index})")
         if energy < atat_energy:
             print(f"Found energy below ATAT hull!: c={c}, energy={energy} ({atat_index}) < {atat_energy} ({index})")
     return gs_concentrations, gs_energies
