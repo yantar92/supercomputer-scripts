@@ -179,9 +179,7 @@ def main():
                'status']
     )
     # join fit_data and predstr_data merging concentration, energy, and index columns only
-    fit_data = fit_data.merge(
-        predstr_data[['concentration', 'energy', 'index']],
-        on=['concentration', 'energy', 'index'], how='inner')
+    fit_data = fit_data.merge(predstr_data, how='inner')
     print(str(fit_data))
     prev_c = None
     prev_en = None
