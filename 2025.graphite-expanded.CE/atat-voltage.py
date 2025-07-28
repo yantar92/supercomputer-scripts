@@ -58,7 +58,6 @@ def _get_true_gs(gs_data, fit_data, extra_paths, ion, base_N):
          'energy': energies,
          'index': dirs})
     # Find index of min energy row for each concentration
-    print(df[np.isclose(df['concentration'], 0.25)])
     min_indices = df.groupby('concentration')['energy'].idxmin()
     min_df = df.loc[min_indices].reset_index(drop=True)
     min_df = min_df.sort_values('concentration')
@@ -106,7 +105,7 @@ def _get_true_gs(gs_data, fit_data, extra_paths, ion, base_N):
             continue
         atat_index = gs_data.loc[mask, 'index'].min()
         atat_energy = _get_normalized_energy(Path(str(atat_index)), ion, base_N)
-        print(f"c = {c}; ATAT energy = {atat_energy} ({atat_index}); new = {energy} ({index})")
+        # print(f"c = {c}; ATAT energy = {atat_energy} ({atat_index}); new = {energy} ({index})")
         if energy < atat_energy:
             print(f"Found energy below ATAT hull!: c={c}, energy={energy} ({atat_index}) < {atat_energy} ({index})")
     return gs_concentrations, gs_energies
@@ -180,7 +179,6 @@ def main():
     )
     # join fit_data and predstr_data merging concentration, energy, and index columns only
     fit_data = pd.concat([fit_data, predstr_data], join='inner')
-    print(str(fit_data))
     prev_c = None
     prev_en = None
     voltage = []
