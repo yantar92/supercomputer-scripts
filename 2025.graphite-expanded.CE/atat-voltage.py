@@ -191,6 +191,7 @@ def main():
     )
     # join fit_data and predstr_data merging concentration, energy, and index columns only
     fit_data = pd.concat([fit_data, predstr_data], join='inner')
+    fit_data = fit_data.drop_duplicates(subset=['index'], keep='first')
     prev_c = None
     prev_en = None
     voltage = []
