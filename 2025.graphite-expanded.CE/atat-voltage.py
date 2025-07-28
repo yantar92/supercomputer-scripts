@@ -22,6 +22,8 @@ def _get_normalized_energy(index_dir, ion, base_N):
     """Compute normalized energy for INDEX_DIR.
     BASE_N is the number of atoms in base structure.
     """
+    if not (index_dir / "ATAT.SCF").is_dir():
+        return float('inf')
     vaspdir = IMDGVaspDir(index_dir / "ATAT.SCF")
     if vaspdir.final_energy is None:
         vaspdir = IMDGVaspDir(index_dir)
