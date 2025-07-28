@@ -23,7 +23,7 @@ def _get_normalized_energy(index_dir, ion, base_N):
     BASE_N is the number of atoms in base structure.
     """
     if not (index_dir / "ATAT.SCF").is_dir():
-        print(f"{index_dir}: inf")
+        # print(f"{index_dir}: inf")
         return float('inf')
     vaspdir = IMDGVaspDir(index_dir / "ATAT.SCF")
     if vaspdir.final_energy is None:
@@ -31,7 +31,7 @@ def _get_normalized_energy(index_dir, ion, base_N):
     N_ion = len([s for s in vaspdir.initial_structure if s.specie == ion])
     N_nonion = len(vaspdir.initial_structure) - N_ion
     if vaspdir.final_energy is None:
-        print(f"{index_dir}: inf")
+        # print(f"{index_dir}: inf")
         return float('inf')
     energy = vaspdir.final_energy / N_nonion * base_N
     # print(f"{index_dir}: {energy}")
@@ -114,7 +114,7 @@ def _get_true_gs(gs_data, fit_data, extra_paths, ion, base_N):
         # Check all gs_data points between c0 and c1
         mask = (gs_data['concentration'] >= c0) & (gs_data['concentration'] <= c1)
         for _, row in gs_data[mask].iterrows():
-            c_gs, idx_gs = row['concentration'], row['index']
+            c_gs, idx_gs = row['concentration'], int(row['index'])
             e_gs = _get_normalized_energy(Path(str(idx_gs)), ion, base_N)
             expected_e = e0 + slope * (c_gs - c0)
             if e_gs > expected_e:
