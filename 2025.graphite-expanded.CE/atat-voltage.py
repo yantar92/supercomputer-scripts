@@ -182,6 +182,7 @@ def main():
     fit_data = fit_data.merge(
         predstr_data[['concentration', 'energy', 'index']],
         on=['concentration', 'energy', 'index'], how='left')
+    print(str(fit_data))
     prev_c = None
     prev_en = None
     voltage = []
