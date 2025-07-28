@@ -39,7 +39,7 @@ def _get_normalized_energy(index_dir, ion, base_N):
 
 
 def _get_true_gs(gs_data, fit_data, extra_paths, ion, base_N):
-    """Check if any point from FIT_DATA is below hull."""
+    """Check if any point from FIT_DATA is below hull and compare with ATAT hull."""
     if extra_paths is None:
         extra_paths = []
     concentrations = []
@@ -104,16 +104,22 @@ def _get_true_gs(gs_data, fit_data, extra_paths, ion, base_N):
             gs_dirs.pop(-2)
         else:
             break
-    # Compare with ATAT hull
-    for c, energy, index in zip(gs_concentrations, gs_energies, gs_dirs):
-        mask = np.isclose(gs_data['concentration'], c)
-        if not mask.any():
-            continue
-        atat_index = gs_data.loc[mask, 'index'].min()
-        atat_energy = _get_normalized_energy(Path(str(atat_index)), ion, base_N)
-        print(f"c = {c}; ATAT energy = {atat_energy} ({atat_index}); new = {energy} ({index})")
-        if energy < atat_energy:
-            print(f"Found energy below ATAT hull!: c={c}, energy={energy} ({index}) < {atat_energy} ({atat_index})")
+    # Compare with ATAT hull (gs_data)
+    for i in range(len(gs_concentrations) - 1):
+        c0, e0 = gs_concentrations[i], gs_energies[i]
+        c1, e1 = gs_concentrations[i + 1], gs_energies[i + 1]
+        idx0 = gs_dirs[i]
+        idx1 = gs_dirs[i + 1]
+        slope = (e1 - e0) / (c1 - c0)
+        # Check all gs_data points between c0 and c1
+        mask = (gs_data['concentration'] >= c0) & (gs_data['concentration'] <= c1)
+        for _, row in gs_data[mask].iterrows():
+            c_gs, idx_gs = row['concentration'], row['index']
+            e_gs = _get_normalized_energy(Path(str(idx_gs)), ion, base_N)
+            expected_e = e0 + slope * (c_gs - c0)
+            if e_gs > expected_e:
+                print(f"ATAT hull point (c={c_gs}, e={e_gs}, idx={idx_gs})"
+                      f" lies above actual hull (expected e={expected_e}, idx={idx0}..{idx1})")
     return gs_concentrations, gs_energies
 
 def main():
