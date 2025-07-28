@@ -34,7 +34,7 @@ def _get_normalized_energy(index_dir, ion, base_N):
         print(f"{index_dir}: inf")
         return float('inf')
     energy = vaspdir.final_energy / N_nonion * base_N
-    print(f"{index_dir}: {energy}")
+    # print(f"{index_dir}: {energy}")
     return energy
 
 
