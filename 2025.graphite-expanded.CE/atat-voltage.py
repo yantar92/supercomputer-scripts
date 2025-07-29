@@ -170,18 +170,6 @@ def main():
                'fitted energy', 'energy delta',
                'weight', 'index']
     )
-    predstr_data = pd.read_csv(
-        'predstr.out', sep=' ', header=None,
-        names=['concentration', 'energy', 'predicted_energy',
-               'index',
-               # b = busy, e = error, u = unknown (not calculated),
-               # bg/eg/ug = ground state
-               'status']
-    )
-    # join fit_data and predstr_data merging concentration, energy, and index columns only
-    fit_data = fit_data.merge(
-        predstr_data[['concentration', 'energy', 'index']],
-        on=['concentration', 'energy', 'index'], how='left')
     prev_c = None
     prev_en = None
     voltage = []
