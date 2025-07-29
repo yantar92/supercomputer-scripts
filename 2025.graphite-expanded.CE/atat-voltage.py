@@ -50,7 +50,7 @@ def _get_true_gs(gs_data, fit_data, extra_paths, ion, base_N):
         ens = [(_get_normalized_energy(Path(d) / str(index), ion, base_N), d)
                for d in ['./'] + extra_paths if (Path(d) / str(index)).is_dir()]
         energy = ens[0][0]
-        min_dir = str(Path(ens[0][1])/str(index))
+        min_dir = ens[0][1]
         for e, idx in ens:
             if e < energy:
                 energy = e
