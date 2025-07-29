@@ -119,7 +119,7 @@ def _get_true_gs(gs_data, fit_data, extra_paths, ion, base_N):
             expected_e = e0 + slope * (c_gs - c0)
             if e_gs > expected_e:
                 print(f"ATAT hull point (c={c_gs}, e={e_gs}, idx={idx_gs})"
-                      f" lies above actual hull (expected e={expected_e}, idx={idx0}{idx_gs} -- {idx1}{idx_gs})")
+                      f" lies above actual hull (expected e={expected_e}, idx={idx0}..{idx1})")
     return gs_concentrations, gs_energies
 
 def main():
