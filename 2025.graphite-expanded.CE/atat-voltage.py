@@ -53,7 +53,7 @@ def _get_true_gs(gs_data, fit_data, extra_paths, ion, base_N):
         min_dir = ens[0][1]
         for e, idx in ens:
             if e < energy:
-                energy = e
+                e = energy
                 min_dir = idx
         concentrations.append(c)
         energies.append(energy)
