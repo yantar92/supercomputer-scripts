@@ -156,8 +156,8 @@ def main():
     prev_en = None
     voltage = []
     concentrations = []
-    gs_c, gs_en = _get_true_gs(gs_data, fit_data, args.extra_data, args.ion, base_N)
-    for cur_en, energy in reversed(zip(gs_c, gs_en)) if reverse_concentration else zip(gs_c, gs_en):
+    true_gs = _get_true_gs(gs_data, fit_data, args.extra_data, args.ion, base_N)
+    for cur_en, energy in reversed(true_gs) if reverse_concentration else true_gs:
         if reverse_concentration:
             c = 1 - c
         if prev_c is not None and prev_en is not None:
