@@ -59,7 +59,6 @@ def _get_true_gs(gs_data, fit_data, extra_paths, ion, base_N):
          'index': dirs})
     min_df = df.groupby('concentration', as_index=False)['energy'].min()
     min_df = min_df.sort_values('concentration')
-    print(min_df)
     # Build ground state line (lowest-energy phase diagram)
     gs_concentrations = []
     gs_energies = []
