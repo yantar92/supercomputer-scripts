@@ -38,33 +38,23 @@ def _get_true_gs(gs_data, fit_data, extra_paths, ion, base_N):
         extra_paths = []
     concentrations = []
     energies = []
-    dirs = []
     for _, row in alive_it(fit_data.iterrows(), total=len(fit_data), title="Reading VASP outputs"):
         c, index = row['concentration'], int(row['index'])
-        ens = [(_get_normalized_energy(Path(d) / str(index), ion, base_N), d)
-               for d in ['./'] + extra_paths if (Path(d) / str(index)).is_dir()]
-        energy = ens[0][0]
-        min_dir = ens[0][1]
-        for e, idx in ens:
-            if e < energy:
-                e = energy
-                min_dir = idx
+        energy = min([
+            _get_normalized_energy(Path(d) / str(index), ion, base_N)
+            for d in ['./'] + extra_paths if (Path(d) / str(index)).is_dir()
+        ])
         concentrations.append(c)
         energies.append(energy)
-        dirs.append(min_dir)
     # Create DataFrame and find min energy per concentration
-    df = pd.DataFrame(
-        {'concentration': concentrations,
-         'energy': energies,
-         'index': dirs})
+    df = pd.DataFrame({'concentration': concentrations, 'energy': energies})
     min_df = df.groupby('concentration', as_index=False)['energy'].min()
     min_df = min_df.sort_values('concentration')
     # Build ground state line (lowest-energy phase diagram)
     gs_concentrations = []
     gs_energies = []
-    gs_dirs = []
     for _, row in min_df.iterrows():
-        c, energy, idx = row['concentration'], row['energy'], row['index']
+        c, energy = row['concentration'], row['energy']
         # While there are at least 2 points, check if current point makes
         # the previous point non-ground-state
         while len(gs_concentrations) >= 2:
@@ -77,12 +67,10 @@ def _get_true_gs(gs_data, fit_data, extra_paths, ion, base_N):
             if energy < expected_energy:
                 gs_concentrations.pop()
                 gs_energies.pop()
-                gs_dirs.pop()
             else:
                 break
         gs_concentrations.append(c)
         gs_energies.append(energy)
-        gs_dirs.append(idx)
     # Final check: ensure last segment doesn't violate convexity
     while len(gs_concentrations) >= 3:
         c0, e0 = gs_concentrations[-3], gs_energies[-3]
@@ -93,18 +81,17 @@ def _get_true_gs(gs_data, fit_data, extra_paths, ion, base_N):
         if e2 < expected:
             gs_concentrations.pop(-2)
             gs_energies.pop(-2)
-            gs_dirs.pop(-2)
         else:
             break
     # Compare with ATAT hull
-    for c, energy, index in zip(gs_concentrations, gs_energies, gs_dirs):
+    for c, energy in zip(gs_concentrations, gs_energies):
         mask = np.isclose(gs_data['concentration'], c)
         if not mask.any():
             continue
         atat_index = gs_data.loc[mask, 'index'].min()
         atat_energy = _get_normalized_energy(Path(str(atat_index)), ion, base_N)
         if energy < atat_energy:
-            print(f"Found energy below ATAT hull!: c={c}, energy={energy} ({atat_idx}) < {atat_energy} ({index})")
+            print(f"Found energy below ATAT hull!: c={c}, energy={energy} (< {atat_energy})")
     return gs_concentrations, gs_energies
 
 def main():
