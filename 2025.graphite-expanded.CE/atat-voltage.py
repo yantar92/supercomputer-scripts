@@ -88,8 +88,7 @@ def _get_true_gs(gs_data, fit_data, extra_paths, ion, base_N):
         mask = np.isclose(gs_data['concentration'], c)
         if not mask.any():
             continue
-        atat_index = gs_data.loc[mask, 'index'].min()
-        atat_energy = _get_normalized_energy(Path(str(atat_index)), ion, base_N)
+        atat_energy = gs_data.loc[mask, 'energy'].min()
         if energy < atat_energy:
             print(f"Found energy below ATAT hull!: c={c}, energy={energy} (< {atat_energy})")
     return gs_concentrations, gs_energies
