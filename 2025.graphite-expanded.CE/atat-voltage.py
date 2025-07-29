@@ -9,11 +9,13 @@ structure.
 Saves voltage vs. concentration plot into "voltage.png".
 """
 import argparse
+import re
 from pathlib import Path
 from pymatgen.core import Element
 from IMDgroup.pymatgen.io.vasp.vaspdir import IMDGVaspDir
 from pymatgen.entries.computed_entries import ComputedEntry
 from pymatgen.apps.battery.insertion_battery import InsertionElectrode
+from pymatgen.apps.battery.plotter import VoltageProfilePlotter
 import pandas as pd
 import matplotlib.pyplot as plt
 from alive_progress import alive_it
@@ -81,19 +83,9 @@ def main():
 
     # Extract voltage profile data
     voltage_data = []
-    for pair in electrode.voltage_pairs:
-        # Calculate Ion concentration (x in Ion_x Host)
-        x_charge = pair.x_charge
-        x_discharge = pair.x_discharge
-
-        voltage_data.append({
-            "x": x_charge,
-            "voltage": pair.voltage
-        })
-        voltage_data.append({
-            "x": x_discharge,
-            "voltage": pair.voltage
-        })
+    plotter = VoltageProfilePlotter(xaxis='x_form')
+    x, voltage = plotter.get_plot_data(electrode, term_zero=False)
+    voltage_data = {'x': x, 'voltage': voltage}
 
     # Create DataFrame and sort by ion concentration
     df = pd.DataFrame(voltage_data).sort_values("x")
@@ -102,10 +94,13 @@ def main():
     df.to_csv('voltage.out', sep=' ', index=False)
 
     plt.figure(figsize=(10, 6))
-    plt.xlim((0, 1))
     plt.step(df['x'], df['voltage'], where='post', color='blue', linewidth=2)
     plt.axhline(y=0, color='gray', linestyle='--', alpha=0.7)
-    plt.xlabel(f'Concentration (x in {args.ion.symbol}$_{{x}}$Host)')
+    base_formula = str(electrode.fully_charged_entry.composition)
+    base_formula = re.sub(
+        r'([A-Z][a-z]*)(\d+)',
+        lambda m: f'{m.group(1)}', base_formula)
+    plt.xlabel(f'Concentration (x in {args.ion.symbol}$_{{x}}${base_formula})')
     plt.ylabel(f'Voltage vs. {args.ion.symbol}/{args.ion.symbol}⁺ (V)')
     plt.title('Voltage Profile')
     plt.grid(alpha=0.3)
