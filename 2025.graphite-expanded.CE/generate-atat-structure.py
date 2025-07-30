@@ -48,7 +48,7 @@ for s in structs:
     os.makedirs(dir_name)
     dir_names.append(dir_name)
     # Convert to IMDStructure for proper ATAT output
-    print(s['structure'])
+    s['structure'].replace_species({'U': 'X'})
     imd_struct = IMDStructure.from_sites(s['structure'].sites, properties=s['structure'].properties)
     imd_struct.to_file(Path(dir_name) / "str.out", fmt="atat")
 
