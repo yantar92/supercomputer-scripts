@@ -11,6 +11,7 @@ from pathlib import Path
 
 from IMDgroup.pymatgen.core.structure import IMDStructure
 from pymatgen.transformations.advanced_transformations import EnumerateStructureTransformation
+from pymatgen.core import DummySpecie
 
 # Parse command-line arguments
 parser = argparse.ArgumentParser(description='Generate ATAT structures with specified concentration')
@@ -48,7 +49,7 @@ for s in structs:
     os.makedirs(dir_name)
     dir_names.append(dir_name)
     # Convert to IMDStructure for proper ATAT output
-    s['structure'].replace_species({'U': 'X'})
+    s['structure'].replace_species({'U': DummySpecie('X')})
     imd_struct = IMDStructure.from_sites(s['structure'].sites, properties=s['structure'].properties)
     imd_struct.to_file(Path(dir_name) / "str.out", fmt="atat")
 
