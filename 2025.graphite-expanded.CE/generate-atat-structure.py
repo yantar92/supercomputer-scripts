@@ -47,6 +47,8 @@ for s in structs:
         counter += 1
     os.makedirs(dir_name)
     dir_names.append(dir_name)
-    s['structure'].to_file(Path(dir_name) / "str.out", fmt="atat")
+    # Convert to IMDStructure for proper ATAT output
+    imd_struct = IMDStructure.from_sites(s['structure'].sites, properties=s['structure'].properties)
+    imd_struct.to_file(Path(dir_name) / "str.out", fmt="atat")
 
 print(f"Generated {len(structs)} structures in {dir_names} directories")
