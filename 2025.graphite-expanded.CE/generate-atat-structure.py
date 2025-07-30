@@ -25,7 +25,7 @@ structure = IMDStructure.from_file(args.poscar)
 structure.replace_species({
     args.ion_name: {
         args.ion_name: args.concentration,
-        'X': 1 - args.concentration  # Vacancies represented as X
+        'U': 1 - args.concentration  # Vacancies represented as X
     }
 })
 
@@ -48,6 +48,7 @@ for s in structs:
     os.makedirs(dir_name)
     dir_names.append(dir_name)
     # Convert to IMDStructure for proper ATAT output
+    print(s['structure'])
     imd_struct = IMDStructure.from_sites(s['structure'].sites, properties=s['structure'].properties)
     imd_struct.to_file(Path(dir_name) / "str.out", fmt="atat")
 
