@@ -1,3 +1,4 @@
+#!/usr/bin/python
 """This script takes POSCAR with max concentration as input and generates
 a number of structures with a given concentration instead. The generated structures
 are saved in 0XXXX/str.out files to be used by ATAT.
