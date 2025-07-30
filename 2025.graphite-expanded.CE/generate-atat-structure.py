@@ -40,9 +40,9 @@ structs = transformation.apply_transformation(structure, return_ranked_list=args
 # Create directories and write structures
 dir_names = []
 for s in structs:
-    counter = 0
+    counter = 9000
     while True:
-        dir_name = f"{counter:04d}"
+        dir_name = f"{counter:d}"
         if not os.path.exists(dir_name):
             break
         counter += 1
