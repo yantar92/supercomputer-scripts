@@ -27,7 +27,7 @@ def main():
         "metal_vasprun",
         help="Path to reference VASP SCF calculation for pure ion structure.")
     parser.add_argument(
-        "matrix_vasprun",
+        "--matrix_vasprun",
         default='./0/ATAT.SCF/',
         help="Path to reference VASP SCF calculation for pure matrix structure (default: 0/ATAT.SCF).")
     parser.add_argument(
