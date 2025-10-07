@@ -45,12 +45,14 @@ def main():
     li_run = IMDGVaspDir(Path(args.metal_vasprun))
     li_energy = li_run.final_energy
     li_entry = ComputedEntry(li_run.structure.composition, li_energy)
+    print(f"{args.ion} energy: {li_entry.energy_per_atom}")
 
     # Read pure matrix reference energy
     c_run = IMDGVaspDir(Path('./0/ATAT.SCF'))
     c_energy = c_run.final_energy
     c_entry = ComputedEntry(c_run.structure.composition, c_energy)
     c_entry.data["volume"] = c_run.structure.volume
+    print(f"C energy: {c_entry.energy_per_atom}")
 
     # Collect all computed entries
     entries = []
@@ -97,7 +99,7 @@ def main():
     df.to_csv('formation_en.out', sep=' ', index=False)
 
     plt.figure(figsize=(10, 6))
-    plt.step(df['x'], df['formation energy'], where='post', color='blue', linewidth=2)
+    plt.scatter(df['x'], df['formation energy'], color='blue', linewidth=2)
     plt.xlabel('Concentration')
     plt.ylabel('Formation energy per reference carbon cell')
     plt.title('Formation energies')
