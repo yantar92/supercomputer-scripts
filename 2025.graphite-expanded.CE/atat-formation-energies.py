@@ -27,6 +27,10 @@ def main():
         "metal_vasprun",
         help="Path to reference VASP SCF calculation for pure ion structure.")
     parser.add_argument(
+        "matrix_vasprun",
+        default='./0/ATAT.SCF/',
+        help="Path to reference VASP SCF calculation for pure matrix structure (default: 0/ATAT.SCF).")
+    parser.add_argument(
         "--ion", default="Li",
         help="Working ion element (default: Li)",
         type=Element)
@@ -48,7 +52,7 @@ def main():
     print(f"{args.ion} energy: {li_entry.energy_per_atom}")
 
     # Read pure matrix reference energy
-    c_run = IMDGVaspDir(Path('./0/ATAT.SCF'))
+    c_run = IMDGVaspDir(Path(args.matrix_vasprun))
     c_energy = c_run.final_energy
     c_entry = ComputedEntry(c_run.structure.composition, c_energy)
     c_entry.data["volume"] = c_run.structure.volume
