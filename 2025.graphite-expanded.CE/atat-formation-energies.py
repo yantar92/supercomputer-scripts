@@ -9,14 +9,12 @@ structure.
 Saves formation vs. concentration plot into "formation_en.png".
 """
 import argparse
-import re
+import os
 from pathlib import Path
 from pymatgen.core import Element
 from IMDgroup.pymatgen.io.vasp.vaspdir import IMDGVaspDir
 from pymatgen.entries.computed_entries import ComputedEntry
-from pymatgen.apps.battery.insertion_battery import InsertionElectrode
-from pymatgen.apps.battery.plotter import VoltageProfilePlotter
-import pandas as pd
+from pymatgen.analysis.phase_diagram import PhaseDiagram
 import matplotlib.pyplot as plt
 from alive_progress import alive_it
 
@@ -86,30 +84,41 @@ def main():
         except Exception as e:
             print(f"Skipping {target_dir}: {str(e)}")
 
-    xs = []
-    ens = []
-    for entry in entries:
-        li_ratio = entry.composition.get_atomic_fraction(args.ion)
-        volume_norm = entry.data['volume'] / c_entry.data['volume']
-        energy_per_atom = (entry.energy_per_atom - li_ratio * li_entry.energy_per_atom - (1 - li_ratio) * c_entry.energy_per_atom)
-        normalized_energy = energy_per_atom * entry.composition.num_atoms / volume_norm
-        xs.append(li_ratio)
-        ens.append(normalized_energy)
-
-    # Create DataFrame and sort by ion concentration
-    df = pd.DataFrame({'x': xs, 'formation energy': ens}).sort_values("x")
-
-    # Save and plot results
-    df.to_csv('formation_en.out', sep=' ', index=False)
-
-    plt.figure(figsize=(10, 6))
-    plt.scatter(df['x'], df['formation energy'], color='blue', linewidth=2)
-    plt.xlabel('Concentration')
-    plt.ylabel('Formation energy per reference carbon cell')
-    plt.title('Formation energies')
-    plt.tight_layout()
-    plt.savefig('formation_en.png', dpi=300)
+    phd = PhaseDiagram(entries=entries+[li_entry], elements=[Element("C"), args.ion])
+    ax = phd.get_plot(backend='matplotlib', label_unstable=False) # plt.Axes type
+    # Now plot ax and save to formation_en.png
+    # plt.title(f"Formation energy data for {os.getcwd()}")
+    # plt.tight_layout()
+    ax.figure.set_size_inches((16, 16))
+    plt.title(f"Formation energy data for {os.getcwd()}", fontsize=16, fontweight="bold")
+    plt.savefig('formation_en.png')
     plt.close()
+    
+
+    # xs = []
+    # ens = []
+    # for entry in entries:
+    #     li_ratio = entry.composition.get_atomic_fraction(args.ion)
+    #     volume_norm = entry.data['volume'] / c_entry.data['volume']
+    #     energy_per_atom = (entry.energy_per_atom - li_ratio * li_entry.energy_per_atom - (1 - li_ratio) * c_entry.energy_per_atom)
+    #     normalized_energy = energy_per_atom * entry.composition.num_atoms / volume_norm
+    #     xs.append(li_ratio)
+    #     ens.append(normalized_energy)
+
+    # # Create DataFrame and sort by ion concentration
+    # df = pd.DataFrame({'x': xs, 'formation energy': ens}).sort_values("x")
+
+    # # Save and plot results
+    # df.to_csv('formation_en.out', sep=' ', index=False)
+
+    # plt.figure(figsize=(10, 6))
+    # plt.scatter(df['x'], df['formation energy'], color='blue', linewidth=2)
+    # plt.xlabel('Concentration')
+    # plt.ylabel('Formation energy per reference carbon cell')
+    # plt.title('Formation energies')
+    # plt.tight_layout()
+    # plt.savefig('formation_en.png', dpi=300)
+    # plt.close()
 
     print("Formation energy profile saved to formation_en.png and formation_en.out")
 
