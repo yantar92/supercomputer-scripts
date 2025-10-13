@@ -57,7 +57,7 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
     return entries
 
 
-def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0, max_comp_label=None, show_unstable=0.2):
+def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0, max_comp_label=None, show_unstable=0.2, font_size=10):
     """Custom phase diagram plot that overrides pymatgen's hardcoded font settings."""
     
     # Create a PDPlotter to access the plotting data
@@ -67,20 +67,22 @@ def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0
     
     # Set publication-quality style
     plt.style.use('default')
+    # Adjust font sizes based on the provided font_size argument
+    base_sz = font_size
     plt.rcParams.update({
-        'font.size': 10,
+        'font.size': base_sz,
         'font.family': 'serif',
         'font.serif': ['Times New Roman', 'DejaVu Serif'],
         'mathtext.fontset': 'stix',
-        'axes.labelsize': 12,
-        'axes.titlesize': 14,
+        'axes.labelsize': base_sz * 1.2,
+        'axes.titlesize': base_sz * 1.4,
         'axes.linewidth': 1.0,
         'lines.linewidth': 1.5,
-        'lines.markersize': 6,
-        'xtick.labelsize': 10,
-        'ytick.labelsize': 10,
-        'legend.fontsize': 10,
-        'figure.titlesize': 14,
+        'lines.markersize': base_sz * 0.6,
+        'xtick.labelsize': base_sz,
+        'ytick.labelsize': base_sz,
+        'legend.fontsize': base_sz,
+        'figure.titlesize': base_sz * 1.4,
     })
     
     # Plot the phase boundaries
@@ -113,7 +115,7 @@ def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0
     
     # Custom font for labels (overriding pymatgen's hardcoded 24pt bold)
     font = FontProperties()
-    font.set_size(10)
+    font.set_size(base_sz)
     font.set_weight('bold')
     
     # Add labels for stable entries
@@ -150,7 +152,7 @@ def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0
         )
     
     # Add elemental labels with proper positioning
-    elem_font = FontProperties(size=12, weight='bold')
+    elem_font = FontProperties(size=base_sz+2, weight='bold')
     for coords in stable_entries:
         entry = stable_entries[coords]
         if entry.composition.is_element:
@@ -177,9 +179,9 @@ def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0
                            fontproperties=elem_font)
     
     # Set axis labels and limits
-    ax.set_xlabel(f'{ion_element} Concentration', fontsize=12, fontweight='normal')
-    ax.set_ylabel('Formation Energy (eV/atom)', fontsize=12, fontweight='normal')
-    ax.set_title(f'{ion_element}-{matrix_element} Phase Diagram', fontsize=14, fontweight='bold', pad=20)
+    ax.set_xlabel(f'{ion_element} Concentration', fontsize=base_sz * 1.2, fontweight='normal')
+    ax.set_ylabel('Formation Energy (eV/atom)', fontsize=base_sz * 1.2, fontweight='normal')
+    ax.set_title(f'{ion_element}-{matrix_element} Phase Diagram', fontsize=base_sz * 1.4, fontweight='bold', pad=20)
     
     # Set proper axis limits
     # Set proper axis limits based on max_conc
@@ -262,6 +264,10 @@ def main():
         "--show_unstable", default=0.2,
         help="Show unstable entries with energy above hull less than this value (eV/atom) (default: 0.2)",
         type=float)
+    parser.add_argument(
+        "--font_size", default=10,
+        help="Base font size for the plot (default: 10)",
+        type=int)
     args = parser.parse_args()
 
     # Read pure Li reference energy
@@ -290,7 +296,8 @@ def main():
         phd, ax, str(args.ion), "C",
         show_unstable=args.show_unstable,
         max_conc=args.max_composition.get_atomic_fraction(Element(args.ion)) if args.max_composition else 1.0,
-        max_comp_label=str(args.max_composition.reduced_formula) if args.max_composition else None)
+        max_comp_label=str(args.max_composition.reduced_formula) if args.max_composition else None,
+        font_size=args.font_size)
     
     # Adjust layout
     plt.tight_layout()
