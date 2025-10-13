@@ -9,14 +9,12 @@ structure.
 Saves formation vs. concentration plot into "formation_en.png".
 """
 import argparse
-import os
 from pathlib import Path
 import numpy as np
-from pymatgen.core import Element
+from pymatgen.core import Element, Composition
 from IMDgroup.pymatgen.io.vasp.vaspdir import IMDGVaspDir
 from pymatgen.entries.computed_entries import ComputedEntry
 from pymatgen.analysis.phase_diagram import PhaseDiagram, PDPlotter
-from pymatgen.util.plotting import pretty_plot
 import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
 from alive_progress import alive_it
@@ -59,7 +57,7 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
     return entries
 
 
-def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, show_unstable=0.2):
+def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0, max_comp_label=None, show_unstable=0.2):
     """Custom phase diagram plot that overrides pymatgen's hardcoded font settings."""
     
     # Create a PDPlotter to access the plotting data
@@ -116,7 +114,7 @@ def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, show_unstabl
     # Custom font for labels (overriding pymatgen's hardcoded 24pt bold)
     font = FontProperties()
     font.set_size(10)
-    font.set_weight('normal')
+    font.set_weight('bold')
     
     # Add labels for stable entries
     for coords in sorted(stable_entries, key=lambda x: -x[1]):
@@ -152,7 +150,7 @@ def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, show_unstabl
         )
     
     # Add elemental labels with proper positioning
-    elem_font = FontProperties(size=12, weight='normal')
+    elem_font = FontProperties(size=12, weight='bold')
     for coords in stable_entries:
         entry = stable_entries[coords]
         if entry.composition.is_element:
@@ -184,15 +182,42 @@ def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, show_unstabl
     ax.set_title(f'{ion_element}-{matrix_element} Phase Diagram', fontsize=14, fontweight='bold', pad=20)
     
     # Set proper axis limits
-    ax.set_xlim(-0.1, 1.1)
+    # Set proper axis limits based on max_conc
+    ax.set_xlim(-0.05, max_conc + 0.05)
     
+    # Adjust x‑ticks: ensure the maximum composition appears as the last tick.
+    # Preserve existing ticks and add the max_conc tick if it is not already present.
+    existing_xticks = list(ax.get_xticks())
+    if max_conc not in existing_xticks:
+        existing_xticks.append(max_conc)
+    # Sort ticks for a tidy axis.
+    new_xticks = sorted(existing_xticks)
+    ax.set_xticks(new_xticks)
+    # Prepare tick labels: use the provided max_comp_label for the max_conc tick,
+    # otherwise default to a formatted number.
+    new_xtick_labels = []
+    past_max_label = False
+    for tick in new_xticks:
+        if max_comp_label is not None and np.isclose(tick, max_conc):
+            new_xtick_labels.append(str(max_comp_label))
+            past_max_label = True
+        elif past_max_label:
+            new_xtick_labels.append("")
+        else:
+            # Remove trailing zeros for cleaner appearance.
+            if tick.is_integer():
+                new_xtick_labels.append(str(int(tick)))
+            else:
+                new_xtick_labels.append(f"{tick:.2f}")
+    ax.set_xticklabels(new_xtick_labels)
+
     # Calculate y limits from actual data with padding
     all_y = [c[1] for c in stable_entries]
     y_min = min(all_y)
     y_max = max(all_y)
-    y_padding = (y_max - y_min) * 0.1
+    y_padding = (y_max - y_min) * 0.2
     ax.set_ylim(y_min - y_padding, y_padding)
-    
+
     # Improve grid
     ax.grid(True, alpha=0.3, linestyle='-', linewidth=0.5)
 
@@ -209,6 +234,13 @@ def main():
         "--ion", default="Li",
         help="Working ion element (default: Li)",
         type=Element)
+    parser.add_argument(
+        "--max_composition",
+        help="Maximum composition for the concentration axis (e.g. LiC2). "
+        "If not specified, uses pure ion element as maximum.",
+        type=Composition)
+
+
     parser.add_argument(
         "--extra_data",
         help="Extra data to consider. "
@@ -254,7 +286,11 @@ def main():
                       elements=[Element("C"), args.ion])
     
     # Use custom plotting function instead of pymatgen's get_plot
-    plot_custom_phase_diagram(phd, ax, str(args.ion), "C", show_unstable=args.show_unstable)
+    plot_custom_phase_diagram(
+        phd, ax, str(args.ion), "C",
+        show_unstable=args.show_unstable,
+        max_conc=args.max_composition.get_atomic_fraction(Element(args.ion)) if args.max_composition else 1.0,
+        max_comp_label=str(args.max_composition.reduced_formula) if args.max_composition else None)
     
     # Adjust layout
     plt.tight_layout()
