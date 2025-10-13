@@ -15,8 +15,46 @@ from pymatgen.core import Element
 from IMDgroup.pymatgen.io.vasp.vaspdir import IMDGVaspDir
 from pymatgen.entries.computed_entries import ComputedEntry
 from pymatgen.analysis.phase_diagram import PhaseDiagram
+from pymatgen.util.plotting import pretty_plot
 import matplotlib.pyplot as plt
 from alive_progress import alive_it
+
+
+def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) -> list:
+    """Scan PATH for energies and return a list of computed entries.
+    EXTRA_DATA is a list of relative directories to be scanned in addition to
+    PATH.
+    """
+    # Collect all computed entries
+    entries = []
+    if extra_data is None:
+        extra_data = []
+    all_dirs = [Path(path)] + [Path(path) / Path(p) for p in extra_data]
+
+    vasp_dirs = []
+    for parent in all_dirs:
+        if not parent.is_dir():
+            continue
+        for p in parent.iterdir():
+            if p.is_dir() and p.name.isdigit():
+                vasp_dirs.append(p)
+
+    for p in alive_it(vasp_dirs, total=len(vasp_dirs), title='Reading VASP outputs'):
+        # Check for ATAT.SCF directory
+        scf_dir = p / "ATAT.SCF"
+        target_dir = scf_dir if scf_dir.is_dir() else p
+        try:
+            vaspdir = IMDGVaspDir(target_dir)
+            if vaspdir.final_energy is None:
+                continue
+            comp = vaspdir.structure.composition
+            entry = ComputedEntry(comp, vaspdir.final_energy)
+            # Store volume in entry data
+            entry.data["volume"] = vaspdir.structure.volume
+            entries.append(entry)
+        except Exception as e:
+            print(f"Skipping {target_dir}: {str(e)}")
+    return entries
 
 
 def main():
@@ -25,9 +63,13 @@ def main():
         "metal_vasprun",
         help="Path to reference VASP SCF calculation for pure ion structure.")
     parser.add_argument(
-        "--matrix_vasprun",
-        default='./0/ATAT.SCF/',
+        "matrix_vasprun",
         help="Path to reference VASP SCF calculation for pure matrix structure (default: 0/ATAT.SCF).")
+    # parser.add_argument(
+    #     "dirs",
+    #     nargs="+",
+    #     default=['./'],
+    #     help="Directories to scan. Each directory will be plotted as individual convex hull. (default: ./)")
     parser.add_argument(
         "--ion", default="Li",
         help="Working ion element (default: Li)",
@@ -56,41 +98,18 @@ def main():
     c_entry.data["volume"] = c_run.structure.volume
     print(f"C energy: {c_entry.energy_per_atom}")
 
-    # Collect all computed entries
-    entries = []
-    all_dirs = [Path('.')] + [Path(p) for p in args.extra_data]
+    ax = pretty_plot(8, 6)
 
-    vasp_dirs = []
-    for parent in all_dirs:
-        if not parent.is_dir():
-            continue
-        for p in parent.iterdir():
-            if p.is_dir() and p.name.isdigit():
-                vasp_dirs.append(p)
-
-    for p in alive_it(vasp_dirs, total=len(vasp_dirs), title='Reading VASP outputs'):
-        # Check for ATAT.SCF directory
-        scf_dir = p / "ATAT.SCF"
-        target_dir = scf_dir if scf_dir.is_dir() else p
-        try:
-            vaspdir = IMDGVaspDir(target_dir)
-            if vaspdir.final_energy is None:
-                continue
-            comp = vaspdir.structure.composition
-            entry = ComputedEntry(comp, vaspdir.final_energy)
-            # Store volume in entry data
-            entry.data["volume"] = vaspdir.structure.volume
-            entries.append(entry)
-        except Exception as e:
-            print(f"Skipping {target_dir}: {str(e)}")
-
-    phd = PhaseDiagram(entries=entries+[li_entry], elements=[Element("C"), args.ion])
-    ax = phd.get_plot(backend='matplotlib', label_unstable=False) # plt.Axes type
+    path=Path('.')
+    entries = get_entries_recursively(Path(path), args.extra_data)
+    phd = PhaseDiagram(entries=entries+[li_entry, c_entry], elements=[Element("C"), args.ion])
+    phd.get_plot(ax=ax, backend='matplotlib', label_unstable=False)
     # Now plot ax and save to formation_en.png
     # plt.title(f"Formation energy data for {os.getcwd()}")
     # plt.tight_layout()
     ax.figure.set_size_inches((16, 16))
-    plt.title(f"Formation energy data for {os.getcwd()}", fontsize=16, fontweight="bold")
+    plt.title(f"Formation energy data for {path.absolute()}", fontsize=16, fontweight="bold")
+    plt.legend()
     plt.savefig('formation_en.png')
     plt.close()
     
