@@ -59,7 +59,7 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
 
 DEFAULT_FONT_SIZE = 8
 
-def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0, max_comp_label=None, show_unstable=0.2, font_size=DEFAULT_FONT_SIZE):
+def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0, max_comp_label=None, show_unstable=0.2, font_size=DEFAULT_FONT_SIZE, title=None):
     """Custom phase diagram plot that overrides pymatgen's hardcoded font settings."""
     
     # Create a PDPlotter to access the plotting data
@@ -118,9 +118,9 @@ def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0
     from matplotlib.lines import Line2D
     legend_handles = [
         Line2D([], [], marker='o', color='none', markerfacecolor='#4daf4a',
-               markeredgecolor='black', label='Stable (ground state)'),
+               markeredgecolor='black', label='Ground state'),
         Line2D([], [], marker='s', color='none', markerfacecolor='#ff7f00',
-               markeredgecolor='black', label='Unstable)')
+               markeredgecolor='black', label='Metastable')
     ]
     ax.legend(handles=legend_handles, loc='best', fontsize=font_size)
     
@@ -144,7 +144,7 @@ def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0
         label = entry.name
 
         # Calculate offset from center
-        offset_radius_pt = 1.2 * base_sz          # e.g. 9.6 pt for a base size of 8 pt
+        offset_radius_pt = base_sz          # e.g. 9.6 pt for a base size of 8 pt
         vec = np.array(coords) - center
         norm = np.linalg.norm(vec)
         if norm != 0:
@@ -179,7 +179,7 @@ def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0
         if entry.composition.is_element:
             elem_symbol = str(entry.elements[0])
 
-            elem_offset_pt = 1.2 * elem_font_size
+            elem_offset_pt = elem_font_size
             # Position elemental labels at the edges
             if coords[0] < 0.1:
                 # Left side - matrix element
@@ -203,7 +203,7 @@ def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0
     # Set axis labels and limits
     ax.set_xlabel(f'{ion_element} Concentration')
     ax.set_ylabel('Formation Energy (meV/atom)')
-    ax.set_title(f'{ion_element}-{matrix_element} Phase Diagram', pad=20)
+    ax.set_title(title if title is not None else f'{ion_element}-{matrix_element} Phase Diagram', pad=20)
     
     # Set proper axis limits
     # Set proper axis limits based on max_conc
@@ -290,6 +290,10 @@ def main():
         "--font_size", default=DEFAULT_FONT_SIZE,
         help=f"Base font size for the plot (default: {DEFAULT_FONT_SIZE})",
         type=int)
+    parser.add_argument(
+        "--title", default=None,
+        help="Custom title for the phase diagram plot (default: '<ion>-<matrix> Phase Diagram')",
+        type=str)
     args = parser.parse_args()
 
     # Read pure Li reference energy
@@ -319,7 +323,8 @@ def main():
         show_unstable=args.show_unstable,
         max_conc=args.max_composition.get_atomic_fraction(Element(args.ion)) if args.max_composition else 1.0,
         max_comp_label=str(args.max_composition.reduced_formula) if args.max_composition else None,
-        font_size=args.font_size)
+        font_size=args.font_size,
+        title=args.title)
     
     # Adjust layout
     plt.tight_layout()
