@@ -57,7 +57,9 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
     return entries
 
 
-def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0, max_comp_label=None, show_unstable=0.2, font_size=10):
+DEFAULT_FONT_SIZE = 8
+
+def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0, max_comp_label=None, show_unstable=0.2, font_size=DEFAULT_FONT_SIZE):
     """Custom phase diagram plot that overrides pymatgen's hardcoded font settings."""
     
     # Create a PDPlotter to access the plotting data
@@ -69,45 +71,58 @@ def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0
     plt.style.use('default')
     # Adjust font sizes based on the provided font_size argument
     base_sz = font_size
+    base_markersize = base_sz * 0.5
+    edge_width = max(0.8, round(0.12 * base_sz, 2))
     plt.rcParams.update({
         'font.size': base_sz,
         'font.family': 'serif',
         'font.serif': ['Times New Roman', 'DejaVu Serif'],
         'mathtext.fontset': 'stix',
-        'axes.labelsize': base_sz * 1.2,
-        'axes.titlesize': base_sz * 1.4,
+        'axes.labelsize': base_sz,
+        'axes.titlesize': base_sz * 1.2,
         'axes.linewidth': 1.0,
-        'lines.linewidth': 1.5,
-        'lines.markersize': base_sz * 0.6,
+        'lines.linewidth': 1.2,
+        'lines.markersize': base_markersize,
         'xtick.labelsize': base_sz,
         'ytick.labelsize': base_sz,
         'legend.fontsize': base_sz,
-        'figure.titlesize': base_sz * 1.4,
+        'figure.titlesize': base_sz * 1.2,
     })
-    
-    # Plot the phase boundaries
-    for x, y in lines:
-        ax.plot(x, y, 'k-', linewidth=1.5)
-    
-    # Plot stable entries
-    for coords in stable_entries:
-        entry = stable_entries[coords]
-        ax.plot(coords[0], coords[1], 'o', 
-                markerfacecolor='#4daf4a', 
-                markeredgecolor='black',
-                markersize=8,
-                markeredgewidth=1)
-    
+
+    energy_mult = 1000
     # Plot unstable entries
     for entry, coords in unstable_entries.items():
         e_above_hull = phd.get_e_above_hull(entry)
         if e_above_hull is not None and e_above_hull < show_unstable:
-            ax.plot(coords[0], coords[1], 's', 
+            ax.plot(coords[0], np.array(coords[1]) * energy_mult, 's', 
                     markerfacecolor='#ff7f00', 
                     markeredgecolor='black',
-                    markersize=6,
-                    markeredgewidth=1,
+                    markeredgewidth=edge_width,
                     alpha=0.7)
+
+    # Plot the phase boundaries
+    for x, y in lines:
+        ax.plot(x, np.array(y) * energy_mult, 'k-', linewidth=1.2)
+
+    # Plot stable entries
+    for coords in stable_entries:
+        entry = stable_entries[coords]
+        ax.plot(coords[0], np.array(coords[1]) * energy_mult, 'o', 
+                markerfacecolor='#4daf4a', 
+                markeredgecolor='black',
+                markersize=base_markersize * 1.8,
+                markeredgewidth=edge_width)
+    
+
+    # Add legend for stable and unstable entries
+    from matplotlib.lines import Line2D
+    legend_handles = [
+        Line2D([], [], marker='o', color='none', markerfacecolor='#4daf4a',
+               markeredgecolor='black', label='Stable (ground state)'),
+        Line2D([], [], marker='s', color='none', markerfacecolor='#ff7f00',
+               markeredgecolor='black', label='Unstable)')
+    ]
+    ax.legend(handles=legend_handles, loc='best', fontsize=font_size)
     
     # Calculate center for label positioning
     min_y = min(c[1] for c in stable_entries)
@@ -117,21 +132,26 @@ def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0
     font = FontProperties()
     font.set_size(base_sz)
     font.set_weight('bold')
-    
+
     # Add labels for stable entries
     for coords in sorted(stable_entries, key=lambda x: -x[1]):
         entry = stable_entries[coords]
-        
+
         # Skip elemental references as they're handled separately
         if entry.composition.is_element:
             continue
-            
+
         label = entry.name
-        
+
         # Calculate offset from center
+        offset_radius_pt = 1.2 * base_sz          # e.g. 9.6 pt for a base size of 8 pt
         vec = np.array(coords) - center
-        vec = vec / np.linalg.norm(vec) * 10 if np.linalg.norm(vec) != 0 else vec
-        
+        norm = np.linalg.norm(vec)
+        if norm != 0:
+            vec = vec / norm * offset_radius_pt
+        else:
+            vec = np.zeros_like(vec)
+
         valign = "bottom" if vec[1] > 0 else "top"
         if vec[0] < -0.01:
             halign = "right"
@@ -139,10 +159,10 @@ def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0
             halign = "left"
         else:
             halign = "center"
-        
+
         ax.annotate(
             label,
-            coords,
+            [coords[0], coords[1] * energy_mult],
             xytext=vec,
             textcoords="offset points",
             horizontalalignment=halign,
@@ -152,72 +172,74 @@ def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0
         )
     
     # Add elemental labels with proper positioning
+    elem_font_size = base_sz * 1.2
     elem_font = FontProperties(size=base_sz+2, weight='bold')
     for coords in stable_entries:
         entry = stable_entries[coords]
         if entry.composition.is_element:
             elem_symbol = str(entry.elements[0])
-            
+
+            elem_offset_pt = 1.2 * elem_font_size
             # Position elemental labels at the edges
             if coords[0] < 0.1:
                 # Left side - matrix element
                 ax.annotate(matrix_element, 
-                           coords, 
-                           xytext=(-20, 0),
-                           textcoords="offset points",
-                           horizontalalignment="right",
-                           verticalalignment="center",
-                           fontproperties=elem_font)
+                            [coords[0], coords[1] * energy_mult], 
+                            xytext=(-elem_offset_pt, 0),
+                            textcoords="offset points",
+                            horizontalalignment="right",
+                            verticalalignment="center",
+                            fontproperties=elem_font)
             elif coords[0] > 0.9:
                 # Right side - ion element
                 ax.annotate(ion_element, 
-                           coords, 
-                           xytext=(20, 0),
-                           textcoords="offset points",
-                           horizontalalignment="left",
-                           verticalalignment="center",
-                           fontproperties=elem_font)
+                            [coords[0], coords[1] * energy_mult], 
+                            xytext=(elem_offset_pt, 0),
+                            textcoords="offset points",
+                            horizontalalignment="left",
+                            verticalalignment="center",
+                            fontproperties=elem_font)
     
     # Set axis labels and limits
-    ax.set_xlabel(f'{ion_element} Concentration', fontsize=base_sz * 1.2, fontweight='normal')
-    ax.set_ylabel('Formation Energy (eV/atom)', fontsize=base_sz * 1.2, fontweight='normal')
-    ax.set_title(f'{ion_element}-{matrix_element} Phase Diagram', fontsize=base_sz * 1.4, fontweight='bold', pad=20)
+    ax.set_xlabel(f'{ion_element} Concentration')
+    ax.set_ylabel('Formation Energy (meV/atom)')
+    ax.set_title(f'{ion_element}-{matrix_element} Phase Diagram', pad=20)
     
     # Set proper axis limits
     # Set proper axis limits based on max_conc
     ax.set_xlim(-0.05, max_conc + 0.05)
     
-    # Adjust x‑ticks: ensure the maximum composition appears as the last tick.
-    # Preserve existing ticks and add the max_conc tick if it is not already present.
-    existing_xticks = list(ax.get_xticks())
-    if max_conc not in existing_xticks:
-        existing_xticks.append(max_conc)
-    # Sort ticks for a tidy axis.
-    new_xticks = sorted(existing_xticks)
-    ax.set_xticks(new_xticks)
-    # Prepare tick labels: use the provided max_comp_label for the max_conc tick,
-    # otherwise default to a formatted number.
-    new_xtick_labels = []
-    past_max_label = False
-    for tick in new_xticks:
-        if max_comp_label is not None and np.isclose(tick, max_conc):
-            new_xtick_labels.append(str(max_comp_label))
-            past_max_label = True
-        elif past_max_label:
-            new_xtick_labels.append("")
-        else:
-            # Remove trailing zeros for cleaner appearance.
-            if tick.is_integer():
-                new_xtick_labels.append(str(int(tick)))
-            else:
-                new_xtick_labels.append(f"{tick:.2f}")
-    ax.set_xticklabels(new_xtick_labels)
+    # # Adjust x‑ticks: ensure the maximum composition appears as the last tick.
+    # # Preserve existing ticks and add the max_conc tick if it is not already present.
+    # existing_xticks = list(ax.get_xticks())
+    # if max_conc not in existing_xticks:
+    #     existing_xticks.append(max_conc)
+    # # Sort ticks for a tidy axis.
+    # new_xticks = sorted(existing_xticks)
+    # ax.set_xticks(new_xticks)
+    # # Prepare tick labels: use the provided max_comp_label for the max_conc tick,
+    # # otherwise default to a formatted number.
+    # new_xtick_labels = []
+    # past_max_label = False
+    # for tick in new_xticks:
+    #     if max_comp_label is not None and np.isclose(tick, max_conc):
+    #         new_xtick_labels.append(str(max_comp_label))
+    #         past_max_label = True
+    #     elif past_max_label:
+    #         new_xtick_labels.append("")
+    #     else:
+    #         # Remove trailing zeros for cleaner appearance.
+    #         if tick.is_integer():
+    #             new_xtick_labels.append(str(int(tick)))
+    #         else:
+    #             new_xtick_labels.append(f"{tick:.2f}")
+    # ax.set_xticklabels(new_xtick_labels)
 
     # Calculate y limits from actual data with padding
-    all_y = [c[1] for c in stable_entries]
+    all_y = [c[1] * energy_mult for c in stable_entries]
     y_min = min(all_y)
     y_max = max(all_y)
-    y_padding = (y_max - y_min) * 0.2
+    y_padding = (y_max - y_min) * 1.1
     ax.set_ylim(y_min - y_padding, y_padding)
 
     # Improve grid
@@ -253,7 +275,7 @@ def main():
         default=[]
     )
     parser.add_argument(
-        "--dpi", default=300,
+        "--dpi", default=600,
         help="Output DPI for publication quality (default: 300)",
         type=int)
     parser.add_argument(
@@ -265,8 +287,8 @@ def main():
         help="Show unstable entries with energy above hull less than this value (eV/atom) (default: 0.2)",
         type=float)
     parser.add_argument(
-        "--font_size", default=10,
-        help="Base font size for the plot (default: 10)",
+        "--font_size", default=DEFAULT_FONT_SIZE,
+        help=f"Base font size for the plot (default: {DEFAULT_FONT_SIZE})",
         type=int)
     args = parser.parse_args()
 
@@ -284,7 +306,7 @@ def main():
     print(f"C energy: {c_entry.energy_per_atom}")
 
     # Create figure with better aspect ratio
-    fig, ax = plt.subplots(figsize=(10, 8))
+    fig, ax = plt.subplots(figsize=(4.13, 3)) # half A4
 
     path = Path('.')
     entries = get_entries_recursively(Path(path), args.extra_data)
