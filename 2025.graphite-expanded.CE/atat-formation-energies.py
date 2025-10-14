@@ -122,7 +122,7 @@ def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0
         Line2D([], [], marker='o', color='none', markerfacecolor='#4daf4a',
                markeredgecolor='black', label='Ground state'),
         Line2D([], [], marker='s', color='none', markerfacecolor='#ff7f00',
-               markeredgecolor='black', label='Metastable')
+               markeredgecolor='black', label='Above hull')
     ]
     ax.legend(handles=legend_handles, loc='best', fontsize=font_size)
     
@@ -238,28 +238,13 @@ def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0
     # ax.set_xticklabels(new_xtick_labels)
 
     # Calculate y limits from stable entries with padding
-    all_y = [c[1] * energy_mult for c in stable_entries]
+    all_y = [c[1] * energy_mult for c in stable_entries] +\
+        [c[1] * energy_mult for _, c in unstable_entries.items()]
     y_min = min(all_y)
     y_max = max(all_y)
-    # Determine number of unstable entries to ensure visibility (10% of plotted unstable entries)
-    # Gather y values of unstable entries that are plotted (e_above_hull < show_unstable)
-    unstable_y_vals = []
-    for entry, coords in unstable_entries.items():
-        e_above = phd.get_e_above_hull(entry)
-        if e_above is not None and e_above < show_unstable:
-            unstable_y_vals.append(coords[1] * energy_mult)
-    if unstable_y_vals:
-        unstable_y_vals.sort()
-        # Number of unstable entries to guarantee visibility (at least 10% of total plotted unstable entries, minimum 1)
-        required_unstable = max(1, int(np.ceil(0.1 * len(unstable_y_vals))))
-        # The required upper bound is the y value of the required_unstable-th lowest unstable entry
-        required_y = unstable_y_vals[required_unstable - 1]
-        # Extend y_max if needed to include required unstable entries
-        if y_max < required_y:
-            y_max = required_y
     # Apply padding (same factor as before)
-    y_padding = (y_max - y_min) * 1.1
-    ax.set_ylim(y_min - y_padding, y_padding)
+    y_padding = (y_max - y_min) * 0.1
+    ax.set_ylim(y_min - y_padding, y_max + y_padding)
 
     # Improve grid
     ax.grid(True, alpha=0.3, linestyle='-', linewidth=0.5)
