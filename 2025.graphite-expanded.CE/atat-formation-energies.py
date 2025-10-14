@@ -65,7 +65,9 @@ def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0
     # Create a PDPlotter to access the plotting data
     plotter = PDPlotter(phd, show_unstable=show_unstable)
     lines, stable_entries, unstable_entries = plotter.pd_plot_data
-    print(f"Stable: {len(stable_entries)}; Unstable: {len(unstable_entries)}")
+    all_stable_en = [c[1] for c in stable_entries]
+    all_unstable_en = [c[1] for _, c in unstable_entries.items()]
+    print(f"Stable: {len(stable_entries)} ({min(all_stable_en)}..{max(all_stable_en)}eV); Unstable: {len(unstable_entries)} ({min(all_unstable_en)}..{max(all_unstable_en)}eV)")
     
     # Set publication-quality style
     plt.style.use('default')
