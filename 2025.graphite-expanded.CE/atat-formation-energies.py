@@ -9,6 +9,7 @@ structure.
 Saves formation vs. concentration plot into "formation_en.png".
 """
 import argparse
+import re
 from pathlib import Path
 import numpy as np
 from pymatgen.core import Element, Composition
@@ -18,6 +19,22 @@ from pymatgen.analysis.phase_diagram import PhaseDiagram, PDPlotter
 import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
 from alive_progress import alive_it
+
+def _to_subscript(text: str) -> str:
+    """
+    Convert any trailing (or interior) integer characters in a composition
+    string to LaTeX sub‑script form.
+
+    Example
+    -------
+    >>> _to_subscript("LiC6")
+    'LiC$_{6}$'
+    >>> _to_subscript("Fe2O3")
+    'Fe$_{2}$O$_{3}$'
+    """
+    # Replace each group of digits with a LaTeX subscript block.
+    # ``re.sub`` is safe for strings that contain no digits – it simply returns the original.
+    return re.sub(r'(\d+)', r'$_{\1}$', text)
 
 
 def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) -> list:
@@ -59,7 +76,10 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
 
 DEFAULT_FONT_SIZE = 8
 
-def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0, max_comp_label=None, show_unstable=0.2, font_size=DEFAULT_FONT_SIZE, title=None):
+def plot_custom_phase_diagram(
+        phd, ax, ion_element, matrix_element,
+        max_conc=1.0, show_unstable=0.2,
+        font_size=DEFAULT_FONT_SIZE, title=None, ymin=None, ymax=None):
     """Custom phase diagram plot that overrides pymatgen's hardcoded font settings."""
     
     # Create a PDPlotter to access the plotting data
@@ -143,10 +163,11 @@ def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0
         if entry.composition.is_element:
             continue
 
-        label = entry.name
+        raw_label = entry.name
+        label = _to_subscript(raw_label)
 
         # Calculate offset from center
-        offset_radius_pt = base_sz          # e.g. 9.6 pt for a base size of 8 pt
+        offset_radius_pt = base_sz * 1.5          # e.g. 9.6 pt for a base size of 8 pt
         vec = np.array(coords) - center
         norm = np.linalg.norm(vec)
         if norm != 0:
@@ -244,6 +265,13 @@ def plot_custom_phase_diagram(phd, ax, ion_element, matrix_element, max_conc=1.0
     y_max = max(all_y)
     # Apply padding (same factor as before)
     y_padding = (y_max - y_min) * 0.1
+    # Use manual limits if provided, otherwise apply padded limits
+    if ymin is not None:
+        y_min = ymin
+        y_padding = 0
+    if ymax is not None:
+        y_max = ymax
+        y_padding = 0
     ax.set_ylim(y_min - y_padding, y_max + y_padding)
 
     # Improve grid
@@ -298,6 +326,18 @@ def main():
         "--title", default=None,
         help="Custom title for the phase diagram plot (default: '<ion>-<matrix> Phase Diagram')",
         type=str)
+    parser.add_argument(
+        "--ymin",
+        help="Manual y-axis minimum (in meV/atom).",
+        type=float,
+        default=None,
+    )
+    parser.add_argument(
+        "--ymax",
+        help="Manual y-axis maximum (in meV/atom).",
+        type=float,
+        default=None,
+    )
     args = parser.parse_args()
 
     # Read pure Li reference energy
@@ -326,9 +366,10 @@ def main():
         phd, ax, str(args.ion), "C",
         show_unstable=args.show_unstable,
         max_conc=args.max_composition.get_atomic_fraction(Element(args.ion)) if args.max_composition else 1.0,
-        max_comp_label=str(args.max_composition.reduced_formula) if args.max_composition else None,
         font_size=args.font_size,
-        title=args.title)
+        title=args.title,
+        ymax=args.ymax,
+        ymin=args.ymin)
     
     # Adjust layout
     plt.tight_layout()
