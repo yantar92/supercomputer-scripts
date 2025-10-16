@@ -72,6 +72,9 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
             # Store volume in entry data
             entry.data["volume"] = vaspdir.structure.volume
             entry.data["ID"] = p
+            vol2 = vaspdir.structure.volume
+            vol1 = vaspdir.initial_structure.volume
+            entry.data["vol%"] = (vol2 - vol1) / vol1 * 100
             entries.append(entry)
         except Exception as e:
             print(f"Skipping {target_dir}: {str(e)}")
@@ -168,7 +171,7 @@ def plot_custom_phase_diagram(
         if entry.composition.is_element:
             continue
 
-        raw_label = entry.name
+        raw_label = f"{entry.name}\n{entry.data.get('ID', '')}\nvol%={entry.data.get('vol%', 'N/A')}%"
         label = _to_subscript(raw_label)
 
         # Calculate offset from center
@@ -349,6 +352,7 @@ def main():
     li_run = IMDGVaspDir(Path(args.metal_vasprun))
     li_energy = li_run.final_energy
     li_entry = ComputedEntry(li_run.structure.composition, li_energy)
+    li_entry.data["ID"] = Path(args.metal_vasprun)
     print(f"{args.ion} energy: {li_entry.energy_per_atom}")
 
     # Read pure matrix reference energy
@@ -357,6 +361,9 @@ def main():
     c_entry = ComputedEntry(c_run.structure.composition, c_energy)
     c_entry.data["volume"] = c_run.structure.volume
     c_entry.data["ID"] = Path(args.matrix_vasprun)
+    vol2 = c_run.structure.volume
+    vol1 = c_run.initial_structure.volume
+    c_entry.data["vol%"] = (vol2 - vol1) / vol1 * 100
     print(f"C energy: {c_entry.energy_per_atom}")
 
     # Create figure with better aspect ratio
