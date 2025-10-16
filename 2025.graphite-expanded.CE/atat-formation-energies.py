@@ -82,7 +82,7 @@ DEFAULT_FONT_SIZE = 8
 
 def plot_custom_phase_diagram(
         phd, ax, ion_element, matrix_element,
-        max_conc=1.0, show_unstable=0.2,
+        max_conc=1.0, show_unstable=1000,
         font_size=DEFAULT_FONT_SIZE, title=None, ymin=None, ymax=None):
     """Custom phase diagram plot that overrides pymatgen's hardcoded font settings."""
     
