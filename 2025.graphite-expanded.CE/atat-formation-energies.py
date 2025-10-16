@@ -64,10 +64,14 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
             vaspdir = IMDGVaspDir(target_dir)
             if vaspdir.final_energy is None:
                 continue
+            if not vaspdir.converged:
+                print(f"Skipping {target_dir}: unconverged")
+                continue
             comp = vaspdir.structure.composition
             entry = ComputedEntry(comp, vaspdir.final_energy)
             # Store volume in entry data
             entry.data["volume"] = vaspdir.structure.volume
+            entry.data["ID"] = p
             entries.append(entry)
         except Exception as e:
             print(f"Skipping {target_dir}: {str(e)}")
