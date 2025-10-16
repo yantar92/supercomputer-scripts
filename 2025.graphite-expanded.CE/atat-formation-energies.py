@@ -133,6 +133,7 @@ def plot_custom_phase_diagram(
     # Plot stable entries
     for coords in stable_entries:
         entry = stable_entries[coords]
+        print(f"GS:: {entry.data}, {coords[0]}, {coords[1]}")
         ax.plot(coords[0], np.array(coords[1]) * energy_mult, 'o', 
                 markerfacecolor='#4daf4a', 
                 markeredgecolor='black',
@@ -355,6 +356,7 @@ def main():
     c_energy = c_run.final_energy
     c_entry = ComputedEntry(c_run.structure.composition, c_energy)
     c_entry.data["volume"] = c_run.structure.volume
+    c_entry.data["ID"] = Path(args.matrix_vasprun)
     print(f"C energy: {c_entry.energy_per_atom}")
 
     # Create figure with better aspect ratio
