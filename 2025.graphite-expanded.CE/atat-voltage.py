@@ -44,6 +44,7 @@ def main():
     # Read pure Li reference energy
     li_run = IMDGVaspDir(Path(args.metal_vasprun))
     li_energy = li_run.final_energy
+    assert li_run.converged
     li_entry = ComputedEntry(li_run.structure.composition, li_energy)
 
     # Collect all computed entries
@@ -65,6 +66,9 @@ def main():
         try:
             vaspdir = IMDGVaspDir(target_dir)
             if vaspdir.final_energy is None:
+                continue
+            if not vaspdir.converged:
+                print(f"Skipping {target_dir}: unconverged")
                 continue
             comp = vaspdir.structure.composition
             # Store volume in entry data for voltage calculation
