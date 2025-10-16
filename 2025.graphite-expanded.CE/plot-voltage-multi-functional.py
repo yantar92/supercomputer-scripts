@@ -18,6 +18,8 @@ parser.add_argument('--labels', nargs='+',
                    help='Custom labels for optB88-vdW plots (one per data set)')
 parser.add_argument('--xmax', type=float, 
                    help='Maximum concentration to plot (x-axis limit)')
+parser.add_argument('--plot-all-functionals', action='store_true',
+                   help='Plot all functionals individually as step plots with functional labels')
 args = parser.parse_args()
 
 data_sets = args.data_sets
@@ -25,6 +27,7 @@ ion_type = args.ion
 plot_title = args.title
 custom_labels = args.labels if args.labels else None
 xmax = args.xmax
+plot_all_functionals = args.plot_all_functionals
 
 functional_folders = {
     'optB88-vdW': '.',
@@ -51,43 +54,50 @@ def plot_voltage_range_for_set(set_dir, functional_folders, color, set_idx, plot
         print(f"Warning: No voltage.out files found for {set_dir}")
         return
 
-    # Envelope across all functionals
-    all_x = np.unique(np.concatenate([df['x'].values for df in dfs.values()]))
-    interp_voltages = {}
-    for func_label, df in dfs.items():
-        v_interp = np.interp(all_x, df['x'].values, df['voltage'].values)
-        interp_voltages[func_label] = v_interp
+    # Plot individual functionals if flag is set
+    if plot_all_functionals:
+        for func_label, df in dfs.items():
+            plt.step(df['x'].values, df['voltage'].values, where='post', 
+                    linewidth=1.5, linestyle='-', 
+                    label=f'{set_dir} - {func_label}')
+    else:
+        # Envelope across all functionals
+        all_x = np.unique(np.concatenate([df['x'].values for df in dfs.values()]))
+        interp_voltages = {}
+        for func_label, df in dfs.items():
+            v_interp = np.interp(all_x, df['x'].values, df['voltage'].values)
+            interp_voltages[func_label] = v_interp
 
-    stacked = np.column_stack(list(interp_voltages.values()))
-    voltage_min = np.min(stacked, axis=1)
-    voltage_max = np.max(stacked, axis=1)
+        stacked = np.column_stack(list(interp_voltages.values()))
+        voltage_min = np.min(stacked, axis=1)
+        voltage_max = np.max(stacked, axis=1)
 
-    def step_data(x, y):
-        x_step = np.repeat(x, 2)[1:]
-        y_step = np.repeat(y, 2)[:-1]
-        return x_step, y_step
+        def step_data(x, y):
+            x_step = np.repeat(x, 2)[1:]
+            y_step = np.repeat(y, 2)[:-1]
+            return x_step, y_step
 
-    x_step, min_step = step_data(all_x, voltage_min)
-    _, max_step = step_data(all_x, voltage_max)
+        x_step, min_step = step_data(all_x, voltage_min)
+        _, max_step = step_data(all_x, voltage_max)
 
-    # Plot shaded area without label
-    plt.fill_between(
-        x_step, min_step, max_step, step='pre',
-        color=color, alpha=0.35
-    )
-    # Plot area boundaries without labels
-    plt.step(all_x, voltage_min, where='post', color=color, linewidth=1, linestyle='--')
-    plt.step(all_x, voltage_max, where='post', color=color, linewidth=1, linestyle='--')
+        # Plot shaded area without label
+        plt.fill_between(
+            x_step, min_step, max_step, step='pre',
+            color=color, alpha=0.35
+        )
+        # Plot area boundaries without labels
+        plt.step(all_x, voltage_min, where='post', color=color, linewidth=1, linestyle='--')
+        plt.step(all_x, voltage_max, where='post', color=color, linewidth=1, linestyle='--')
 
-    # Plot optB88-vdW as solid line with custom label
-    if plot_optb88 and 'optB88-vdW' in dfs:
-        df_optb = dfs['optB88-vdW']
-        if custom_labels and set_idx < len(custom_labels):
-            label = custom_labels[set_idx]
-        else:
-            label = set_dir
-        plt.plot(df_optb['x'].values, df_optb['voltage'].values,
-                 color=color, linewidth=2, label=label)
+        # Plot optB88-vdW as solid line with custom label
+        if plot_optb88 and 'optB88-vdW' in dfs:
+            df_optb = dfs['optB88-vdW']
+            if custom_labels and set_idx < len(custom_labels):
+                label = custom_labels[set_idx]
+            else:
+                label = set_dir
+            plt.plot(df_optb['x'].values, df_optb['voltage'].values,
+                    color=color, linewidth=2, label=label)
 
 # Set publication-quality style matching atat-formation-energies.py
 plt.style.use('default')
@@ -114,7 +124,7 @@ plt.figure(figsize=(4.13, 3))  # half A4, matching the formation energy plot
 colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
 for i, set_dir in enumerate(data_sets):
     fill_color = colors[i % len(colors)]
-    plot_voltage_range_for_set(set_dir, functional_folders, fill_color, i, plot_optb88=True)
+    plot_voltage_range_for_set(set_dir, functional_folders, fill_color, i, plot_optb88=not plot_all_functionals)
 
 plt.axhline(y=0, color='black', linewidth=0.8, linestyle=':')
 # Add vertical line for IonC6 concentration
@@ -134,6 +144,9 @@ plt.grid(True, alpha=0.3, linestyle='-', linewidth=0.5)
 if xmax is not None:
     plt.xlim(0, xmax)
 plt.tight_layout()
-plt.savefig(f'{ion_type.lower()}_voltage_range_multi_with_optB88.png', dpi=600, bbox_inches='tight', 
+output_filename = f'{ion_type.lower()}_voltage_range_multi_with_optB88.png'
+if plot_all_functionals:
+    output_filename = f'{ion_type.lower()}_voltage_all_functionals.png'
+plt.savefig(output_filename, dpi=600, bbox_inches='tight', 
             facecolor='white', edgecolor='none')
 plt.show()
