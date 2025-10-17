@@ -232,7 +232,7 @@ def plot_custom_phase_diagram(
                             horizontalalignment="left",
                             verticalalignment="center",
                             fontproperties=elem_font)
-    
+
     # Set axis labels and limits
     ax.set_xlabel(f'{ion_element} Concentration')
     ax.set_ylabel('Formation Energy (meV/atom)')
@@ -259,6 +259,17 @@ def plot_custom_phase_diagram(
 
     # Improve grid
     ax.grid(True, alpha=0.3, linestyle='-', linewidth=0.5)
+
+    # Add vertical line for IonC6 concentration
+    ionc6_concentration = 1/7
+    plt.axvline(x=ionc6_concentration, color='red', linewidth=1, linestyle='--', alpha=0.7)
+    # Add annotation for IonC6 - positioned 1.5em to the right and just above x-axis
+    plt.annotate(f'{ion_element}C$_{6}$',
+                 xy=(ionc6_concentration, ax.get_ylim()[0]),
+                 xytext=(base_sz * 1, base_sz * 0.5),
+                 textcoords='offset points',
+                 ha='left', va='bottom', font=elem_font,
+                 color='red')
 
 
 def main():
