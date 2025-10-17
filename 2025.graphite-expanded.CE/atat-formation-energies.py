@@ -67,13 +67,14 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
             if not vaspdir.converged:
                 print(f"Skipping {target_dir}: unconverged")
                 continue
+            vaspdir_relax = IMDGVaspDir(p / "ATAT")
             comp = vaspdir.structure.composition
             entry = ComputedEntry(comp, vaspdir.final_energy)
             # Store volume in entry data
             entry.data["volume"] = vaspdir.structure.volume
             entry.data["ID"] = p
-            vol2 = vaspdir.structure.volume
-            vol1 = vaspdir.initial_structure.volume
+            vol2 = vaspdir_relax.structure.volume
+            vol1 = vaspdir_relax.initial_structure.volume
             entry.data["vol%"] = (vol2 - vol1) / vol1 * 100
             entries.append(entry)
         except Exception as e:
@@ -171,8 +172,8 @@ def plot_custom_phase_diagram(
         if entry.composition.is_element:
             continue
 
-        raw_label = f"{entry.name}\n{entry.data.get('ID', '')}\nvol%={entry.data.get('vol%', 'N/A')}%"
-        label = _to_subscript(raw_label)
+        raw_label = entry.name
+        label = str(entry.data.get('ID', '')) + ': ' + f"{entry.data.get('vol%', 'N/A'):.2f}" + '%, ' +_to_subscript(raw_label)
 
         # Calculate offset from center
         offset_radius_pt = base_sz * 1.5          # e.g. 9.6 pt for a base size of 8 pt
