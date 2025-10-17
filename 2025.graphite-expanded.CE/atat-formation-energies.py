@@ -124,6 +124,7 @@ def plot_custom_phase_diagram(
     for entry, coords in unstable_entries.items():
         e_above_hull = phd.get_e_above_hull(entry)
         if e_above_hull is not None and e_above_hull < show_unstable:
+            print(f"metastable:: {entry.data}, {coords[0]}, {coords[1]}")
             ax.plot(coords[0], np.array(coords[1]) * energy_mult, 's', 
                     markerfacecolor='#ff7f00', 
                     markeredgecolor='black',
