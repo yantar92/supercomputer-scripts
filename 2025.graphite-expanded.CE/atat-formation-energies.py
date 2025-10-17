@@ -174,7 +174,7 @@ def plot_custom_phase_diagram(
             continue
 
         raw_label = entry.name
-        label = str(entry.data.get('ID', '')) + ': ' + f"{entry.data.get('vol%', 'N/A'):.2f}" + '%, ' +_to_subscript(raw_label)
+        label = _to_subscript(raw_label)
 
         # Calculate offset from center
         offset_radius_pt = base_sz * 1.5          # e.g. 9.6 pt for a base size of 8 pt
@@ -238,36 +238,9 @@ def plot_custom_phase_diagram(
     ax.set_ylabel('Formation Energy (meV/atom)')
     ax.set_title(title if title is not None else f'{ion_element}-{matrix_element} Phase Diagram', pad=20)
     
-    # Set proper axis limits
     # Set proper axis limits based on max_conc
     ax.set_xlim(-0.05, max_conc + 0.05)
     
-    # # Adjust x‑ticks: ensure the maximum composition appears as the last tick.
-    # # Preserve existing ticks and add the max_conc tick if it is not already present.
-    # existing_xticks = list(ax.get_xticks())
-    # if max_conc not in existing_xticks:
-    #     existing_xticks.append(max_conc)
-    # # Sort ticks for a tidy axis.
-    # new_xticks = sorted(existing_xticks)
-    # ax.set_xticks(new_xticks)
-    # # Prepare tick labels: use the provided max_comp_label for the max_conc tick,
-    # # otherwise default to a formatted number.
-    # new_xtick_labels = []
-    # past_max_label = False
-    # for tick in new_xticks:
-    #     if max_comp_label is not None and np.isclose(tick, max_conc):
-    #         new_xtick_labels.append(str(max_comp_label))
-    #         past_max_label = True
-    #     elif past_max_label:
-    #         new_xtick_labels.append("")
-    #     else:
-    #         # Remove trailing zeros for cleaner appearance.
-    #         if tick.is_integer():
-    #             new_xtick_labels.append(str(int(tick)))
-    #         else:
-    #             new_xtick_labels.append(f"{tick:.2f}")
-    # ax.set_xticklabels(new_xtick_labels)
-
     # Calculate y limits from stable entries with padding
     all_y = [c[1] * energy_mult for c in stable_entries] +\
         [c[1] * energy_mult for _, c in unstable_entries.items()]
