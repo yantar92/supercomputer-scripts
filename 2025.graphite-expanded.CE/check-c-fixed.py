@@ -20,6 +20,8 @@ print(f'Collecting VASP dirs... done ({len(vasp_dirs)} found)')
 for d in alive_it(vasp_dirs, enrich_print=False, title="Scanning POSCARs"):
     vaspdir = IMDGVaspDir(d)
     poscar = vaspdir['POSCAR']
+    if poscar is None:
+        continue
     for site in poscar.structure:
         if site.specie.name == 'C' and list(site.properties.get('selective_dynamics', None)) != [False, False, False]:
             print(f"{d / 'POSCAR'} does not have fixed carbon!")
