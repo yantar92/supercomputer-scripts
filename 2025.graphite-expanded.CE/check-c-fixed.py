@@ -20,9 +20,9 @@ for d in vasp_dirs:
     poscar = Poscar.from_file(d / 'POSCAR')
     for site in poscar.structure:
         if site.specie.name == 'C' and list(site.properties.get('selective_dynamics', None)) != [False, False, False]:
-            print(f"{poscar} does not have fixed carbon!")
+            print(f"{d / 'POSCAR'} does not have fixed carbon!")
             continue
         if site.specie.name != 'C' and list(site.properties.get('selective_dynamics', None)) != [True, True, True]:
-            print(f"{poscar} unexpectedly fixes {site.specie.name}!")
+            print(f"{d / 'POSCAR'} unexpectedly fixes {site.specie.name}!")
             continue
 print('Scanning POSCARs... done')
