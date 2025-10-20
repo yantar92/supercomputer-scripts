@@ -65,7 +65,10 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
             if vaspdir.final_energy is None:
                 continue
             if not vaspdir.converged:
-                print(f"Skipping {target_dir}: unconverged")
+                if (target_dir / "INCAR").is_file():
+                    print(f"Skipping {target_dir}: unconverged")
+                else:
+                    print(f"Skipping {target_dir}: missing VASP inputs")
                 continue
             vaspdir_relax = IMDGVaspDir(p / "ATAT")
             comp = vaspdir.structure.composition
