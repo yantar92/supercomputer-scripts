@@ -13,7 +13,7 @@ vasp_dirs = []
 for path in Path('.').rglob('*'):
     if path.is_dir() and (path / 'POSCAR').is_file():
         vasp_dirs.append(path)
-print('Collecting VASP dirs... done')
+print(f'Collecting VASP dirs... done ({len(vasp_dirs)} found)')
 
 print('Scanning POSCARs...')
 for d in vasp_dirs:
