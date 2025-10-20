@@ -6,13 +6,16 @@ from pathlib import Path
 from pymatgen.io.vasp.inputs import Poscar
 
 
+print('Collecting VASP dirs...')
 vasp_dirs = []
 # Iterate over all the directories in cwd recursively
 # Collect directories containing POSCAR file into vasp_dirs
 for path in Path('.').rglob('*'):
     if path.is_dir() and (path / 'POSCAR').is_file():
         vasp_dirs.append(path)
+print('Collecting VASP dirs... done')
 
+print('Scanning POSCARs...')
 for d in vasp_dirs:
     poscar = Poscar.from_file(d / 'POSCAR')
     for site in poscar.structure:
@@ -22,3 +25,4 @@ for d in vasp_dirs:
         if site.specie.name != 'C' and site.properties.get('selective_dynamics', None) != [True, True, True]:
             print(f"{poscar} unexpectedly fixes {site.specie.name}!")
             continue
+print('Scanning POSCARs... done')
