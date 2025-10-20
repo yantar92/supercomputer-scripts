@@ -4,6 +4,7 @@ and non-carbons fully allowed to relax.
 """
 from pathlib import Path
 from pymatgen.io.vasp.inputs import Poscar
+from alive_progress import alive_it
 from IMDgroup.pymatgen.io.vasp.vaspdir import IMDGVaspDir
 
 
@@ -16,8 +17,7 @@ for parent, _, files in Path('.').walk():
         vasp_dirs.append(parent)
 print(f'Collecting VASP dirs... done ({len(vasp_dirs)} found)')
 
-print('Scanning POSCARs...')
-for d in vasp_dirs:
+for d in alive_it(vasp_dirs, enrich_print=False, title="Scanning POSCARs"):
     vaspdir = IMDGVaspDir(d)
     poscar = vaspdir['POSCAR']
     for site in poscar.structure:
