@@ -4,6 +4,7 @@ and non-carbons fully allowed to relax.
 """
 from pathlib import Path
 from pymatgen.io.vasp.inputs import Poscar
+from IMDgroup.pymatgen.io.vasp.vaspdir import IMDGVaspDir
 
 
 print('Collecting VASP dirs...')
@@ -17,7 +18,8 @@ print(f'Collecting VASP dirs... done ({len(vasp_dirs)} found)')
 
 print('Scanning POSCARs...')
 for d in vasp_dirs:
-    poscar = Poscar.from_file(d / 'POSCAR')
+    vaspdir = IMDGVaspDir(d)
+    poscar = vaspdir['POSCAR']
     for site in poscar.structure:
         if site.specie.name == 'C' and list(site.properties.get('selective_dynamics', None)) != [False, False, False]:
             print(f"{d / 'POSCAR'} does not have fixed carbon!")
