@@ -10,9 +10,9 @@ print('Collecting VASP dirs...')
 vasp_dirs = []
 # Iterate over all the directories in cwd recursively
 # Collect directories containing POSCAR file into vasp_dirs
-for path in Path('.').rglob('*'):
-    if path.is_dir() and (path / 'POSCAR').is_file():
-        vasp_dirs.append(path)
+for parent, _, files in Path('.').walk():
+    if 'POSCAR' in files:
+        vasp_dirs.append(parent)
 print(f'Collecting VASP dirs... done ({len(vasp_dirs)} found)')
 
 print('Scanning POSCARs...')
@@ -21,8 +21,8 @@ for d in vasp_dirs:
     for site in poscar.structure:
         if site.specie.name == 'C' and list(site.properties.get('selective_dynamics', None)) != [False, False, False]:
             print(f"{d / 'POSCAR'} does not have fixed carbon!")
-            continue
+            break
         if site.specie.name != 'C' and list(site.properties.get('selective_dynamics', None)) != [True, True, True]:
             print(f"{d / 'POSCAR'} unexpectedly fixes {site.specie.name}!")
-            continue
+            break
 print('Scanning POSCARs... done')
