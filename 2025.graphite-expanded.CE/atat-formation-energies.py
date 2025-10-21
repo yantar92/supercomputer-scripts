@@ -68,7 +68,8 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
                 if (target_dir / "INCAR").is_file():
                     print(f"Skipping {target_dir}: unconverged")
                 else:
-                    print(f"Skipping {target_dir}: missing VASP inputs")
+                    pass
+                    # print(f"Skipping {target_dir}: missing VASP inputs")
                 continue
             vaspdir_relax = IMDGVaspDir(p / "ATAT")
             comp = vaspdir.structure.composition
@@ -98,7 +99,7 @@ def plot_custom_phase_diagram(
     lines, stable_entries, unstable_entries = plotter.pd_plot_data
     all_stable_en = [c[1] for c in stable_entries]
     all_unstable_en = [c[1] for _, c in unstable_entries.items()]
-    print(f"Stable: {len(stable_entries)} ({min(all_stable_en)}..{max(all_stable_en)}eV); Unstable: {len(unstable_entries)} ({min(all_unstable_en)}..{max(all_unstable_en)}eV)")
+    # print(f"Stable: {len(stable_entries)} ({min(all_stable_en)}..{max(all_stable_en)}eV); Unstable: {len(unstable_entries)} ({min(all_unstable_en)}..{max(all_unstable_en)}eV)")
     
     # Set publication-quality style
     plt.style.use('default')
@@ -127,7 +128,7 @@ def plot_custom_phase_diagram(
     for entry, coords in unstable_entries.items():
         e_above_hull = phd.get_e_above_hull(entry)
         if e_above_hull is not None and e_above_hull < show_unstable:
-            print(f"metastable:: {entry.data}, {coords[0]}, {coords[1]}")
+            # print(f"metastable:: {entry.data}, {coords[0]}, {coords[1]}")
             ax.plot(coords[0], np.array(coords[1]) * energy_mult, 's', 
                     markerfacecolor='#ff7f00', 
                     markeredgecolor='black',
