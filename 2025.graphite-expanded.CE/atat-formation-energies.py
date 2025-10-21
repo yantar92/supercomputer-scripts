@@ -72,15 +72,15 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
                     pass
                     # print(f"Skipping {target_dir}: missing VASP inputs")
                 continue
-            vaspdir_relax = IMDGVaspDir(p / "ATAT")
+            # vaspdir_relax = IMDGVaspDir(p / "ATAT")
             comp = vaspdir.structure.composition
             entry = ComputedEntry(comp, vaspdir.final_energy)
             # Store volume in entry data
             entry.data["volume"] = vaspdir.structure.volume
             entry.data["ID"] = p
-            vol2 = vaspdir_relax.structure.volume
-            vol1 = vaspdir_relax.initial_structure.volume
-            entry.data["vol%"] = (vol2 - vol1) / vol1 * 100
+            # vol2 = vaspdir_relax.structure.volume
+            # vol1 = vaspdir_relax.initial_structure.volume
+            # entry.data["vol%"] = (vol2 - vol1) / vol1 * 100
             entries.append(entry)
         except Exception as e:
             print(f"Skipping {target_dir}: {str(e)}")
@@ -375,9 +375,9 @@ def main():
     c_entry = ComputedEntry(c_run.structure.composition, c_energy)
     c_entry.data["volume"] = c_run.structure.volume
     c_entry.data["ID"] = Path(args.matrix_vasprun)
-    vol2 = c_run.structure.volume
-    vol1 = c_run.initial_structure.volume
-    c_entry.data["vol%"] = (vol2 - vol1) / vol1 * 100
+    # vol2 = c_run.structure.volume
+    # vol1 = c_run.initial_structure.volume
+    # c_entry.data["vol%"] = (vol2 - vol1) / vol1 * 100
     print(f"C energy: {c_entry.energy_per_atom}")
 
     # Create figure with better aspect ratio
