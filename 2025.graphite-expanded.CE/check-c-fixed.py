@@ -23,10 +23,10 @@ for d in alive_it(vasp_dirs, enrich_print=False, title="Scanning POSCARs"):
     if poscar is None:
         continue
     for site in poscar.structure:
-        if site.specie.name == 'C' and list(site.properties.get('selective_dynamics', None)) != [False, False, False]:
+        if site.specie.name == 'C' and list(site.properties.get('selective_dynamics', [1, 1, 1])) != [False, False, False]:
             print(f"{d / 'POSCAR'} does not have fixed carbon!")
             break
-        if site.specie.name != 'C' and list(site.properties.get('selective_dynamics', None)) != [True, True, True]:
+        if site.specie.name != 'C' and list(site.properties.get('selective_dynamics', [1, 1, 1])) != [True, True, True]:
             print(f"{d / 'POSCAR'} unexpectedly fixes {site.specie.name}!")
             break
 print('Scanning POSCARs... done')
