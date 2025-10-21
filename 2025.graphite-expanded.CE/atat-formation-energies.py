@@ -12,6 +12,7 @@ import argparse
 import re
 from pathlib import Path
 import numpy as np
+import pandas as pd
 from pymatgen.core import Element, Composition
 from IMDgroup.pymatgen.io.vasp.vaspdir import IMDGVaspDir
 from pymatgen.entries.computed_entries import ComputedEntry
@@ -93,6 +94,8 @@ def plot_custom_phase_diagram(
         max_conc=1.0, show_unstable=1000,
         font_size=DEFAULT_FONT_SIZE, title=None, ymin=None, ymax=None):
     """Custom phase diagram plot that overrides pymatgen's hardcoded font settings."""
+
+    energy_mult = 1000
     
     # Create a PDPlotter to access the plotting data
     plotter = PDPlotter(phd, show_unstable=show_unstable)
@@ -100,6 +103,28 @@ def plot_custom_phase_diagram(
     all_stable_en = [c[1] for c in stable_entries]
     all_unstable_en = [c[1] for _, c in unstable_entries.items()]
     # print(f"Stable: {len(stable_entries)} ({min(all_stable_en)}..{max(all_stable_en)}eV); Unstable: {len(unstable_entries)} ({min(all_unstable_en)}..{max(all_unstable_en)}eV)")
+
+    # Save all the entries into formation_en.txt file
+    data_file = 'formation_en.txt'
+    data = [{
+        'ID': str(entry.data.get("ID")),
+        'Energy': entry.energy_per_atom,
+        'Concentration': coords[0],
+        'Formation Energy (meV/atom)': coords[1] * energy_mult
+    } for entry, coords in unstable_entries.items() if phd.get_e_above_hull(entry) is not None and phd.get_e_above_hull(entry) < show_unstable]
+    # Now, append all stable points to the same unstable_data
+    stable_data = [{
+        'ID': str(entry.data.get("ID")),
+        'Energy': entry.energy_per_atom,
+        'Concentration': coords[0],
+        'Formation Energy (meV/atom)': coords[1] * energy_mult
+    } for coords, entry in stable_entries.items()]
+    data.extend(stable_data)
+
+    if data:
+        df = pd.DataFrame(data)
+        df.to_csv(data_file, index=False, sep=' ')
+    print(f"Unstable energies saved to {data_file}")
     
     # Set publication-quality style
     plt.style.use('default')
@@ -123,7 +148,6 @@ def plot_custom_phase_diagram(
         'figure.titlesize': base_sz * 1.2,
     })
 
-    energy_mult = 1000
     # Plot unstable entries
     for entry, coords in unstable_entries.items():
         e_above_hull = phd.get_e_above_hull(entry)
