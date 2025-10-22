@@ -106,6 +106,7 @@ def plot_custom_phase_diagram(
 
     # Save all the entries into formation_en.txt file
     data_file = 'formation_en.txt'
+    gs_data_file = 'formation_en_gs.txt'
     data = [{
         'ID': str(entry.data.get("ID")),
         'Energy': entry.energy_per_atom,
@@ -124,7 +125,11 @@ def plot_custom_phase_diagram(
     if data:
         df = pd.DataFrame(data)
         df.to_csv(data_file, index=False, sep=' ')
-    print(f"Unstable energies saved to {data_file}")
+    print(f"All energies saved to {data_file}")
+    if stable_data:
+        df = pd.DataFrame(stable_data)
+        df.to_csv(gs_data_file, index=False, sep=' ')
+    print(f"GS energies saved to {gs_data_file}")
     
     # Set publication-quality style
     plt.style.use('default')
