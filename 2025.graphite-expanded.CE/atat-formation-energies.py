@@ -384,6 +384,7 @@ def main():
     fig, ax = plt.subplots(figsize=(4.13, 3)) # half A4
 
     path = Path('.')
+    print(f"Extra paths: {args.extra_data}")
     entries = get_entries_recursively(Path(path), args.extra_data)
     phd = PhaseDiagram(entries=entries + [li_entry, c_entry], 
                       elements=[Element("C"), args.ion])
