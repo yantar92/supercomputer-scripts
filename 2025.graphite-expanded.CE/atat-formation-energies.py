@@ -47,17 +47,23 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
     entries = []
     if extra_data is None:
         extra_data = []
-    all_dirs = [Path(path)] + [Path(path) / Path(p) for p in extra_data]
+    path = Path(path)
+    extra_dirs = [Path(path) / Path(p) for p in extra_data]
 
     vasp_dirs = []
-    for parent in all_dirs:
+    extra_vasp_dirs = []
+    for parent in [path] + extra_dirs:
         if not parent.is_dir():
             continue
         for p in parent.iterdir():
             if p.is_dir() and p.name.isdigit():
-                vasp_dirs.append(p)
+                if parent == path:
+                    vasp_dirs.append(p)
+                else:
+                    extra_vasp_dirs.append(p)
 
-    for p in alive_it(vasp_dirs, total=len(vasp_dirs), title='Reading VASP outputs'):
+    all_vasp_dirs = vasp_dirs + extra_vasp_dirs
+    for p in alive_it(all_vasp_dirs, total=len(all_vasp_dirs), title='Reading VASP outputs'):
         # Check for ATAT.SCF directory
         scf_dir = p / "ATAT.SCF"
         target_dir = scf_dir if scf_dir.is_dir() else p
@@ -78,6 +84,7 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
             # Store volume in entry data
             entry.data["volume"] = vaspdir.structure.volume
             entry.data["ID"] = p
+            entry.data["is_extra"] = p not in vasp_dirs
             # vol2 = vaspdir_relax.structure.volume
             # vol1 = vaspdir_relax.initial_structure.volume
             # entry.data["vol%"] = (vol2 - vol1) / vol1 * 100
@@ -153,13 +160,17 @@ def plot_custom_phase_diagram(
         'figure.titlesize': base_sz * 1.2,
     })
 
+    unstable_color = '#ff7f00'
+    unstable_extra_color = '#ff7f99'
     # Plot unstable entries
     for entry, coords in unstable_entries.items():
         e_above_hull = phd.get_e_above_hull(entry)
         if e_above_hull is not None and e_above_hull < show_unstable:
             # print(f"metastable:: {entry.data}, {coords[0]}, {coords[1]}")
-            ax.plot(coords[0], np.array(coords[1]) * energy_mult, 's', 
-                    markerfacecolor='#ff7f00', 
+            ax.plot(coords[0], np.array(coords[1]) * energy_mult, 's',
+                    markerfacecolor=unstable_extra_color
+                    if entry.data.get('is_extra', False)
+                    else unstable_color,
                     markeredgecolor='black',
                     markeredgewidth=edge_width,
                     alpha=0.7)
@@ -168,24 +179,34 @@ def plot_custom_phase_diagram(
     for x, y in lines:
         ax.plot(x, np.array(y) * energy_mult, 'k-', linewidth=1.2)
 
+    stable_color = '#4daf4a'
+    stable_extra_color = '#00cf9a'
     # Plot stable entries
     for coords in stable_entries:
         entry = stable_entries[coords]
         print(f"GS:: {entry.data}, {coords[0]}, {coords[1]}")
         ax.plot(coords[0], np.array(coords[1]) * energy_mult, 'o', 
-                markerfacecolor='#4daf4a', 
+                markerfacecolor=stable_extra_color
+                if entry.data.get('is_extra', False)
+                else stable_color,
                 markeredgecolor='black',
                 markersize=base_markersize * 1.8,
                 markeredgewidth=edge_width)
-    
 
     # Add legend for stable and unstable entries
     from matplotlib.lines import Line2D
     legend_handles = [
-        Line2D([], [], marker='o', color='none', markerfacecolor='#4daf4a',
+        Line2D([], [], marker='o', color='none', markerfacecolor=stable_color,
                markeredgecolor='black', label='Ground state'),
-        Line2D([], [], marker='s', color='none', markerfacecolor='#ff7f00',
-               markeredgecolor='black', label='Above hull')
+        Line2D([], [], marker='o', color='none',
+               markerfacecolor=stable_extra_color,
+               markeredgecolor='black', label='Ground state (perturb)'),
+        Line2D([], [], marker='s', color='none',
+               markerfacecolor=unstable_color,
+               markeredgecolor='black', label='Above hull'),
+        Line2D([], [], marker='s', color='none',
+               markerfacecolor=unstable_extra_color,
+               markeredgecolor='black', label='Above hull (perturb)'),
     ]
     ax.legend(handles=legend_handles, loc='best', fontsize=font_size)
     
