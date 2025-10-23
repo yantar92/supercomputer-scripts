@@ -62,7 +62,7 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
                 else:
                     extra_vasp_dirs.append(p)
 
-    all_vasp_dirs = extra_vasp_dirs + vasp_dirs
+    all_vasp_dirs = vasp_dirs + extra_vasp_dirs
     for p in alive_it(all_vasp_dirs, total=len(all_vasp_dirs), title='Reading VASP outputs'):
         # Check for ATAT.SCF directory
         scf_dir = p / "ATAT.SCF"
