@@ -90,7 +90,8 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
             # entry.data["vol%"] = (vol2 - vol1) / vol1 * 100
             is_duplicate = False
             for e in entries:
-                if np.isclose(e.energy, entry.energy, 0.0001):
+                if np.isclose(e.energy, entry.energy, 0.0001) and\
+                   np.isclose(e.data.get('volume', 0), entry.data.get('volume', 0)):
                     is_duplicate = True
                     break
             if not is_duplicate:
