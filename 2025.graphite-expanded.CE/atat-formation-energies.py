@@ -88,10 +88,9 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
             # vol2 = vaspdir_relax.structure.volume
             # vol1 = vaspdir_relax.initial_structure.volume
             # entry.data["vol%"] = (vol2 - vol1) / vol1 * 100
-            structure_number = Path(p).name
             is_duplicate = False
             for e in entries:
-                if e.data.get("ID", -1) == structure_number and np.isclose(e.energy, entry.energy, 0.0001):
+                if np.isclose(e.energy, entry.energy, 0.0001):
                     is_duplicate = True
                     break
             if not is_duplicate:
