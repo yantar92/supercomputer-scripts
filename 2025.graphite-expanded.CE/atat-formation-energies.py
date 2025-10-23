@@ -62,7 +62,7 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
                 else:
                     extra_vasp_dirs.append(p)
 
-    all_vasp_dirs = vasp_dirs + extra_vasp_dirs
+    all_vasp_dirs = extra_vasp_dirs + vasp_dirs
     for p in alive_it(all_vasp_dirs, total=len(all_vasp_dirs), title='Reading VASP outputs'):
         # Check for ATAT.SCF directory
         scf_dir = p / "ATAT.SCF"
@@ -198,15 +198,15 @@ def plot_custom_phase_diagram(
     legend_handles = [
         Line2D([], [], marker='o', color='none', markerfacecolor=stable_color,
                markeredgecolor='black', label='Ground state'),
-        Line2D([], [], marker='o', color='none',
-               markerfacecolor=stable_extra_color,
-               markeredgecolor='black', label='Ground state (perturb)'),
+        # Line2D([], [], marker='o', color='none',
+        #        markerfacecolor=stable_extra_color,
+        #        markeredgecolor='black', label='Ground state (perturb)'),
         Line2D([], [], marker='s', color='none',
                markerfacecolor=unstable_color,
                markeredgecolor='black', label='Above hull'),
-        Line2D([], [], marker='s', color='none',
-               markerfacecolor=unstable_extra_color,
-               markeredgecolor='black', label='Above hull (perturb)'),
+        # Line2D([], [], marker='s', color='none',
+        #        markerfacecolor=unstable_extra_color,
+        #        markeredgecolor='black', label='Above hull (perturb)'),
     ]
     ax.legend(handles=legend_handles, loc='best', fontsize=font_size)
     
