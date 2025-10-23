@@ -90,8 +90,10 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
             # entry.data["vol%"] = (vol2 - vol1) / vol1 * 100
             is_duplicate = False
             for e in entries:
+                if not entry.data.get('is_extra', False):
+                    continue
                 if np.isclose(e.energy, entry.energy, 0.0001) and\
-                   np.isclose(e.data.get('volume', 0), entry.data.get('volume', 0)):
+                   e.composition == entry.composition:
                     is_duplicate = True
                     break
             if not is_duplicate:
@@ -168,7 +170,7 @@ def plot_custom_phase_diagram(
     })
 
     unstable_color = '#ff7f00'
-    unstable_extra_color = '#ff7f99'
+    unstable_extra_color = '#ffdf99'
     # Plot unstable entries
     for entry, coords in unstable_entries.items():
         e_above_hull = phd.get_e_above_hull(entry)
@@ -187,7 +189,7 @@ def plot_custom_phase_diagram(
         ax.plot(x, np.array(y) * energy_mult, 'k-', linewidth=1.2)
 
     stable_color = '#4daf4a'
-    stable_extra_color = '#00cf9a'
+    stable_extra_color = '#50434a'
     # Plot stable entries
     for coords in stable_entries:
         entry = stable_entries[coords]
