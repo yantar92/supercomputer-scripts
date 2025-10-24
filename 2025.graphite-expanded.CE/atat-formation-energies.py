@@ -188,8 +188,8 @@ def plot_custom_phase_diagram(
     for x, y in lines:
         ax.plot(x, np.array(y) * energy_mult, 'k-', linewidth=1.2)
 
-    stable_color = '#4daf4a'
-    stable_extra_color = '#35fa38'
+    stable_color = '#35fa38'
+    stable_extra_color = '#4daffa'
     # Plot stable entries
     for coords in stable_entries:
         entry = stable_entries[coords]
@@ -233,7 +233,7 @@ def plot_custom_phase_diagram(
     ]
     
     ax.legend(handles=legend_handles, 
-              labels=['Ground state', 'Above hull'],
+              labels=['Ground state (original/perturbed)', 'Above hull (original/perturbed)'],
               handler_map={tuple: HandlerTuple(ndivide=None)},
               loc='best', fontsize=font_size)
     
