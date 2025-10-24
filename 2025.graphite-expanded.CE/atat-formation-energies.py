@@ -234,7 +234,7 @@ def plot_custom_phase_diagram(
     ]
     
     ax.legend(handles=legend_handles, 
-              labels=['Ground state', 'Above hull', 'Original / Perturbed'],
+              labels=['Ground state', 'Above hull', 'Origin / Perturb'],
               handler_map={tuple: HandlerTuple(ndivide=None)},
               loc='best', fontsize=font_size)
     
