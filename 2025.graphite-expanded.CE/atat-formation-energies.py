@@ -202,22 +202,40 @@ def plot_custom_phase_diagram(
                 markersize=base_markersize * 1.8,
                 markeredgewidth=edge_width)
 
-    # Add legend for stable and unstable entries
+    # Add legend for stable and unstable entries with dual colors
     from matplotlib.lines import Line2D
-    legend_handles = [
-        Line2D([], [], marker='o', color='none', markerfacecolor=stable_color,
-               markeredgecolor='black', label='Ground state'),
-        # Line2D([], [], marker='o', color='none',
-        #        markerfacecolor=stable_extra_color,
-        #        markeredgecolor='black', label='Ground state (perturb)'),
+    from matplotlib.legend_handler import HandlerTuple
+    
+    # Create dual-color markers for legend
+    stable_dual = (
+        Line2D([], [], marker='o', color='none', 
+               markerfacecolor=stable_color,
+               markeredgecolor='black', 
+               markersize=base_markersize * 1.8),
+        Line2D([], [], marker='o', color='none', 
+               markerfacecolor=stable_extra_color,
+               markeredgecolor='black', 
+               markersize=base_markersize * 1.8)
+    )
+    
+    unstable_dual = (
         Line2D([], [], marker='s', color='none',
                markerfacecolor=unstable_color,
-               markeredgecolor='black', label='Above hull'),
-        # Line2D([], [], marker='s', color='none',
-        #        markerfacecolor=unstable_extra_color,
-        #        markeredgecolor='black', label='Above hull (perturb)'),
+               markeredgecolor='black'),
+        Line2D([], [], marker='s', color='none',
+               markerfacecolor=unstable_extra_color,
+               markeredgecolor='black')
+    )
+    
+    legend_handles = [
+        stable_dual,
+        unstable_dual
     ]
-    ax.legend(handles=legend_handles, loc='best', fontsize=font_size)
+    
+    ax.legend(handles=legend_handles, 
+              labels=['Ground state', 'Above hull'],
+              handler_map={tuple: HandlerTuple(ndivide=None)},
+              loc='best', fontsize=font_size)
     
     # Calculate center for label positioning
     min_y = min(c[1] for c in stable_entries)
