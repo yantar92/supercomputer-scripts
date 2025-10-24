@@ -170,7 +170,7 @@ def plot_custom_phase_diagram(
     })
 
     unstable_color = '#ff7f00'
-    unstable_extra_color = '#ffdf99'
+    unstable_extra_color = '#d62728'
     # Plot unstable entries
     for entry, coords in unstable_entries.items():
         e_above_hull = phd.get_e_above_hull(entry)
@@ -189,7 +189,7 @@ def plot_custom_phase_diagram(
         ax.plot(x, np.array(y) * energy_mult, 'k-', linewidth=1.2)
 
     stable_color = '#4daf4a'
-    stable_extra_color = '#50434a'
+    stable_extra_color = '#35fa38'
     # Plot stable entries
     for coords in stable_entries:
         entry = stable_entries[coords]
