@@ -79,8 +79,10 @@ def get_entries_recursively(
             if not vaspdir.converged:
                 if (target_dir / "INCAR").is_file():
                     print(f"Skipping {target_dir}: unconverged")
+                    n_skipped += 1
                 else:
                     pass
+                    n_skipped += 1
                     # print(f"Skipping {target_dir}: missing VASP inputs")
                 continue
             # vaspdir_relax = IMDGVaspDir(p / "ATAT")
@@ -109,6 +111,7 @@ def get_entries_recursively(
                 n_rejected_perturbs += 1
         except Exception as e:
             print(f"Skipping {target_dir}: {str(e)}")
+            n_skipped += 1
     print(f"Read {len(vasp_dirs)} runs and {len(extra_vasp_dirs)} extra runs")
     print(f"Skipped: {n_skipped}; Extra runs close to main:"
           f" {n_rejected_perturbs}/{len(extra_vasp_dirs)}")
