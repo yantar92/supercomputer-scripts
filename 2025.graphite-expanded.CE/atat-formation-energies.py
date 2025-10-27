@@ -38,7 +38,10 @@ def _to_subscript(text: str) -> str:
     return re.sub(r'(\d+)', r'$_{\1}$', text)
 
 
-def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) -> list:
+def get_entries_recursively(
+        path: Path,
+        extra_data: list[Path] | None = None,
+        extra_data_threshold: float = 0.0001) -> list:
     """Scan PATH for energies and return a list of computed entries.
     EXTRA_DATA is a list of relative directories to be scanned in addition to
     PATH.
@@ -94,8 +97,10 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
             for e in entries:
                 if not entry.data.get('is_extra', False):
                     continue
-                if np.isclose(e.energy_per_atom, entry.energy_per_atom, 0.0001) and\
-                   e.composition == entry.composition:
+                if np.isclose(
+                        e.energy_per_atom, entry.energy_per_atom,
+                        extra_data_threshold)\
+                   and e.composition == entry.composition:
                     is_duplicate = True
                     break
             if not is_duplicate:
@@ -390,6 +395,10 @@ def main():
         default=[]
     )
     parser.add_argument(
+        "--extra_data_threshold", default=0.0001,
+        help="Min difference with main data to omit plotting extra data (default: 0.0001eV/atom)",
+        type=float)
+    parser.add_argument(
         "--dpi", default=600,
         help="Output DPI for publication quality (default: 300)",
         type=int)
@@ -446,7 +455,8 @@ def main():
 
     path = Path('.')
     print(f"Extra paths: {args.extra_data}")
-    entries = get_entries_recursively(Path(path), args.extra_data)
+    entries = get_entries_recursively(
+        Path(path), args.extra_data, args.extra_data_threshold)
     phd = PhaseDiagram(entries=entries + [li_entry, c_entry], 
                       elements=[Element("C"), args.ion])
     
