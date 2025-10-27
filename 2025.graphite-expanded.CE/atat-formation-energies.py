@@ -181,7 +181,6 @@ def plot_custom_phase_diagram(
         'figure.titlesize': base_sz * 1.2,
     })
 
-    # Use same colors for both ground and unstable states
     original_color = '#4daffa'  # Blue for original structures
     perturbed_color = '#fa4d4d'  # Red for perturbed structures
     # Plot unstable entries
@@ -201,14 +200,16 @@ def plot_custom_phase_diagram(
     for x, y in lines:
         ax.plot(x, np.array(y) * energy_mult, 'k-', linewidth=1.2)
 
+    original_color_gs = '#aaaade'
+    perturbed_color_gs = '#c55555'
     # Plot stable entries
     for coords in stable_entries:
         entry = stable_entries[coords]
         print(f"GS:: {entry.data}, {coords[0]}, {coords[1]}")
         ax.plot(coords[0], np.array(coords[1]) * energy_mult, 'o', 
-                markerfacecolor=perturbed_color
+                markerfacecolor=perturbed_color_gs
                 if entry.data.get('is_extra', False)
-                else original_color,
+                else original_color_gs,
                 markeredgecolor='black',
                 markersize=base_markersize * 1.8,
                 markeredgewidth=edge_width)
@@ -217,28 +218,49 @@ def plot_custom_phase_diagram(
     from matplotlib.lines import Line2D
     from matplotlib.legend_handler import HandlerTuple
     
-    # Create single markers for ground state and above hull
-    ground_state_marker = Line2D([], [], marker='o', color='none', 
-                                 markerfacecolor=original_color,
-                                 markeredgecolor='black', 
-                                 markersize=base_markersize * 1.8)
-    
-    above_hull_marker = Line2D([], [], marker='s', color='none',
-                               markerfacecolor=original_color,
-                               markeredgecolor='black')
-    
-    # Create dual-color marker for original/perturbed distinction
+    # Create single‑shape markers for the two “base” categories
+    ground_state_marker = Line2D(
+        [], [], marker='o', color='none',
+        markerfacecolor=original_color,   # original (stable) colour
+        markeredgecolor='black',
+        markersize=base_markersize * 1.8)
+
+    above_hull_marker = Line2D(
+        [], [], marker='s', color='none',
+        markerfacecolor=original_color,   # original (unstable) colour
+        markeredgecolor='black')
+
+    # Dual‑colour marker that now displays **four** colours:
+    #   • stable – original
+    #   • stable – perturbed
+    #   • unstable – original
+    #   • unstable – perturbed
     original_perturbed_dual = (
-        Line2D([], [], marker='o', color='none', 
-               markerfacecolor=original_color,
-               markeredgecolor='black', 
-               markersize=base_markersize),
-        Line2D([], [], marker='o', color='none', 
-               markerfacecolor=perturbed_color,
-               markeredgecolor='black', 
-               markersize=base_markersize)
+        # stable (ground‑state) markers
+        Line2D(
+            [], [], marker='o', color='none',
+            markerfacecolor=original_color_gs,
+            markeredgecolor='black',
+            markersize=base_markersize),
+        Line2D(
+            [], [], marker='o', color='none',
+            markerfacecolor=perturbed_color_gs,
+            markeredgecolor='black',
+            markersize=base_markersize),
+
+        # unstable (above‑hull) markers
+        Line2D(
+            [], [], marker='s', color='none',
+            markerfacecolor=original_color,
+            markeredgecolor='black',
+            markersize=base_markersize),
+        Line2D(
+            [], [], marker='s', color='none',
+            markerfacecolor=perturbed_color,
+            markeredgecolor='black',
+            markersize=base_markersize),
     )
-    
+
     legend_handles = [
         ground_state_marker,
         above_hull_marker,
