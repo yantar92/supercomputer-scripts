@@ -94,7 +94,7 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
             for e in entries:
                 if not entry.data.get('is_extra', False):
                     continue
-                if np.isclose(e.energy, entry.energy, 0.0001) and\
+                if np.isclose(e.energy_per_atom, entry.energy_per_atom, 0.0001) and\
                    e.composition == entry.composition:
                     is_duplicate = True
                     break
