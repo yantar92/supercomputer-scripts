@@ -230,49 +230,44 @@ def plot_custom_phase_diagram(
         markerfacecolor=original_color,   # original (unstable) colour
         markeredgecolor='black')
 
-    # Dual‑colour marker that now displays **four** colours:
-    #   • stable – original
-    #   • stable – perturbed
-    #   • unstable – original
-    #   • unstable – perturbed
-    original_perturbed_dual = (
-        # stable (ground‑state) – original
-        (Line2D(
+    original_perturbed_dual_gs = (
+        Line2D(
             [], [], marker='o', color='none',
             markerfacecolor=original_color_gs,
             markeredgecolor='black',
-            markersize=base_markersize),),
+            markersize=base_markersize),
 
-        # stable (ground‑state) – perturbed
-        (Line2D(
-            [], [], marker='o', color='none',
-            markerfacecolor=perturbed_color_gs,
-            markeredgecolor='black',
-            markersize=base_markersize),),
-
-        # unstable (above‑hull) – original
-        (Line2D(
+        Line2D(
             [], [], marker='s', color='none',
             markerfacecolor=original_color,
             markeredgecolor='black',
-            markersize=base_markersize),),
+            markersize=base_markersize),
 
-        # unstable (above‑hull) – perturbed
-        (Line2D(
+    )
+
+    original_perturbed_dual_above_hull = (
+        Line2D(
+            [], [], marker='o', color='none',
+            markerfacecolor=perturbed_color_gs,
+            markeredgecolor='black',
+            markersize=base_markersize),
+
+        Line2D(
             [], [], marker='s', color='none',
             markerfacecolor=perturbed_color,
             markeredgecolor='black',
-            markersize=base_markersize),),
+            markersize=base_markersize),
     )
 
     legend_handles = [
         ground_state_marker,
         above_hull_marker,
-        original_perturbed_dual
+        original_perturbed_dual_gs,
+        original_perturbed_dual_above_hull,
     ]
     
     ax.legend(handles=legend_handles, 
-              labels=['Ground state', 'Above hull', 'Origin / Perturb'],
+              labels=['Ground state', 'Above hull', 'Original', 'Perturbed'],
               handler_map={tuple: HandlerTuple(ndivide=None)},
               loc='best', fontsize=font_size)
     
