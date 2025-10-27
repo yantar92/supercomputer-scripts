@@ -63,6 +63,8 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
                     extra_vasp_dirs.append(p)
 
     all_vasp_dirs = vasp_dirs + extra_vasp_dirs
+    n_rejected_perturbs = 0
+    n_skipped = 0
     for p in alive_it(all_vasp_dirs, total=len(all_vasp_dirs), title='Reading VASP outputs'):
         # Check for ATAT.SCF directory
         scf_dir = p / "ATAT.SCF"
@@ -98,8 +100,13 @@ def get_entries_recursively(path: Path, extra_data: list[Path] | None = None) ->
                     break
             if not is_duplicate:
                 entries.append(entry)
+            else:
+                n_rejected_perturbs += 1
         except Exception as e:
             print(f"Skipping {target_dir}: {str(e)}")
+    print(f"Read {len(vasp_dirs)} runs and {len(extra_vasp_dirs)} extra runs")
+    print(f"Skipped: {n_skipped}; Extra runs close to main:"
+          f" {n_rejected_perturbs}/{len(extra_vasp_dirs)}")
     return entries
 
 
