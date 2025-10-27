@@ -221,7 +221,7 @@ def plot_custom_phase_diagram(
     # Create single‑shape markers for the two “base” categories
     ground_state_marker = Line2D(
         [], [], marker='o', color='none',
-        markerfacecolor=original_color,   # original (stable) colour
+        markerfacecolor=original_color_gs,   # original (stable) colour
         markeredgecolor='black',
         markersize=base_markersize * 1.8)
 
@@ -236,29 +236,33 @@ def plot_custom_phase_diagram(
     #   • unstable – original
     #   • unstable – perturbed
     original_perturbed_dual = (
-        # stable (ground‑state) markers
-        Line2D(
+        # stable (ground‑state) – original
+        (Line2D(
             [], [], marker='o', color='none',
             markerfacecolor=original_color_gs,
             markeredgecolor='black',
-            markersize=base_markersize),
-        Line2D(
+            markersize=base_markersize),),
+
+        # stable (ground‑state) – perturbed
+        (Line2D(
             [], [], marker='o', color='none',
             markerfacecolor=perturbed_color_gs,
             markeredgecolor='black',
-            markersize=base_markersize),
+            markersize=base_markersize),),
 
-        # unstable (above‑hull) markers
-        Line2D(
+        # unstable (above‑hull) – original
+        (Line2D(
             [], [], marker='s', color='none',
             markerfacecolor=original_color,
             markeredgecolor='black',
-            markersize=base_markersize),
-        Line2D(
+            markersize=base_markersize),),
+
+        # unstable (above‑hull) – perturbed
+        (Line2D(
             [], [], marker='s', color='none',
             markerfacecolor=perturbed_color,
             markeredgecolor='black',
-            markersize=base_markersize),
+            markersize=base_markersize),),
     )
 
     legend_handles = [
