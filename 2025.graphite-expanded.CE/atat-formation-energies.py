@@ -41,7 +41,7 @@ def _to_subscript(text: str) -> str:
 def get_entries_recursively(
         path: Path,
         extra_data: list[Path] | None = None,
-        extra_data_threshold: float = 0.0001) -> list:
+        extra_data_threshold: float = 0.001) -> list:
     """Scan PATH for energies and return a list of computed entries.
     EXTRA_DATA is a list of relative directories to be scanned in addition to
     PATH.
@@ -419,8 +419,8 @@ def main():
         default=[]
     )
     parser.add_argument(
-        "--extra_data_threshold", default=0.0001,
-        help="Min difference with main data to omit plotting extra data (default: 0.0001eV/atom)",
+        "--extra_data_threshold", default=0.001,
+        help="Min difference with main data to omit plotting extra data (default: 0.001eV/atom)",
         type=float)
     parser.add_argument(
         "--dpi", default=600,
