@@ -235,7 +235,7 @@ def plot_custom_phase_diagram(
 
     original_perturbed_dual = (
         Line2D(
-            [], [], marker='o', color='none',
+            [], [], marker='s', color='none',
             markerfacecolor=original_color,
             markeredgecolor=None,
             markersize=base_markersize),
