@@ -233,7 +233,7 @@ def plot_custom_phase_diagram(
         markerfacecolor=original_color,   # original (unstable) colour
         markeredgecolor='black')
 
-    original_perturbed_dual_above_hull = (
+    original_perturbed_dual = (
         Line2D(
             [], [], marker='o', color='none',
             markerfacecolor=original_color,
