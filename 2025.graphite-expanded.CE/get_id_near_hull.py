@@ -164,7 +164,7 @@ def main():
     } for coords, entry in stable_entries.items()]
     data.extend(stable_data)
     for rec in data:
-        if not rec['ID'] == args.metal_vasprun:
+        if not rec['ID'] == str(args.metal_vasprun):
             print(rec['ID'])
 
 
