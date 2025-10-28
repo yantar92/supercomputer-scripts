@@ -164,7 +164,8 @@ def main():
     } for coords, entry in stable_entries.items()]
     data.extend(stable_data)
     for rec in data:
-        print(rec['ID'])
+        if not rec['ID'] == li_entry.data["ID"]:
+            print(rec['ID'])
 
 
 if __name__ == "__main__":
