@@ -165,7 +165,7 @@ def main():
     data.extend(stable_data)
     with open('near_hull.txt', 'w') as f:
         for rec in data:
-            f.write(rec['ID'])
+            f.write(f"{rec['ID']}\n")
     print('Points near hull saved to near_hull.txt')
     
 
