@@ -163,10 +163,11 @@ def main():
         'Formation Energy (meV/atom)': coords[1] * 1000
     } for coords, entry in stable_entries.items()]
     data.extend(stable_data)
-    for rec in data:
-        if not rec['ID'] == str(args.metal_vasprun):
-            print(rec['ID'])
-
+    with open('near_hull.txt', 'w') as f:
+        for rec in data:
+            f.write(rec['ID'])
+    print('Points near hull saved to near_hull.txt')
+    
 
 if __name__ == "__main__":
     main()
