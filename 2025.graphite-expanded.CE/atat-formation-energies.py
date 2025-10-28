@@ -203,8 +203,8 @@ def plot_custom_phase_diagram(
     for x, y in lines:
         ax.plot(x, np.array(y) * energy_mult, 'k-', linewidth=1.2)
 
-    original_color_gs = '#aaaade'
-    perturbed_color_gs = '#c55555'
+    original_color_gs = '#00af00'
+    perturbed_color_gs = original_color_gs
     # Plot stable entries
     for coords in stable_entries:
         entry = stable_entries[coords]
