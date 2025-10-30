@@ -351,7 +351,7 @@ def plot_custom_phase_diagram(
     # Apply padding (same factor as before)
     y_padding = (y_max - y_min) * 0.1
     # Use manual limits if provided, otherwise apply padded limits
-    if ymin is not None:
+    if ymin is not None and ymin < y_min:
         y_min = ymin
         y_padding = 0
     if ymax is not None:
