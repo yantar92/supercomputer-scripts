@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 get_n_jobs () {
-    squeue -u $USER -o %Z | tail -n +2 | wc -l
+    squeue -u $USER -o %Z | tail -n +2 | wc -l;
 }
 
 [ -z "$1" ] && max_jobs="100" || max_jobs="$1"
