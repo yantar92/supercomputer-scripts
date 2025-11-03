@@ -41,7 +41,7 @@ for wdir, _, files in os.walk('.'):
         dir_list.append(wdir)
 dir_list = sorted(dir_list)
 for wdir in dir_list:
-    if n_jobs >= max_jobs:
+    if (not args.mark) and n_jobs >= max_jobs:
         n_jobs = jobs_submitted()
         if n_jobs >= max_jobs:
             print("run_all: Waiting for submitted jobs to finish")
