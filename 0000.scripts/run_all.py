@@ -22,6 +22,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument("--max_jobs", help="Max number of jobs allowed", type=int, default=max_jobs)
 parser.add_argument("--nodes", help="Number of nodes", type=int, default=1)
 parser.add_argument("--noperturb", help="When provided, skip nested perturb folders", action="store_true")
+parser.add_argument("--mark", help="When provided, pass --mark to gorun", action="store_true")
 args = parser.parse_args()
 max_jobs = args.max_jobs
 args.kpoints = 10000
@@ -30,7 +31,10 @@ args.skip_relax = False
 args.max_strain = 5.40
 #args.sublattice_cutoff = 0.5
 args.sublattice_cutoff = 0.1
-args.vasp_command = ['gorun', str(args.nodes), '48:00:00']
+if args.mark:
+    args.vasp_command = ['gorun', str(args.nodes), '48:00:00', '--mark']
+else:
+    args.vasp_command = ['gorun', str(args.nodes), '48:00:00']
 dir_list = []
 for wdir, _, files in os.walk('.'):
     if 'str.out' in files and not ('energy' in files or 'error' in files or (args.noperturb and 'perturb' in wdir)):
