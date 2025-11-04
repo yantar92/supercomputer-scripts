@@ -142,14 +142,16 @@ def plot_custom_phase_diagram(
         'ID': str(entry.data.get("ID")),
         'Energy': entry.energy_per_atom,
         'Concentration': coords[0],
-        'Formation Energy (meV/atom)': coords[1] * energy_mult
+        'Formation Energy (meV/atom)': coords[1] * energy_mult,
+        'Formula': f"{ion_element}C{int((1 - coords[0])/coords[0])}"
     } for entry, coords in unstable_entries.items() if phd.get_e_above_hull(entry) is not None and phd.get_e_above_hull(entry) < show_unstable]
     # Now, append all stable points to the same unstable_data
     stable_data = [{
         'ID': str(entry.data.get("ID")),
         'Energy': entry.energy_per_atom,
         'Concentration': coords[0],
-        'Formation Energy (meV/atom)': coords[1] * energy_mult
+        'Formation Energy (meV/atom)': coords[1] * energy_mult,
+        'Formula': f"{ion_element}C{int((1 - coords[0])/coords[0])}"
     } for coords, entry in stable_entries.items()]
     data.extend(stable_data)
 
