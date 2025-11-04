@@ -67,7 +67,7 @@ def main():
             vaspdir = IMDGVaspDir(target_dir)
             if vaspdir.final_energy is None:
                 continue
-            if not vaspdir.converged:
+            if not vaspdir.converged and (target_dir / "INCAR").is_file():
                 print(f"Skipping {target_dir}: unconverged")
                 continue
             comp = vaspdir.structure.composition
