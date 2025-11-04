@@ -482,9 +482,12 @@ def main():
     plt.tight_layout()
     
     # Save with publication quality settings
-    output_file = f'formation_en.{args.format}'
-    plt.savefig(output_file, dpi=args.dpi, bbox_inches='tight', 
-                facecolor='white', edgecolor='none')
+    output_file = [f'formation_en.{args.format}']
+    if not args.format == "svg":
+        output_file.append('formation_en.svg')
+    for output in output_file:
+        plt.savefig(output, dpi=args.dpi, bbox_inches='tight', 
+                    facecolor='white', edgecolor='none')
     plt.close()
 
     print(f"Formation energy profile saved to {output_file}")
