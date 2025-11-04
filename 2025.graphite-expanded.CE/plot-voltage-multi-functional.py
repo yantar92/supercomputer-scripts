@@ -86,8 +86,8 @@ def plot_voltage_range_for_set(set_dir, functional_folders, color, set_idx, plot
             color=color, alpha=0.35
         )
         # Plot area boundaries without labels
-        plt.step(all_x, voltage_min, where='post', color=color, linewidth=1, linestyle='--')
-        plt.step(all_x, voltage_max, where='post', color=color, linewidth=1, linestyle='--')
+        # plt.step(all_x, voltage_min, where='post', color=color, linewidth=1, linestyle='--')
+        # plt.step(all_x, voltage_max, where='post', color=color, linewidth=1, linestyle='--')
 
         # Plot optB88-vdW as solid line with custom label
         if plot_optb88 and 'optB88-vdW' in dfs:
