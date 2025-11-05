@@ -63,6 +63,8 @@ def main():
         # Check for ATAT.SCF directory
         scf_dir = p / "ATAT.SCF"
         target_dir = scf_dir if scf_dir.is_dir() else p
+        if not (target_dir / "INCAR").is_file():
+            continue
         try:
             vaspdir = IMDGVaspDir(target_dir)
             if vaspdir.final_energy is None:
