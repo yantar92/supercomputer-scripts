@@ -18,6 +18,10 @@ parser.add_argument('--labels', nargs='+',
                    help='Custom labels for optB88-vdW plots (one per data set)')
 parser.add_argument('--xmax', type=float, 
                    help='Maximum concentration to plot (x-axis limit)')
+parser.add_argument('--ymin', type=float, 
+                   help='Min voltage to plot (y-axis limit)')
+parser.add_argument('--ymax', type=float, 
+                   help='Max voltage to plot (y-axis limit)')
 parser.add_argument('--plot_all_functionals', action='store_true',
                    help='Plot all functionals individually as step plots with functional labels')
 args = parser.parse_args()
@@ -27,6 +31,8 @@ ion_type = args.ion
 plot_title = args.title
 custom_labels = args.labels if args.labels else None
 xmax = args.xmax
+ymin = args.xmax
+ymax = args.xmax
 plot_all_functionals = args.plot_all_functionals
 
 functional_folders = {
@@ -125,6 +131,8 @@ colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
 for i, set_dir in enumerate(data_sets):
     fill_color = colors[i % len(colors)]
     plot_voltage_range_for_set(set_dir, functional_folders, fill_color, i, plot_optb88=not plot_all_functionals)
+
+plt.ylim(ymin, ymax)
 
 plt.axhline(y=0, color='black', linewidth=0.8, linestyle=':')
 # Add vertical line for IonC6 concentration
