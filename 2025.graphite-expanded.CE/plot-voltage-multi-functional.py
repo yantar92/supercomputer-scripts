@@ -18,7 +18,7 @@ parser.add_argument('--labels', nargs='+',
                    help='Custom labels for optB88-vdW plots (one per data set)')
 parser.add_argument('--xmax', type=float, 
                    help='Maximum concentration to plot (x-axis limit)')
-parser.add_argument('--plot-all-functionals', action='store_true',
+parser.add_argument('--plot_all_functionals', action='store_true',
                    help='Plot all functionals individually as step plots with functional labels')
 args = parser.parse_args()
 
