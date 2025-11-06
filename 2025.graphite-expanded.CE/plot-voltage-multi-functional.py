@@ -31,8 +31,8 @@ ion_type = args.ion
 plot_title = args.title
 custom_labels = args.labels if args.labels else None
 xmax = args.xmax
-ymin = args.xmax
-ymax = args.xmax
+ymin = args.ymin
+ymax = args.ymax
 plot_all_functionals = args.plot_all_functionals
 
 functional_folders = {
