@@ -164,9 +164,10 @@ def plot_custom_phase_diagram(
         df = pd.DataFrame(stable_data)
         df.to_csv(gs_data_file, index=False, sep=' ')
     print(f"GS energies saved to {gs_data_file}")
-    if phd.qhull_entries:
+    if phd.all_entries:
         min_entries = []
-        for entry in phd.qhull_entries:
+        for group in phd.all_entries:
+            entry = min(group, key=lambda e: e.energy_per_atom)
             min_entries.append({
                 'ID': str(entry.data.get("ID")),
                 "Energy": entry.energy_per_atom,
