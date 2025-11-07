@@ -10,6 +10,7 @@ Saves formation vs. concentration plot into "formation_en.png".
 """
 import argparse
 import re
+import itertools
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -166,7 +167,8 @@ def plot_custom_phase_diagram(
     print(f"GS energies saved to {gs_data_file}")
     if phd.all_entries:
         min_entries = []
-        for group in phd.all_entries:
+        for _, group_iter in itertools.groupby(phd.all_entries, key=lambda e: e.composition.reduced_composition):
+            group = list(group_iter)
             entry = min(group, key=lambda e: e.energy_per_atom)
             min_entries.append({
                 'ID': str(entry.data.get("ID")),
