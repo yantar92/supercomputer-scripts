@@ -138,6 +138,7 @@ def plot_custom_phase_diagram(
     # Save all the entries into formation_en.txt file
     data_file = 'formation_en.txt'
     gs_data_file = 'formation_en_gs.txt'
+    min_data_file = 'formation_en_min.txt'
     data = [{
         'ID': str(entry.data.get("ID")),
         'Energy': entry.energy_per_atom,
@@ -163,6 +164,19 @@ def plot_custom_phase_diagram(
         df = pd.DataFrame(stable_data)
         df.to_csv(gs_data_file, index=False, sep=' ')
     print(f"GS energies saved to {gs_data_file}")
+    if phd.qhull_entries:
+        min_entries = []
+        for entry in phd.qhull_entries:
+            min_entries.append({
+                'ID': str(entry.data.get("ID")),
+                "Energy": entry.energy_per_atom,
+                "Formation energy (meV/atom)": phd.get_form_energy_per_atom(entry) * mult,
+                "Energy above hull (meV/atom)": phd.get_e_above_hull(entry) * mult,
+                "Composition": entry.composition,
+            })
+        df = pd.DataFrame(min_entries)
+        df.to_csv(min_data_file, index=False, sep=' ')
+        print(f'Min energies saved to {min_data_file}')
     
     # Set publication-quality style
     plt.style.use('default')
