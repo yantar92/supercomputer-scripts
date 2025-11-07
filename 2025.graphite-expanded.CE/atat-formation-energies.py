@@ -172,7 +172,7 @@ def plot_custom_phase_diagram(
                 "Energy": entry.energy_per_atom,
                 "Formation energy (meV/atom)": phd.get_form_energy_per_atom(entry) * energy_mult,
                 "Energy above hull (meV/atom)": phd.get_e_above_hull(entry) * energy_mult,
-                "Composition": entry.composition,
+                "Reduced formula": entry.reduced_formula,
             })
         df = pd.DataFrame(min_entries)
         df.to_csv(min_data_file, index=False, sep=' ')
