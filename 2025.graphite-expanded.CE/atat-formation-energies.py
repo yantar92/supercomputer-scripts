@@ -170,8 +170,8 @@ def plot_custom_phase_diagram(
             min_entries.append({
                 'ID': str(entry.data.get("ID")),
                 "Energy": entry.energy_per_atom,
-                "Formation energy (meV/atom)": phd.get_form_energy_per_atom(entry) * mult,
-                "Energy above hull (meV/atom)": phd.get_e_above_hull(entry) * mult,
+                "Formation energy (meV/atom)": phd.get_form_energy_per_atom(entry) * energy_mult,
+                "Energy above hull (meV/atom)": phd.get_e_above_hull(entry) * energy_mult,
                 "Composition": entry.composition,
             })
         df = pd.DataFrame(min_entries)
