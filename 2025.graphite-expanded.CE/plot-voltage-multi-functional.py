@@ -26,6 +26,8 @@ parser.add_argument('--plot_all_functionals', action='store_true',
                    help='Plot all functionals individually as step plots with functional labels')
 parser.add_argument('--plot_no_functionals', action='store_true',
                     help='Do not plot multiple functionals')
+parser.add_argument('--plot_capacity', action='store_true',
+                    help='Plot capacities rather than fractional concentration')
 args = parser.parse_args()
 
 data_sets = args.data_sets
@@ -37,6 +39,7 @@ ymin = args.ymin
 ymax = args.ymax
 plot_all_functionals = args.plot_all_functionals
 plot_no_functionals = args.plot_no_functionals
+plot_capacity = args.plot_capacity
 
 functional_folders = {
     'optB88-vdW': '.',
@@ -48,6 +51,7 @@ functional_folders = {
 
 def plot_voltage_range_for_set(set_dir, functional_folders, color, set_idx, plot_optb88=True):
     dfs = {}
+    x_name = 'capacity' if plot_capacity else 'x'
     for func_label, func_folder in functional_folders.items():
         filepath = Path(set_dir) / func_folder / 'voltage.out'
         if filepath.is_file():
@@ -66,16 +70,16 @@ def plot_voltage_range_for_set(set_dir, functional_folders, color, set_idx, plot
     # Plot individual functionals if flag is set
     if plot_all_functionals and not plot_no_functionals:
         for func_label, df in dfs.items():
-            plt.step(df['x'].values, df['voltage'].values, where='post', 
+            plt.step(df[x_name].values, df['voltage'].values, where='post', 
                     linewidth=1.5, linestyle='-', 
                     label=f'{set_dir} - {func_label}')
     else:
         if not plot_no_functionals:
             # Envelope across all functionals
-            all_x = np.unique(np.concatenate([df['x'].values for df in dfs.values()]))
+            all_x = np.unique(np.concatenate([df[x_name].values for df in dfs.values()]))
             interp_voltages = {}
             for func_label, df in dfs.items():
-                v_interp = np.interp(all_x, df['x'].values, df['voltage'].values)
+                v_interp = np.interp(all_x, df[x_name].values, df['voltage'].values)
                 interp_voltages[func_label] = v_interp
 
             stacked = np.column_stack(list(interp_voltages.values()))
@@ -106,7 +110,7 @@ def plot_voltage_range_for_set(set_dir, functional_folders, color, set_idx, plot
                 label = custom_labels[set_idx]
             else:
                 label = set_dir
-            plt.plot(df_optb['x'].values, df_optb['voltage'].values,
+            plt.plot(df_optb[x_name].values, df_optb['voltage'].values,
                     color=color, linewidth=2, label=label)
 
 # Set publication-quality style matching atat-formation-energies.py
@@ -139,15 +143,18 @@ for i, set_dir in enumerate(data_sets):
 plt.ylim(ymin, ymax)
 
 plt.axhline(y=0, color='black', linewidth=0.8, linestyle=':')
-# Add vertical line for IonC6 concentration
-ionc6_concentration = 1/7
-plt.axvline(x=ionc6_concentration, color='red', linewidth=1, linestyle='--', alpha=0.7)
-# Add annotation for IonC6
-plt.annotate(f'{ion_type}C$_{6}$', xy=(ionc6_concentration, plt.ylim()[1]*0.95), 
-             xytext=(ionc6_concentration+0.02, plt.ylim()[1]*0.95),
-             ha='left', va='top', fontsize=base_sz,
-             arrowprops=dict(arrowstyle='->', color='red', alpha=0.7, lw=0.8))
-plt.xlabel(f'{ion_type} concentration')
+if not plot_capacity:
+    # Add vertical line for IonC6 concentration
+    ionc6_concentration = 1/7
+    plt.axvline(x=ionc6_concentration, color='red', linewidth=1, linestyle='--', alpha=0.7)
+    # Add annotation for IonC6
+    plt.annotate(f'{ion_type}C$_{6}$', xy=(ionc6_concentration, plt.ylim()[1]*0.95), 
+                 xytext=(ionc6_concentration+0.02, plt.ylim()[1]*0.95),
+                 ha='left', va='top', fontsize=base_sz,
+                 arrowprops=dict(arrowstyle='->', color='red', alpha=0.7, lw=0.8))
+    plt.xlabel(f'{ion_type} concentration')
+else:
+    plt.xlabel('Capacity / mAh/g')
 plt.ylabel(fr'Voltage vs {ion_type}/{ion_type}$^+$ / V')
 plt.gca().xaxis.set_major_formatter(plt.FormatStrFormatter('%.2f'))
 plt.title(plot_title, pad=20)
