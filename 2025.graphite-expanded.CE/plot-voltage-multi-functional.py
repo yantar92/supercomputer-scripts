@@ -24,6 +24,8 @@ parser.add_argument('--ymax', type=float,
                    help='Max voltage to plot (y-axis limit)')
 parser.add_argument('--plot_all_functionals', action='store_true',
                    help='Plot all functionals individually as step plots with functional labels')
+parser.add_argument('--plot_no_functionals', action='store_true',
+                    help='Do not plot multiple functionals')
 args = parser.parse_args()
 
 data_sets = args.data_sets
@@ -34,6 +36,7 @@ xmax = args.xmax
 ymin = args.ymin
 ymax = args.ymax
 plot_all_functionals = args.plot_all_functionals
+plot_no_functionals = args.plot_no_functionals
 
 functional_folders = {
     'optB88-vdW': '.',
@@ -61,39 +64,40 @@ def plot_voltage_range_for_set(set_dir, functional_folders, color, set_idx, plot
         return
 
     # Plot individual functionals if flag is set
-    if plot_all_functionals:
+    if plot_all_functionals and not plot_no_functionals:
         for func_label, df in dfs.items():
             plt.step(df['x'].values, df['voltage'].values, where='post', 
                     linewidth=1.5, linestyle='-', 
                     label=f'{set_dir} - {func_label}')
     else:
-        # Envelope across all functionals
-        all_x = np.unique(np.concatenate([df['x'].values for df in dfs.values()]))
-        interp_voltages = {}
-        for func_label, df in dfs.items():
-            v_interp = np.interp(all_x, df['x'].values, df['voltage'].values)
-            interp_voltages[func_label] = v_interp
+        if not plot_no_functionals:
+            # Envelope across all functionals
+            all_x = np.unique(np.concatenate([df['x'].values for df in dfs.values()]))
+            interp_voltages = {}
+            for func_label, df in dfs.items():
+                v_interp = np.interp(all_x, df['x'].values, df['voltage'].values)
+                interp_voltages[func_label] = v_interp
 
-        stacked = np.column_stack(list(interp_voltages.values()))
-        voltage_min = np.min(stacked, axis=1)
-        voltage_max = np.max(stacked, axis=1)
+            stacked = np.column_stack(list(interp_voltages.values()))
+            voltage_min = np.min(stacked, axis=1)
+            voltage_max = np.max(stacked, axis=1)
 
-        def step_data(x, y):
-            x_step = np.repeat(x, 2)[1:]
-            y_step = np.repeat(y, 2)[:-1]
-            return x_step, y_step
+            def step_data(x, y):
+                x_step = np.repeat(x, 2)[1:]
+                y_step = np.repeat(y, 2)[:-1]
+                return x_step, y_step
 
-        x_step, min_step = step_data(all_x, voltage_min)
-        _, max_step = step_data(all_x, voltage_max)
+            x_step, min_step = step_data(all_x, voltage_min)
+            _, max_step = step_data(all_x, voltage_max)
 
-        # Plot shaded area without label
-        plt.fill_between(
-            x_step, min_step, max_step, step='pre',
-            color=color, alpha=0.35
-        )
-        # Plot area boundaries without labels
-        # plt.step(all_x, voltage_min, where='post', color=color, linewidth=1, linestyle='--')
-        # plt.step(all_x, voltage_max, where='post', color=color, linewidth=1, linestyle='--')
+            # Plot shaded area without label
+            plt.fill_between(
+                x_step, min_step, max_step, step='pre',
+                color=color, alpha=0.35
+            )
+            # Plot area boundaries without labels
+            # plt.step(all_x, voltage_min, where='post', color=color, linewidth=1, linestyle='--')
+            # plt.step(all_x, voltage_max, where='post', color=color, linewidth=1, linestyle='--')
 
         # Plot optB88-vdW as solid line with custom label
         if plot_optb88 and 'optB88-vdW' in dfs:
