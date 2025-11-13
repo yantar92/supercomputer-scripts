@@ -153,10 +153,10 @@ if not plot_capacity:
                  ha='left', va='top', fontsize=base_sz,
                  arrowprops=dict(arrowstyle='->', color='red', alpha=0.7, lw=0.8))
     plt.xlabel(f'{ion_type} concentration')
+    plt.gca().xaxis.set_major_formatter(plt.FormatStrFormatter('%.2f'))
 else:
     plt.xlabel('Capacity / mAh/g')
 plt.ylabel(fr'Voltage vs {ion_type}/{ion_type}$^+$ / V')
-plt.gca().xaxis.set_major_formatter(plt.FormatStrFormatter('%.2f'))
 plt.title(plot_title, pad=20)
 plt.legend()
 plt.grid(True, alpha=0.3, linestyle='-', linewidth=0.5)
