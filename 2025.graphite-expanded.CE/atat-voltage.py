@@ -91,7 +91,17 @@ def main():
     voltage_data = []
     plotter = VoltageProfilePlotter(xaxis='x_form')
     x, voltage = plotter.get_plot_data(electrode, term_zero=False)
-    voltage_data = {'x': x, 'voltage': voltage}
+    capacity = []
+    # voltage = []
+    cap_acc = 0
+    sub_electrodes = electrode.get_sub_electrodes(adjacent_only=True)
+    normalization_mass = sub_electrodes[0].voltage_pairs[0].mass_discharge
+    for sub_electrode in sub_electrodes:
+        capacity.append(cap_acc)
+        cap_acc += sum(pair.mAh for pair in sub_electrode.voltage_pairs) / normalization_mass
+        capacity.append(cap_acc)
+        # voltage.extend([sub_electrode.get_average_voltage()] * 2)
+    voltage_data = {'x': x, 'voltage': voltage, 'capacity': capacity}
 
     # Create DataFrame and sort by ion concentration
     df = pd.DataFrame(voltage_data).sort_values("x")
@@ -100,13 +110,14 @@ def main():
     df.to_csv('voltage.out', sep=' ', index=False)
 
     plt.figure(figsize=(10, 6))
-    plt.step(df['x'], df['voltage'], where='post', color='blue', linewidth=2)
+    plt.step(df['capacity'], df['voltage'], where='post', color='blue', linewidth=2)
     plt.axhline(y=0, color='gray', linestyle='--', alpha=0.7)
     base_formula = str(electrode.fully_charged_entry.composition)
     base_formula = re.sub(
         r'([A-Z][a-z]*)(\d+)',
         lambda m: f'{m.group(1)}', base_formula)
-    plt.xlabel(f'Concentration (x in {args.ion.symbol}$_{{x}}${base_formula})')
+    # plt.xlabel(f'Concentration (x in {args.ion.symbol}$_{{x}}${base_formula})')
+    plt.xlabel('Capacity / mAh/g')
     plt.ylabel(f'Voltage vs. {args.ion.symbol}/{args.ion.symbol}⁺ (V)')
     plt.title('Voltage Profile')
     plt.grid(alpha=0.3)
