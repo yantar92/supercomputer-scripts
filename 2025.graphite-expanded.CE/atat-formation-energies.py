@@ -372,10 +372,8 @@ def plot_custom_phase_diagram(
     # Use manual limits if provided, otherwise apply padded limits
     if ymin is not None and ymin < y_min:
         y_min = ymin
-        y_padding = 0
     if ymax is not None:
         y_max = ymax
-        y_padding = 0
     ax.set_ylim(y_min - y_padding, y_max + y_padding)
 
     # Improve grid
