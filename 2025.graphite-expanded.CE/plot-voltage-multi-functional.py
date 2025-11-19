@@ -14,6 +14,8 @@ parser.add_argument('ion', choices=['Li', 'Na'],
                    help='Ion type (Li or Na)')
 parser.add_argument('--title', type=str, default='Voltage profile',
                    help='Plot title (default: "Voltage profile")')
+parser.add_argument('--output', type=str, default='voltage_multi_functional.png',
+                   help='Output file name.')
 parser.add_argument('--labels', nargs='+', 
                    help='Custom labels for optB88-vdW plots (one per data set)')
 parser.add_argument('--xmax', type=float, 
@@ -163,9 +165,8 @@ plt.grid(True, alpha=0.3, linestyle='-', linewidth=0.5)
 if xmax is not None:
     plt.xlim(0, xmax)
 plt.tight_layout()
-output_filename = f'{ion_type.lower()}_voltage_range_multi_with_optB88.png'
-if plot_all_functionals:
-    output_filename = f'{ion_type.lower()}_voltage_all_functionals.png'
-plt.savefig(output_filename, dpi=600, bbox_inches='tight', 
+plt.savefig(args.output, dpi=600, bbox_inches='tight', 
             facecolor='white', edgecolor='none')
-plt.show()
+plt.savefig(args.output + ".svg", dpi=600, bbox_inches='tight', 
+            facecolor='white', edgecolor='none')
+# plt.show()
