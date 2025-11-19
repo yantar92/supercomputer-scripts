@@ -143,11 +143,35 @@ print(df)
 x = np.arange(len(df))
 total_width_fraction = 0.7 # fraction of max width to be occupied by all bars for single x
 width = total_width_fraction*1.0/len(df.columns)  # width of each bar
+colors = plt.get_cmap('tab10').colors
 for i, column in enumerate(df.columns):
-    plt.bar(x + i*width, df[column], width=width, label=column)
+
+    positions = x + i * width
+    color = colors[i]
+    plt.bar(positions, df[column], width=width, label=column, color=color)
+
+    # To prevent the line thickness from falling below y=0, we plot the indicator
+    # at a small positive height (1.0), which is visually identical to the
+    # baseline given the scale of the y-axis.
+    indicator_height = 1.0
+    
+    # Build coordinates for the horizontal line segments. NaN is used to draw
+    # disconnected segments in a single, efficient plot call.
+    x_segments = []
+    for pos in positions:
+        x_segments.extend([pos - width / 2, pos + width / 2, np.nan])
+    
+    if x_segments: # Only plot if there are zero values
+        y_segments = np.full_like(x_segments, indicator_height)
+        plt.plot(x_segments, y_segments,
+                 color=color,
+                 linewidth=1.5,
+                 solid_capstyle='butt', # Use flat line endings to match bar shape
+                 label='_nolegend_')
+
 plt.xticks(x + width*(len(df.columns)-1)/2, df.index)
 
-plt.ylim(0, 650)
+plt.ylim(-10, 650)
 
 # Add horizontal line at y=364.3903975181398
 # The line should have annotation label "graphite"
