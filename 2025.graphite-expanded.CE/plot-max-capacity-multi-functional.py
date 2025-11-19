@@ -171,7 +171,7 @@ for i, column in enumerate(df.columns):
 
 plt.xticks(x + width*(len(df.columns)-1)/2, df.index)
 
-plt.ylim(-10, 650)
+plt.ylim(-10, 670)
 
 # Add horizontal line at y=364.3903975181398
 # The line should have annotation label "graphite"
