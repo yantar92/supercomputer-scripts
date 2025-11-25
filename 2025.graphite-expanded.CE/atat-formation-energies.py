@@ -119,7 +119,7 @@ def get_entries_recursively(
     return entries
 
 
-DEFAULT_FONT_SIZE = 8
+DEFAULT_FONT_SIZE = 10
 
 def plot_custom_phase_diagram(
         phd, ax, ion_element, matrix_element,

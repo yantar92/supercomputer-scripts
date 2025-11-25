@@ -102,7 +102,7 @@ def plot_voltage_range_for_set(set_dir, functional_folders, color, set_idx, plot
 
 # Set publication-quality style matching atat-formation-energies.py
 plt.style.use('default')
-base_sz = 8
+base_sz = 10
 plt.rcParams.update({
     'font.size': base_sz,
     'font.family': 'serif',
