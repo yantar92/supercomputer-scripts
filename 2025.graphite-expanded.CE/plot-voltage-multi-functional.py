@@ -161,7 +161,7 @@ else:
 plt.ylabel(fr'Voltage vs {ion_type}/{ion_type}$^+$ / V')
 plt.title(plot_title, pad=20)
 plt.legend(ncol=2)
-plt.grid(True, alpha=0.3, linestyle='-', linewidth=0.5)
+# plt.grid(True, alpha=0.3, linestyle='-', linewidth=0.5)
 if xmax is not None:
     plt.xlim(0, xmax)
 plt.tight_layout()
