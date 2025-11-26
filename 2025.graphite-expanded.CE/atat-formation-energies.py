@@ -369,13 +369,13 @@ def plot_custom_phase_diagram(
         [c[1] * energy_mult for _, c in unstable_entries.items()]
     y_min = min(all_y)
     y_max = max(all_y)
-    # Apply padding (same factor as before)
-    y_padding = (y_max - y_min) * 0.1
     # Use manual limits if provided, otherwise apply padded limits
     if ymin is not None and ymin < y_min:
         y_min = ymin
     if ymax is not None:
         y_max = ymax
+    # Apply padding (same factor as before)
+    y_padding = (y_max - y_min) * 0.1
     ax.set_ylim(y_min - y_padding, y_max + y_padding)
 
     # Improve grid
