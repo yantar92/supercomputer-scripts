@@ -95,7 +95,7 @@ def main():
     # voltage = []
     cap_acc = 0
     sub_electrodes = electrode.get_sub_electrodes(adjacent_only=True)
-    normalization_mass = sub_electrodes[0].voltage_pairs[0].mass_discharge
+    normalization_mass = sub_electrodes[0].voltage_pairs[0].mass_charge
     print(sub_electrodes[0])
     print(sub_electrodes[0].voltage_pairs[0])
     print(sub_electrodes[0].voltage_pairs[0].mass_discharge)
