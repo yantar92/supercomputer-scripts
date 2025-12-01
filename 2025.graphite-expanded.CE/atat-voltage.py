@@ -96,6 +96,9 @@ def main():
     cap_acc = 0
     sub_electrodes = electrode.get_sub_electrodes(adjacent_only=True)
     normalization_mass = sub_electrodes[0].voltage_pairs[0].mass_discharge
+    print(sub_electrodes[0])
+    print(sub_electrodes[0].voltage_pairs[0])
+    print(sub_electrodes[0].voltage_pairs[0].mass_discharge)
     for sub_electrode in sub_electrodes:
         capacity.append(cap_acc)
         cap_acc += sum(pair.mAh for pair in sub_electrode.voltage_pairs) / normalization_mass
