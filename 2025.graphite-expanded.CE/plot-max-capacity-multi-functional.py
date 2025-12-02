@@ -175,8 +175,8 @@ plt.ylim(-10, 670)
 
 # Add horizontal line at y=364.3903975181398
 # The line should have annotation label "graphite"
-plt.axhline(y=364.3903975181398, color='black', linestyle='--', linewidth=0.7)
-plt.text(x[-1], 364.3903975181398 + 15, 'graphite', color='black', ha='right', va='bottom', fontsize=base_sz)
+plt.axhline(y=371.911173, color='black', linestyle='--', linewidth=0.7)
+plt.text(x[-1], 371.911173 + 15, 'graphite', color='black', ha='right', va='bottom', fontsize=base_sz)
 
 plt.xlabel(args.xlabel)
 plt.ylabel('Max capacity / mAh/g')
