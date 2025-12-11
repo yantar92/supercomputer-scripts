@@ -173,7 +173,7 @@ plt.xticks(x + width*(len(df.columns)-1)/2, df.index)
 
 plt.ylim(-10, 670)
 
-# Add horizontal line at y=364.3903975181398
+# Add horizontal line at y=371.911173
 # The line should have annotation label "graphite"
 plt.axhline(y=371.911173, color='black', linestyle='--', linewidth=0.7)
 plt.text(x[-1], 371.911173 + 15, 'graphite', color='black', ha='right', va='bottom', fontsize=base_sz)
