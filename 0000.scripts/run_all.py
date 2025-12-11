@@ -29,8 +29,8 @@ args.kpoints = 10000
 args.frac_tol = 0
 args.skip_relax = False
 args.max_strain = 5.40
-#args.sublattice_cutoff = 0.5
-args.sublattice_cutoff = 0.1
+args.sublattice_cutoff = 0.5
+# args.sublattice_cutoff = 0.1
 if args.mark:
     args.vasp_command = ['gorun', str(args.nodes), '48:00:00', '--mark']
 else:
