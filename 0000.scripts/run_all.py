@@ -23,6 +23,7 @@ parser.add_argument("--max_jobs", help="Max number of jobs allowed", type=int, d
 parser.add_argument("--nodes", help="Number of nodes", type=int, default=1)
 parser.add_argument("--noperturb", help="When provided, skip nested perturb folders", action="store_true")
 parser.add_argument("--mark", help="When provided, pass --mark to gorun", action="store_true")
+parser.add_argument("--local", help="When provided, run locally", action="store_true")
 args = parser.parse_args()
 max_jobs = args.max_jobs
 args.kpoints = 10000
@@ -33,6 +34,8 @@ args.sublattice_cutoff = 0.5
 # args.sublattice_cutoff = 0.1
 if args.mark:
     args.vasp_command = ['gorun', str(args.nodes), '48:00:00', '--mark']
+elif args.local:
+    args.vasp_command = ['gorun', '--local']
 else:
     args.vasp_command = ['gorun', str(args.nodes), '48:00:00']
 dir_list = []
