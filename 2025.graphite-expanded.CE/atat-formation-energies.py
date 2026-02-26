@@ -531,10 +531,9 @@ def main():
     else:
         all_entries = entries + [li_entry, c_entry]
         for entry in entries:
-            if entry.composition.num_atoms == 1:
+            if entry.composition.reduced_compostion.num_atoms == 1:
                 reduced_mass = entry.composition.reduced_composition.weight
             else:
-                print(entry.structure.composition)
                 reduced_mass = GibbsComputedStructureEntry._reduced_mass(entry.structure)
             sisso_corr = (
                 entry.composition.num_atoms *
