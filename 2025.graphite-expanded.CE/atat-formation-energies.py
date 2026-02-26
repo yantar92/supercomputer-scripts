@@ -16,7 +16,7 @@ import numpy as np
 import pandas as pd
 from pymatgen.core import Element, Composition
 from IMDgroup.pymatgen.io.vasp.vaspdir import IMDGVaspDir
-from pymatgen.entries.computed_entries import ComputedEntry
+from pymatgen.entries.computed_entries import ComputedEntry, GibbsComputedStructureEntry
 from pymatgen.analysis.phase_diagram import PhaseDiagram, PDPlotter
 import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
@@ -42,7 +42,8 @@ def _to_subscript(text: str) -> str:
 def get_entries_recursively(
         path: Path,
         extra_data: list[Path] | None = None,
-        extra_data_threshold: float = 0.001) -> list:
+        extra_data_threshold: float = 0.001,
+        temperature: float = 0) -> list:
     """Scan PATH for energies and return a list of computed entries.
     EXTRA_DATA is a list of relative directories to be scanned in addition to
     PATH.
@@ -87,10 +88,16 @@ def get_entries_recursively(
                     # print(f"Skipping {target_dir}: missing VASP inputs")
                 continue
             # vaspdir_relax = IMDGVaspDir(p / "ATAT")
-            comp = vaspdir.structure.composition
-            entry = ComputedEntry(comp, vaspdir.final_energy)
-            # Store volume in entry data
-            entry.data["volume"] = vaspdir.structure.volume
+            if np.isclose(temperature, 0):
+                comp = vaspdir.structure.composition
+                entry = ComputedEntry(comp, vaspdir.final_energy)
+                # Store volume in entry data
+                entry.data["volume"] = vaspdir.structure.volume
+            else:
+                entry = GibbsComputedStructureEntry(
+                    vaspdir.structure,
+                    formation_enthalpy_per_atom = vaspdir.final_energy / len(vaspdir.structure),
+                    temp = temperature)
             entry.data["ID"] = p
             entry.data["is_extra"] = p not in vasp_dirs
             # vol2 = vaspdir_relax.structure.volume
@@ -486,18 +493,20 @@ def main():
     # Create figure with better aspect ratio
     fig, ax = plt.subplots(figsize=(4.13, 3)) # half A4
 
-    path = Path('.')
-    print(f"Extra paths: {args.extra_data}")
-    entries = get_entries_recursively(
-        Path(path), args.extra_data, args.extra_data_threshold)
     temperature = 0
     if args.entropy:
         df = pd.read_csv(
             args.entropy, header=None, sep='\t',
             names=['T', 'mu', 'E', 'x', 'F'],
-            usecols=[idx for idx in range(5)])
+            usecols=list(range(5)))
         assert np.isclose(df['T'].min(), df['T'].max())
         temperature = df['T'].min()
+
+    path = Path('.')
+    print(f"Extra paths: {args.extra_data}")
+    entries = get_entries_recursively(
+        Path(path), args.extra_data, args.extra_data_threshold, temperature)
+    if args.entropy:
         df['c'] = (df['x'] + 1)/2
         print('Adding entropy adjustments')
         for entry in entries:
