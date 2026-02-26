@@ -523,16 +523,29 @@ def main():
     #     entry.data["is_extra"] = False
     #     entries.append(entry)
     
-    # Now, account for vibration entropy.
     if np.isclose(temperature, 0):
         phd = PhaseDiagram(
             entries=entries + [li_entry, c_entry],
             elements=[Element("C"), args.ion])
+    # Account for vibration entropy.
     else:
-        gibbs_entries = GibbsComputedStructureEntry.from_entries(
-            # FIXME: convert temperature to int as it is what pymatgen really expects
-            entries + [li_entry, c_entry], int(temperature))
-        phd = PhaseDiagram(entries=gibbs_entries, elements=[Element("C"), args.ion])
+        for entry in entries:
+            sisso_corr = (
+                entry.composition.num_atoms *
+                GibbsComputedStructureEntry._g_delta_sisso(
+                    entry.structure.volume / len(entry.structure),
+                    GibbsComputedStructureEntry._reduced_mass(entry.structure),
+                    temperature
+                )
+            )
+            entry.correction += sisso_corr
+
+        # BUG: pymatgen blindly asserts that pure elements have energies from tabulated data
+        # not suitable for us - expanded graphite
+        # gibbs_entries = GibbsComputedStructureEntry.from_entries(
+        #     # FIXME: convert temperature to int as it is what pymatgen really expects
+        #     entries + [li_entry, c_entry], int(temperature))
+        # phd = PhaseDiagram(entries=gibbs_entries, elements=[Element("C"), args.ion])
 
     # Use custom plotting function instead of pymatgen's get_plot
     plot_custom_phase_diagram(
