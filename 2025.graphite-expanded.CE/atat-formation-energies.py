@@ -536,30 +536,30 @@ def main():
             elements=[Element("C"), args.ion])
     # Account for vibration entropy.
     else:
-        all_entries = entries + [li_entry, c_entry]
-        for entry in all_entries:
-            if entry.composition.reduced_composition.num_atoms == 1:
-                reduced_mass = entry.composition.reduced_composition.weight
-            else:
-                reduced_mass = GibbsComputedStructureEntry._reduced_mass(entry.structure)
-            sisso_corr = (
-                entry.composition.num_atoms *
-                GibbsComputedStructureEntry._g_delta_sisso(
-                    entry.structure.volume / len(entry.structure),
-                    reduced_mass,
-                    temperature
-                )
-            )
-            print(entry.composition, sisso_corr/entry.composition.num_atoms)
-            entry.correction += sisso_corr
-        phd = PhaseDiagram(entries=all_entries, elements=[Element("C"), args.ion])
+        # all_entries = entries + [li_entry, c_entry]
+        # for entry in all_entries:
+        #     if entry.composition.reduced_composition.num_atoms == 1:
+        #         reduced_mass = entry.composition.reduced_composition.weight
+        #     else:
+        #         reduced_mass = GibbsComputedStructureEntry._reduced_mass(entry.structure)
+        #     sisso_corr = (
+        #         entry.composition.num_atoms *
+        #         GibbsComputedStructureEntry._g_delta_sisso(
+        #             entry.structure.volume / len(entry.structure),
+        #             reduced_mass,
+        #             temperature
+        #         )
+        #     )
+        #     print(entry.composition, sisso_corr/entry.composition.num_atoms)
+        #     entry.correction += sisso_corr
+        # phd = PhaseDiagram(entries=all_entries, elements=[Element("C"), args.ion])
 
         # BUG: pymatgen blindly asserts that pure elements have energies from tabulated data
         # not suitable for us - expanded graphite
-        # gibbs_entries = GibbsComputedStructureEntry.from_entries(
-        #     # FIXME: convert temperature to int as it is what pymatgen really expects
-        #     entries + [li_entry, c_entry], int(temperature))
-        # phd = PhaseDiagram(entries=gibbs_entries, elements=[Element("C"), args.ion])
+        gibbs_entries = GibbsComputedStructureEntry.from_entries(
+            # FIXME: convert temperature to int as it is what pymatgen really expects
+            entries + [li_entry, c_entry], int(temperature))
+        phd = PhaseDiagram(entries=gibbs_entries, elements=[Element("C"), args.ion])
 
     # Use custom plotting function instead of pymatgen's get_plot
     plot_custom_phase_diagram(
