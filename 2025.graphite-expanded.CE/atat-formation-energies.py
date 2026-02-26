@@ -457,6 +457,12 @@ def main():
         type=float,
         default=None,
     )
+    parser.add_argument(
+        "--entropy",
+        help="When set, attempt reading mc_T300K_F_vs_c.dat file to extract entropies.",
+        type=bool,
+        action="store_true"
+    )
     args = parser.parse_args()
 
     # Read pure Li reference energy
@@ -484,6 +490,28 @@ def main():
     print(f"Extra paths: {args.extra_data}")
     entries = get_entries_recursively(
         Path(path), args.extra_data, args.extra_data_threshold)
+    mc_data = Path('mc_T300K_F_vs_c.dat')
+    if args.entropy and mc_data.is_file():
+        df = pd.read_csv(
+            mc_data, header=None, sep='\t',
+            names=['c', 'F', 'mu', 'x', 'E'])
+        print('Adding entropy adjustments')
+        for entry in entries:
+            atomic_fraction = entry.composition.get_atomic_fraction(args.ion)
+            c = 2*atomic_fraction / (1 - atomic_fraction)
+            closest_idx = (df['c'] - c).abs().idxmin()
+            assert np.abs(df.loc[closest_idx]['c'] - c) < 0.01
+            ts = df.loc[closest_idx]['E'] - df.loc[closest_idx]['F']
+            entry.correction = -ts
+    # entries = []
+    # for c, E, F in zip(df['c'].values, df['E'].values, df['F'.values]):
+    #     comp = Composition(f'{str(args.ion)}{c}{str(c_entry.composition)}')
+    #     entry = ComputedEntry(comp, F)
+    #     entry.data["volume"] = c_entry.data["volume"]
+    #     entry.data["ID"] = None
+    #     entry.data["is_extra"] = False
+    #     entries.append(entry)
+    
     phd = PhaseDiagram(entries=entries + [li_entry, c_entry], 
                       elements=[Element("C"), args.ion])
     
