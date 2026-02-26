@@ -96,8 +96,8 @@ def get_entries_recursively(
             else:
                 entry = GibbsComputedStructureEntry(
                     vaspdir.structure,
-                    formation_enthalpy_per_atom = vaspdir.final_energy / len(vaspdir.structure),
-                    temp = temperature)
+                    formation_enthalpy_per_atom=vaspdir.final_energy / len(vaspdir.structure),
+                    temp=temperature)
             entry.data["ID"] = p
             entry.data["is_extra"] = p not in vasp_dirs
             # vol2 = vaspdir_relax.structure.volume
@@ -501,6 +501,7 @@ def main():
             usecols=list(range(5)))
         assert np.isclose(df['T'].min(), df['T'].max())
         temperature = float(df['T'].min())
+        print(f'Adding entropy adjustments for T={temperature}')
 
     path = Path('.')
     print(f"Extra paths: {args.extra_data}")
@@ -508,7 +509,6 @@ def main():
         Path(path), args.extra_data, args.extra_data_threshold, temperature)
     if args.entropy:
         df['c'] = (df['x'] + 1)/2
-        print('Adding entropy adjustments')
         for entry in entries:
             atomic_fraction = entry.composition.get_atomic_fraction(args.ion)
             c = 2*atomic_fraction / (1 - atomic_fraction)
