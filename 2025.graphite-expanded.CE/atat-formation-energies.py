@@ -502,7 +502,9 @@ def main():
             if np.abs(df.loc[closest_idx]['c'] - c) > 0.01:
                 print(f'Warning: assigning entropy for concentration diff: {np.abs(df.loc[closest_idx]['c'] - c)}')
             ts = df.loc[closest_idx]['E'] - df.loc[closest_idx]['F']
+            print("Before: ", entry.energy_per_atom)
             entry.correction = -ts
+            print("After: ", entry.energy_per_atom)
     # entries = []
     # for c, E, F in zip(df['c'].values, df['E'].values, df['F'.values]):
     #     comp = Composition(f'{str(args.ion)}{c}{str(c_entry.composition)}')
