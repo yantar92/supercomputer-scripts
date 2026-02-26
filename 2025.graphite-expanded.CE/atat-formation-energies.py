@@ -531,11 +531,15 @@ def main():
     else:
         all_entries = entries + [li_entry, c_entry]
         for entry in entries:
+            if entry.composition.num_atoms == 1:
+                reduced_mass = entry.composition.reduced_composition.weight
+            else:
+                reduced_mass = GibbsComputedStructureEntry._reduced_mass(entry.structure)
             sisso_corr = (
                 entry.composition.num_atoms *
                 GibbsComputedStructureEntry._g_delta_sisso(
                     entry.structure.volume / len(entry.structure),
-                    GibbsComputedStructureEntry._reduced_mass(entry.structure),
+                    reduced_mass,
                     temperature
                 )
             )
