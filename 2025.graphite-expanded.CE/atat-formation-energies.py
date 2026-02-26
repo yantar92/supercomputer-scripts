@@ -550,6 +550,7 @@ def main():
                     temperature
                 )
             )
+            print(entry.composition, sisso_corr)
             entry.correction += sisso_corr
         phd = PhaseDiagram(entries=all_entries, elements=[Element("C"), args.ion])
 
