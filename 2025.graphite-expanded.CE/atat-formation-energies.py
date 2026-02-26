@@ -530,7 +530,8 @@ def main():
             elements=[Element("C"), args.ion])
     else:
         gibbs_entries = GibbsComputedStructureEntry.from_entries(
-            entries + [li_entry, c_entry], temperature)
+            # FIXME: convert temperature to int as it is what pymatgen really expects
+            entries + [li_entry, c_entry], int(temperature))
         phd = PhaseDiagram(entries=gibbs_entries, elements=[Element("C"), args.ion])
 
     # Use custom plotting function instead of pymatgen's get_plot
