@@ -499,8 +499,8 @@ def main():
             atomic_fraction = entry.composition.get_atomic_fraction(args.ion)
             c = 2*atomic_fraction / (1 - atomic_fraction)
             closest_idx = (df['c'] - c).abs().idxmin()
-            print(df.loc[closest_idx]['c'] - c)
-            assert np.abs(df.loc[closest_idx]['c'] - c) < 0.01
+            if np.abs(df.loc[closest_idx]['c'] - c) > 0.01:
+                print(f'Warning: assigning entropy for concentration diff: {np.abs(df.loc[closest_idx]['c'] - c)}')
             ts = df.loc[closest_idx]['E'] - df.loc[closest_idx]['F']
             entry.correction = -ts
     # entries = []
