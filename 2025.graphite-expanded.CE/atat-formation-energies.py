@@ -464,7 +464,14 @@ def main():
         type=str,
         default=None
     )
+    parser.add_argument(
+        "--entropy_vibrational",
+        help="Adjust energies by vibrational entropy (need to set --entropy to use this)",
+        action="store_true"
+    )
     args = parser.parse_args()
+    if args.entropy_vibrational and not args.entropy:
+        raise ValueError('--entropy_vibrational requires setting --entropy')
 
     # Read pure Li reference energy
     li_run = IMDGVaspDir(Path(args.metal_vasprun))
@@ -523,7 +530,7 @@ def main():
     #     entry.data["is_extra"] = False
     #     entries.append(entry)
     
-    if np.isclose(temperature, 0):
+    if np.isclose(temperature, 0) or not args.entropy_vibrational:
         phd = PhaseDiagram(
             entries=entries + [li_entry, c_entry],
             elements=[Element("C"), args.ion])
