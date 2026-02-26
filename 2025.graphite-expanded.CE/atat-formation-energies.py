@@ -529,6 +529,7 @@ def main():
             elements=[Element("C"), args.ion])
     # Account for vibration entropy.
     else:
+        all_entries = entries + [li_entry, c_entry]
         for entry in entries:
             sisso_corr = (
                 entry.composition.num_atoms *
@@ -539,6 +540,7 @@ def main():
                 )
             )
             entry.correction += sisso_corr
+        phd = PhaseDiagram(entries=all_entries, elements=[Element("C"), args.ion])
 
         # BUG: pymatgen blindly asserts that pure elements have energies from tabulated data
         # not suitable for us - expanded graphite
