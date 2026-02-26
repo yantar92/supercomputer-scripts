@@ -459,8 +459,9 @@ def main():
     )
     parser.add_argument(
         "--entropy",
-        help="When set, attempt reading mc_T300K_F_vs_c.dat file to extract entropies.",
-        action="store_true"
+        help="Adjust energies by the provided emc2 output file",
+        type=str,
+        default=None
     )
     args = parser.parse_args()
 
@@ -489,11 +490,14 @@ def main():
     print(f"Extra paths: {args.extra_data}")
     entries = get_entries_recursively(
         Path(path), args.extra_data, args.extra_data_threshold)
-    mc_data = Path('mc_T300K_F_vs_c.dat')
-    if args.entropy and mc_data.is_file():
+    temperature = 0
+    if args.entropy:
         df = pd.read_csv(
-            mc_data, header=None, sep='\t',
-            names=['c', 'F', 'mu', 'x', 'E'])
+            args.entropy, header=None, sep='\t',
+            names=['T', 'mu', 'E', 'x', 'F'])
+        assert np.isclose(df['T'].min(), df['T'].max())
+        temperature = df['T'].min()
+        df['c'] = (df['x'] + 1)/2
         print('Adding entropy adjustments')
         for entry in entries:
             atomic_fraction = entry.composition.get_atomic_fraction(args.ion)
