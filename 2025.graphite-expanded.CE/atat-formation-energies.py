@@ -460,7 +460,6 @@ def main():
     parser.add_argument(
         "--entropy",
         help="When set, attempt reading mc_T300K_F_vs_c.dat file to extract entropies.",
-        type=bool,
         action="store_true"
     )
     args = parser.parse_args()
