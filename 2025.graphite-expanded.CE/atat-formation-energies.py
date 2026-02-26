@@ -494,7 +494,8 @@ def main():
     if args.entropy:
         df = pd.read_csv(
             args.entropy, header=None, sep='\t',
-            names=['T', 'mu', 'E', 'x', 'F'])
+            names=['T', 'mu', 'E', 'x', 'F'],
+            usecols=[idx for idx in range(5)])
         assert np.isclose(df['T'].min(), df['T'].max())
         temperature = df['T'].min()
         df['c'] = (df['x'] + 1)/2
