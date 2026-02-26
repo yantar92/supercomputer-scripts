@@ -537,7 +537,7 @@ def main():
     # Account for vibration entropy.
     else:
         all_entries = entries + [li_entry, c_entry]
-        for entry in entries:
+        for entry in all_entries:
             if entry.composition.reduced_composition.num_atoms == 1:
                 reduced_mass = entry.composition.reduced_composition.weight
             else:
