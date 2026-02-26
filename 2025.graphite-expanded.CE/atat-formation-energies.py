@@ -493,14 +493,14 @@ def main():
     # Create figure with better aspect ratio
     fig, ax = plt.subplots(figsize=(4.13, 3)) # half A4
 
-    temperature = 0
+    temperature = 0.0
     if args.entropy:
         df = pd.read_csv(
             args.entropy, header=None, sep='\t',
             names=['T', 'mu', 'E', 'x', 'F'],
             usecols=list(range(5)))
         assert np.isclose(df['T'].min(), df['T'].max())
-        temperature = df['T'].min()
+        temperature = float(df['T'].min())
 
     path = Path('.')
     print(f"Extra paths: {args.extra_data}")
