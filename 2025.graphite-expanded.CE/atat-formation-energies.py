@@ -501,8 +501,9 @@ def main():
             closest_idx = (df['c'] - c).abs().idxmin()
             if np.abs(df.loc[closest_idx]['c'] - c) > 0.02:
                 print(f'Warning: assigning entropy for concentration diff: {np.abs(df.loc[closest_idx]['c'] - c)}')
+            # per MeC2 cell
             ts = df.loc[closest_idx]['E'] - df.loc[closest_idx]['F']
-            entry.correction = -ts
+            entry.correction = -ts/(df.loc[closest_idx]['c'] + 2)*entry.composition.num_atoms
     # entries = []
     # for c, E, F in zip(df['c'].values, df['E'].values, df['F'.values]):
     #     comp = Composition(f'{str(args.ion)}{c}{str(c_entry.composition)}')
