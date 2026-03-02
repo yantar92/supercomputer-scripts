@@ -569,6 +569,22 @@ def main():
             print(f"Gibbs: {gibbs/num_atoms} eV/atom")
             print(f"Vibration entropy ref: {vibration_ref} eV/atom")
             print(f"Vibration entropy SISSO: {vibration_str} eV/atom")
+
+            # manual
+            if entry.composition.reduced_composition.num_atoms == 1:
+                reduced_mass = entry.composition.reduced_composition.weight
+            else:
+                reduced_mass = GibbsComputedStructureEntry._reduced_mass(entry.structure)
+            sisso_corr = (
+                GibbsComputedStructureEntry._g_delta_sisso(
+                    entry.structure.volume / len(entry.structure),
+                    reduced_mass,
+                    temperature
+                )
+            )
+            print(f"Manual entropy SISSO: {sisso_corr}")
+
+
         phd = PhaseDiagram(entries=gibbs_entries, elements=[Element("C"), args.ion])
 
     # Use custom plotting function instead of pymatgen's get_plot
