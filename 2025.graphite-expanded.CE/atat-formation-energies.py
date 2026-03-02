@@ -564,6 +564,7 @@ def main():
             num_atoms = entry.composition.num_atoms
             vibration_ref = entry._sum_g_i()/num_atoms
             vibration_str = gibbs/num_atoms + vibration_ref - entry.formation_enthalpy_per_atom
+            print(f"Structure: {entry.composition}")
             print(f"Formation: {entry.formation_enthalpy_per_atom} eV/atom")
             print(f"Gibbs: {gibbs/num_atoms} eV/atom")
             print(f"Vibration entropy ref: {vibration_ref} eV/atom")
