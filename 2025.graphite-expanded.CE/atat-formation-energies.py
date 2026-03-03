@@ -569,6 +569,7 @@ def main():
             print(f"Gibbs: {gibbs/num_atoms} eV/atom")
             print(f"Vibration entropy ref: {vibration_ref} eV/atom")
             print(f"Vibration entropy SISSO: {vibration_str} eV/atom")
+            print(f"Diff: {entry.formation_enthalpy_per_atom - gibbs/num_atoms} eV/atom")
 
             # manual
             if entry.composition.reduced_composition.num_atoms == 1:
