@@ -562,7 +562,7 @@ def main():
                     sum_g_i += amt * g_interp(temperature)
                 sisso_corr = sum_g_i
 
-            print(entry.composition, sisso_corr/entry.composition.num_atoms)
+            print(entry.composition.get_atomic_fraction(args.ion), sisso_corr/entry.composition.num_atoms)
             entry.correction += sisso_corr
         phd = PhaseDiagram(entries=all_entries, elements=[Element("C"), args.ion])
 
