@@ -578,18 +578,18 @@ def main():
                     temperature
                 )
             )
-            from scipy.interpolate import interp1d
-            if entry.composition.reduced_composition.num_atoms == 1:
-                print(entry.composition.get_atomic_fraction(args.ion), sisso_corr/entry.composition.num_atoms)
-                elems = entry.composition.get_el_amt_dict()
-                sum_g_i = 0
-                for elem, amt in elems.items():
-                    g_interp = interp1d(
-                        [float(t) for t in G_ELEMS],
-                        [g_dict[elem] for g_dict in G_ELEMS.values()],
-                    )
-                    sum_g_i += amt * g_interp(temperature)
-                sisso_corr = sum_g_i
+            # from scipy.interpolate import interp1d
+            # if entry.composition.reduced_composition.num_atoms == 1:
+            #     print(entry.composition.get_atomic_fraction(args.ion), sisso_corr/entry.composition.num_atoms)
+            #     elems = entry.composition.get_el_amt_dict()
+            #     sum_g_i = 0
+            #     for elem, amt in elems.items():
+            #         g_interp = interp1d(
+            #             [float(t) for t in G_ELEMS],
+            #             [g_dict[elem] for g_dict in G_ELEMS.values()],
+            #         )
+            #         sum_g_i += amt * g_interp(temperature)
+            #     sisso_corr = sum_g_i
 
             print(entry.composition.get_atomic_fraction(args.ion), sisso_corr/entry.composition.num_atoms)
             entry.correction += sisso_corr
