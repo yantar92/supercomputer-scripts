@@ -16,7 +16,7 @@ import numpy as np
 import pandas as pd
 from pymatgen.core import Element, Composition
 from IMDgroup.pymatgen.io.vasp.vaspdir import IMDGVaspDir
-from pymatgen.entries.computed_entries import ComputedEntry, GibbsComputedStructureEntry, ComputedStructureEntry
+from pymatgen.entries.computed_entries import ComputedEntry, GibbsComputedStructureEntry, ComputedStructureEntry, G_ELEMS
 from pymatgen.analysis.phase_diagram import PhaseDiagram, PDPlotter
 import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
@@ -550,6 +550,18 @@ def main():
                     temperature
                 )
             )
+            from scipy.interpolate import interp1d
+            if entry.composition.reduced_composition.num_atoms == 1:
+                elems = entry.composition.get_el_amt_dict()
+                sum_g_i = 0
+                for elem, amt in elems.items():
+                    g_interp = interp1d(
+                        [float(t) for t in G_ELEMS],
+                        [g_dict[elem] for g_dict in G_ELEMS.values()],
+                    )
+                    sum_g_i += amt * g_interp(300)
+                sisso_corr = sum_g_i
+
             print(entry.composition, sisso_corr/entry.composition.num_atoms)
             entry.correction += sisso_corr
         phd = PhaseDiagram(entries=all_entries, elements=[Element("C"), args.ion])
