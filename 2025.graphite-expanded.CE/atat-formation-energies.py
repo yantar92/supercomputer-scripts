@@ -537,11 +537,39 @@ def main():
     # Account for vibration entropy.
     else:
         all_entries = entries + [li_entry, c_entry]
+        from itertools import combinations
+        def _reduced_mass(structure) -> float:
+            """Reduced mass as calculated via Eq. 6 in Bartel et al. (2018).
+
+            Args:
+                structure (Structure): The pymatgen Structure object of the entry.
+
+            Returns:
+                float: reduced mass (amu)
+            """
+            reduced_comp = structure.composition.reduced_composition
+            n_elems = len(reduced_comp.elements)
+            elem_dict = reduced_comp.get_el_amt_dict()
+
+            denominator = (n_elems - 1) * reduced_comp.num_atoms
+
+            all_pairs = combinations(elem_dict.items(), 2)
+            mass_sum = 0
+
+            for pair in all_pairs:
+                m_i = Composition(pair[0][0]).weight
+                m_j = Composition(pair[1][0]).weight
+                alpha_i = pair[0][1]
+                alpha_j = pair[1][1]
+
+                mass_sum += (alpha_i + alpha_j) * (m_i * m_j) / (m_i + m_j) * 2
+
+            return (1 / denominator) * mass_sum
         for entry in all_entries:
             if entry.composition.reduced_composition.num_atoms == 1:
                 reduced_mass = entry.composition.reduced_composition.weight
             else:
-                reduced_mass = GibbsComputedStructureEntry._reduced_mass(entry.structure)
+                reduced_mass = _reduced_mass(entry.structure)
             sisso_corr = (
                 entry.composition.num_atoms *
                 GibbsComputedStructureEntry._g_delta_sisso(
