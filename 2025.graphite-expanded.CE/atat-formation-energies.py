@@ -552,6 +552,7 @@ def main():
             )
             from scipy.interpolate import interp1d
             if entry.composition.reduced_composition.num_atoms == 1:
+                print(entry.composition.get_atomic_fraction(args.ion), sisso_corr/entry.composition.num_atoms)
                 elems = entry.composition.get_el_amt_dict()
                 sum_g_i = 0
                 for elem, amt in elems.items():
