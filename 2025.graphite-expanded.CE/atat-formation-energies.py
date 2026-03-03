@@ -587,7 +587,8 @@ def main():
             )
             # print(f"Manual entropy SISSO: {sisso_corr}")
             concentration = entry.composition.get_atomic_fraction(args.ion)
-            print(f"{concentration} {gibbs/num_atoms - entry.formation_enthalpy_per_atom}")
+            print(f"{concentration} {entry.energy_per_atom} {sisso_corr}")
+            # print(f"{concentration} {gibbs/num_atoms - entry.formation_enthalpy_per_atom}")
 
 
         phd = PhaseDiagram(entries=gibbs_entries, elements=[Element("C"), args.ion])
