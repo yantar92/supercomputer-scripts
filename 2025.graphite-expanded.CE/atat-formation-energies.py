@@ -520,8 +520,7 @@ def main():
                 print(f'Warning: assigning entropy for concentration diff: {np.abs(df.loc[closest_idx]['c'] - c)}')
             # per MeC2 cell
             ts = df.loc[closest_idx]['E'] - df.loc[closest_idx]['F']
-            entry.correction = 0
-            # entry.correction = -ts/(df.loc[closest_idx]['c'] + 2)*entry.composition.num_atoms
+            entry.correction = -ts/(df.loc[closest_idx]['c'] + 2)*entry.composition.num_atoms
     # entries = []
     # for c, E, F in zip(df['c'].values, df['E'].values, df['F'.values]):
     #     comp = Composition(f'{str(args.ion)}{c}{str(c_entry.composition)}')
@@ -560,7 +559,7 @@ def main():
                         [float(t) for t in G_ELEMS],
                         [g_dict[elem] for g_dict in G_ELEMS.values()],
                     )
-                    sum_g_i += amt * g_interp(300)
+                    sum_g_i += amt * g_interp(temperature)
                 sisso_corr = sum_g_i
 
             print(entry.composition, sisso_corr/entry.composition.num_atoms)
