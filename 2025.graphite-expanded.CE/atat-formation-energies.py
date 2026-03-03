@@ -559,18 +559,19 @@ def main():
         gibbs_entries = GibbsComputedStructureEntry.from_entries(
             # FIXME: convert temperature to int as it is what pymatgen really expects
             entries + [li_entry, c_entry], int(temperature))
+        print("# Concentration SISSO_pymatgen SISSO_manual")
         for entry in gibbs_entries:
             gibbs = entry.gf_sisso()
             num_atoms = entry.composition.num_atoms
             vibration_ref = entry._sum_g_i()/num_atoms
             vibration_str = gibbs/num_atoms + vibration_ref - entry.formation_enthalpy_per_atom
-            print(f"Structure: {entry.composition.reduced_formula}")
-            print(f"Concentration: {entry.composition.get_atomic_fraction(args.ion)}")
-            print(f"Formation: {entry.formation_enthalpy_per_atom} eV/atom")
-            print(f"Gibbs: {gibbs/num_atoms} eV/atom")
-            print(f"Vibration entropy ref: {vibration_ref} eV/atom")
-            print(f"Vibration entropy SISSO: {vibration_str} eV/atom")
-            print(f"Diff: {entry.formation_enthalpy_per_atom - gibbs/num_atoms} eV/atom")
+            # print(f"Structure: {entry.composition.reduced_formula}")
+            # print(f"Concentration: {entry.composition.get_atomic_fraction(args.ion)}")
+            # print(f"Formation: {entry.formation_enthalpy_per_atom} eV/atom")
+            # print(f"Gibbs: {gibbs/num_atoms} eV/atom")
+            # print(f"Vibration entropy ref: {vibration_ref} eV/atom")
+            # print(f"Vibration entropy SISSO: {vibration_str} eV/atom")
+            # print(f"Diff: {entry.formation_enthalpy_per_atom - gibbs/num_atoms} eV/atom")
 
             # manual
             if entry.composition.reduced_composition.num_atoms == 1:
@@ -584,7 +585,9 @@ def main():
                     temperature
                 )
             )
-            print(f"Manual entropy SISSO: {sisso_corr}")
+            # print(f"Manual entropy SISSO: {sisso_corr}")
+            concentration = entry.composition.get_atomic_fraction(args.ion)
+            print(f"{concentration} {sisso_corr}")
 
 
         phd = PhaseDiagram(entries=gibbs_entries, elements=[Element("C"), args.ion])
