@@ -32,7 +32,7 @@ The hierarchy is the following:
 
 Illustration of the major folder structure:
 
-[[file:.img/top-structure.png]]
+[[file:img/top-structure.png]]
 
 Below is an example of "PEO" project folder.
 - "00" is simply the experimental structure, so no deeper nesting is needed
@@ -102,7 +102,7 @@ Below is an example of "PEO" project folder.
           structure.to_file(f'cellulose_ibeta_Zn_{idx:03d}.cif')
     #+end_src
 
-[[file:.img/project-structure.png]]
+[[file:img/project-structure.png]]
 
 * Supercomputer access
 :PROPERTIES:
