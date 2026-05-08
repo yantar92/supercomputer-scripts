@@ -191,6 +191,15 @@ where it is not available by default.
     : 11339384    2024-09-11T09:59:14      14:59      1 /net/pr2/projects/plgrid/plggkeytech/yantar92/test/test_1_single_atom 
   - =gorun= command will be made available to simplify job submission
 
+  - The following aliases are defined in the common bashrc:
+    - =q= :: Print the current Slurm job queue for the user.
+      Shorthand for =squeue -o '%.10i %.22S %.10L %.6D %Z ' -u ${USER}=.
+    - =scall= :: Run =srun= with the group's Slurm account pre-configured
+      (=--account=${SLURM_ACCOUNT}=). Useful for interactive or batch
+      commands on compute nodes.
+    - =sbash= :: Start an interactive shell on a compute node.
+      Equivalent to =scall -c 8 --time=24:00:00 --pty /bin/bash -l=.
+      Gives 8 CPUs and 24-hour wall time.
 - Project directory
   #+name: IMDGroup-plgrid
   #+begin_src emacs-lisp
