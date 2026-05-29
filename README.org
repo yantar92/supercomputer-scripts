@@ -567,6 +567,7 @@ group use consistent base Python setup.
   pip install git+https://git.sr.ht/~yantar92/IMDgroup-gorun
   # Install ase; fix version; bump as we need, but do it explicitly
   pip install ase==3.23.0
+  pip install git+https://github.com/phonopy/phonopy.git
 #+end_src
 
 Verify that installation worked
