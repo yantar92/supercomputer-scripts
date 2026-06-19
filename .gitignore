@@ -5,6 +5,7 @@
 !*.py
 !*.sh
 !*.gnuplot
+!*.org
 !README
 !README.*
 !img/*
