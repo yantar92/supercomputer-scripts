@@ -1,1 +1,1 @@
-../../2025.graphite.Li.CE/04.CE.relax.KPOINTS.10k/run_all.py
+../../../0000.scripts/run_all.py

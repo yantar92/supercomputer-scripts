@@ -1,0 +1,27 @@
+#+TITLE: Voltage vs radius for Na pore filling in HC
+#+AUTHOR: Ihor Radchenko
+
+We want to somehow get voltage vs radius plot.
+Two key considerations:
+1. Pore representation
+2. Finding ground states
+
+* Pore representation
+
+We keep it simple and use nanotube.
+For start, let it be
+15,0 nanotube with length=1
+
+* Finding ground states
+
+Andres will try ASE-based genetic algorithm.
+I looked into Calypso, but license is pending.
+Trying AIRSS (GPL) instead.
+
+** Installing AIRSS
+
+Need to compile.
+Compilation requries lapack.
+Installed.
+Had to modify makefile to
+: LDFLAGS=-L $(PWD)/lapack-3.12.1 -lopenblas -llapack

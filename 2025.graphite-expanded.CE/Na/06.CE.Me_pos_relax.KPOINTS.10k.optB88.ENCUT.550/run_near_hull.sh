@@ -1,0 +1,1 @@
+../08.CE.Me_pos_relax.KPOINTS.10k.optB88.ENCUT.550.scale.c.0.00/run_near_hull.sh

@@ -1,0 +1,1 @@
+../../../../04.graphite.4x4x2.delC.CE/fixedC/AA/d.4.58/plot-parity-function-grouped.py

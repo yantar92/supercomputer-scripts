@@ -22,6 +22,7 @@ plot [0:1] \
 'encut-data.out' u 1:2 t "gs ENCUT = 600" w p pt 6 lc rgb'red' ps 2, \
 'fixgs.out' u 1:2 t "fixed gs" w p pt 6 lc rgb'red' ps 2, \
 'relax-data.out' u 1:2 t "relax gs" w p ps 2, \
+'optB88-data.out' u 1:2 t "optB88 gs" w p ps 2, \
 'relax-data.out' u 1:3 t "perturb gs" w p ps 2
 set title "Calculated and Fitted Energies"
 plot [0:1] \
@@ -31,7 +32,7 @@ set title "Residuals of the fit (same order as in fit.out)"
 set xtics autofreq
 set ylabel "energy"
 set xlabel "line number in fit.out"
-plot 'fit.out' u 4
+plot 'fit.out' u 4 not
 CVE = system('tail -n1 maps.log')
 set title "Fitted vs Calculated Energies " . '(' . CVE . ')'
 set ylabel "predicted energy"

@@ -1,0 +1,1 @@
+../../../../01.repeat.4x4x2.defect-free.CE/icet_gen/AA/d.4.58/generate_structures.py

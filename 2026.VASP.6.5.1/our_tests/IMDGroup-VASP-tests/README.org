@@ -1,0 +1,45 @@
+In addition to =make test= described earlier, [[id:82f34626-f70a-4843-b8ce-dd272d02291e][Oleksandr (Sasha) Malyi]]
+suggests running a couple of additional tests, making sure that VASP
+is stable when working with vdW systems.
+
+This may or may not be necessary, but it hapenned in the past that
+VASP installation passing all the built-in tests did not behave
+correctly when system libraries/VASP were compiled with aggressive
+=-O3= flag (not default) and/or in specific VASP versions (6.4.3)
+([2025-01-17 Fri]).
+
+Our extra tests are all in [[attachment:IMDGroup-VASP-tests/]] folder:
+- test_1_single_atom :: Simple fast test
+- test_2_vc_relax :: Structural relaxation
+- test_3_relax :: Relaxation in complex supercell with vdW
+  This test may reveal problems with convergance
+- test_4_scf_should_use_output_structure_from_test_3 ::
+  _Must copy =CONTCAR= from finished test #3_
+  Additional verification of test #3. test #3 and #4 must yield
+  identical total energy.
+- test_5_relax :: Another relaxation with many steps needed to reach equilibrium
+- test_6_scf_should_use_output_structure_from_test_5 :: SCF
+  calculation for test_5. Must yield the same energy.
+
+Test values of the total energy
+| Test # | Reference, eV | Energy ares, eV |     delta | Energy helios, eV |      delta | Energy athena, eV |     delta |
+|--------+---------------+-----------------+-----------+-------------------+------------+-------------------+-----------|
+|      1 |   -0.01076146 |     -0.01065638 | 1.0508e-4 |       -0.01065638 |  1.0508e-4 |       -0.01075599 |   5.47e-6 |
+|      2 | -137.08838737 |   -137.08833036 |  5.701e-5 |     -137.08864132 | -2.5395e-4 |     -137.08839482 |  -7.45e-6 |
+|      3 | -137.07509861 |   -137.07512074 | -2.213e-5 |     -137.07493175 |  1.6686e-4 |     -137.07490415 | 1.9446e-4 |
+|      4 | -137.07509567 |   -137.07511789 | -2.222e-5 |     -137.07492535 |  1.7032e-4 |     -137.07490237 |  1.933e-4 |
+|    4-3 |       2.94e-6 |         2.85e-6 |           |            6.4e-6 |            |           1.78e-6 |           |
+#+tblfm: @2$4..@5$4=$3-$2::@2$6..@5$6=$5-$2::@2$8..@5$8=$7-$2::@6$2=@-1-@-2::@6$3=@-1-@-2::@6$5=@-1-@-2::@6$7=@-1-@-2
+
+[2025-01-21 Tue] New tests (#5,6)
+Relax + SCF tests (VASP 6.2.1):
+| Cluster | Energy relax | Energy SCF |
+|---------+--------------+------------|
+| lumi    |    -139.5175 |  -139.5175 |
+| helios  |    -139.5174 |  -139.5174 |
+| ares    |    -139.5175 |  -139.5175 |
+| athena  |    -139.5189 |  -139.5189 |
+
+[2025-01-24 Fri] Athena is giving slightly different system
+energy. Might be because of GPU build (or not). We are not going to
+use Athena as we have enough resources elsewhere.

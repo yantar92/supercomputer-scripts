@@ -1,0 +1,2 @@
+Make sure that we synchronize d-spacing, optB88-vdW, and ENCUT=550eV for Li and Na
+The datapoints are simply collected from AA0% converged CE runs with fixed d-spacing and re-converged

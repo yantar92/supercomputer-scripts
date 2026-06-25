@@ -1,0 +1,2 @@
+This folder is not a real data, but synthetic structure set generated with ICET.
+It is to be used for all other systems.

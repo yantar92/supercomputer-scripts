@@ -1,0 +1,155 @@
+#!/usr/bin/env python
+"""Plot voltage profile from ATAT results using pymatgen's battery analysis tools.
+The script should run from ATAT folder containing gs.out file.
+The script accepts two mandatory parameters: working battery ion atom
+(default: Li) and reference SCF vasprun containing the ion base
+structure (e.g. BCC Li).
+INCAR parameters and KPOINTS should match for ATAT runs and the base
+structure.
+Saves voltage vs. concentration plot into "voltage.png".
+"""
+import argparse
+import re
+from pathlib import Path
+from pymatgen.core import Element
+from IMDgroup.pymatgen.io.vasp.vaspdir import IMDGVaspDir
+from pymatgen.entries.computed_entries import ComputedEntry
+from pymatgen.apps.battery.insertion_battery import InsertionElectrode
+from pymatgen.apps.battery.plotter import VoltageProfilePlotter
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from alive_progress import alive_it
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "metal_vasprun",
+        help="Path to reference VASP SCF calculation for pure ion structure.")
+    parser.add_argument(
+        "cnt_vasprun",
+        help="Path to reference VASP SCF calculation for CNT structure.")
+    parser.add_argument(
+        "--ion", default="Li",
+        help="Working ion element (default: Li)",
+        type=Element)
+    parser.add_argument(
+        "--extra_data",
+        help="Extra data to consider. "
+        "List of paths mirroring ATAT folder structure. "
+        "Paths will be searched for structures from fit.out.",
+        type=str,
+        nargs="*",
+        default=[]
+    )
+    args = parser.parse_args()
+
+    # Read pure Li reference energy
+    li_run = IMDGVaspDir(Path(args.metal_vasprun))
+    li_energy = li_run.final_energy
+    assert li_run.converged
+    li_entry = ComputedEntry(li_run.structure.composition, li_energy)
+
+    cnt_run = IMDGVaspDir(Path(args.cnt_vasprun))
+    n_carbons = len(cnt_run.structure)
+
+    # Collect all computed entries
+    entries = []
+    all_dirs = [Path('.')] + [Path(p) for p in args.extra_data]
+
+    # tem = IMDGVaspDir.read_vaspdirs('.', path_filter=lambda p: (('relax.2' == p.name) or ('relax.2.optB88-vdw' == p.name)) and 'FAILED' not in str(p))
+    # tem = IMDGVaspDir.read_vaspdirs('.', path_filter=lambda p: 'relax.2' == p.name and 'FAILED' not in str(p))
+    # tem = IMDGVaspDir.read_vaspdirs('.', path_filter=lambda p: 'relax.2.optB88-vdW' == p.name and 'FAILED' not in str(p))
+    # tem = IMDGVaspDir.read_vaspdirs('.', path_filter=lambda p: 'relax.final' == p.name and 'FAILED' not in str(p))
+    # tem = IMDGVaspDir.read_vaspdirs('.', path_filter=lambda p: ('relax.final.optB88-vdW' == p.name or p.name == 'relax.2.optB88-vdW') and 'FAILED' not in str(p))
+    tem = IMDGVaspDir.read_vaspdirs('.', path_filter=lambda p: ('relax.final.optB88-vdW' == p.name or p.name == 'relax.2') and 'FAILED' not in str(p))
+    vasp_dirs = [Path(args.cnt_vasprun)] + [Path(p) for p in tem]
+    del tem
+
+    # vasp_dirs = []
+    # for parent in all_dirs:
+    #     if not parent.is_dir():
+    #         continue
+    #     for p in parent.iterdir():
+    #         if p.is_dir() and p.name.isdigit():
+    #             vasp_dirs.append(p)
+
+    for p in alive_it(vasp_dirs, total=len(vasp_dirs), title='Reading VASP outputs'):
+        # Check for ATAT.SCF directory
+        scf_dir = p / "ATAT.SCF"
+        target_dir = scf_dir if scf_dir.is_dir() else p
+        if not (target_dir / "INCAR").is_file():
+            continue
+        try:
+            vaspdir = IMDGVaspDir(target_dir)
+            if vaspdir.final_energy is None:
+                continue
+            if not vaspdir.converged and (target_dir / "INCAR").is_file():
+                print(f"Skipping {target_dir}: unconverged")
+                continue
+            comp = vaspdir.structure.composition
+            # Store volume in entry data for voltage calculation
+            entry = ComputedEntry(comp, vaspdir.final_energy)
+            entry.data["volume"] = vaspdir.structure.volume
+            entries.append(entry)
+        except Exception as e:
+            print(f"Skipping {target_dir}: {str(e)}")
+
+    # Create insertion electrode
+    electrode = InsertionElectrode.from_entries(
+        entries,
+        working_ion_entry=li_entry,
+        strip_structures=False  # We need volume data
+    )
+
+    # Extract voltage profile data
+    voltage_data = []
+    plotter = VoltageProfilePlotter(xaxis='x_form')
+    x, voltage = plotter.get_plot_data(electrode, term_zero=False)
+    capacity = []
+    # voltage = []
+    cap_acc = 0
+    sub_electrodes = electrode.get_sub_electrodes(adjacent_only=True)
+    normalization_mass = sub_electrodes[0].voltage_pairs[0].mass_charge
+    print(sub_electrodes[0])
+    print(sub_electrodes[0].voltage_pairs[0])
+    print(sub_electrodes[0].voltage_pairs[0].mass_discharge)
+    for sub_electrode in sub_electrodes:
+        capacity.append(cap_acc)
+        cap_acc += sum(pair.mAh for pair in sub_electrode.voltage_pairs) / normalization_mass
+        capacity.append(cap_acc)
+        # voltage.extend([sub_electrode.get_average_voltage()] * 2)
+    voltage_data = {'x': x, 'voltage': voltage, 'capacity': capacity}
+
+    # Create DataFrame and sort by ion concentration
+    df = pd.DataFrame(voltage_data).sort_values("x")
+
+    # Save and plot results
+    df.to_csv('voltage.out', sep=' ', index=False)
+
+    plt.figure(figsize=(10, 6))
+    # plt.step(df['capacity'], df['voltage'], where='post', color='blue', linewidth=2)
+    plt.step(df['x'] * n_carbons, df['voltage'], where='post', color='blue', linewidth=2)
+    plt.axhline(y=0, color='gray', linestyle='--', alpha=0.7)
+    base_formula = str(electrode.fully_charged_entry.composition)
+    base_formula = re.sub(
+        r'([A-Z][a-z]*)(\d+)',
+        lambda m: f'{m.group(1)}', base_formula)
+    # plt.xlabel(f'Concentration (x in {args.ion.symbol}$_{{x}}${base_formula})')
+    plt.xlabel(
+        f'Concentration (x in {args.ion.symbol}$_{{x}}$C$_' + '{' +
+        f'{n_carbons}' + '}$)')
+    # plt.xlabel('Capacity / mAh/g')
+    plt.ylabel(f'Voltage vs. {args.ion.symbol}/{args.ion.symbol}⁺ (V)')
+    plt.title('Voltage Profile')
+    plt.grid(alpha=0.3)
+    plt.tight_layout()
+    plt.savefig('voltage.png', dpi=300)
+    plt.savefig('voltage.svg', dpi=300)
+    plt.close()
+
+    print("Voltage profile saved to voltage.png and voltage.out")
+
+if __name__ == "__main__":
+    main()

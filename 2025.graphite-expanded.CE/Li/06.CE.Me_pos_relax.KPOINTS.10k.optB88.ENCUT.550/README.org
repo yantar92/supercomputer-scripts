@@ -1,0 +1,1 @@
+Make sure that we synchronize d-spacing, optB88-vdW, and ENCUT=550eV for Li and Na

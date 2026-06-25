@@ -1,0 +1,7 @@
+This is reference data for intercalation energy of Li inside pristine graphite in the dilute limit.
+We use optB88-vdW functional (the main functional in the calculations).
+1. We start from graphite as in ~/data/2024.graphite-expanded.Na/01.graphite.relax.FIX_NONE/optB88-vdW/
+   but re-converge with ENCUT=550eV
+2. We create supercells of 6x6x4 (AA) and 6x6x2 (AB) as in ~/data/2024.graphite-expanded.Na/03.graphite-expanded.Na.uniq_sites/optB88-vdW/
+3. We do not allow volume changes and cell changes. Just allow everything to move. (But make sure to check if AA/AB stacking holds)
+   With this setup, scan for insertion sites.

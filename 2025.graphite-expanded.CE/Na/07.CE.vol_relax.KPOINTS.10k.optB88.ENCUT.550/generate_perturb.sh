@@ -1,0 +1,1 @@
+/net/home/plgrid/plgyantar92/data/0000.lumi/2025.graphite.Li.CE/07.CE.vol_relax.KPOINTS.10k.optB88.ENCUT.550/generate_perturb.sh

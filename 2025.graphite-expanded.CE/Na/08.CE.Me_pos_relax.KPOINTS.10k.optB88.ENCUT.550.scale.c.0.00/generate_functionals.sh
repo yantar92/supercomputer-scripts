@@ -1,0 +1,1 @@
+../06.CE.Me_pos_relax.KPOINTS.10k.optB88.ENCUT.550/generate_functionals.sh

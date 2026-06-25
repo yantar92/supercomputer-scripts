@@ -1,0 +1,70 @@
+import sys
+from pathlib import Path
+import numpy as np
+from ase.eos import EquationOfState
+from ase.io import read
+from IMDgroup.pymatgen.io.vasp.vaspdir import IMDGVaspDir
+
+
+SCAN_THRESHOLD = 0.04 # scan threshold
+
+# 1. Create your configurations (looping over z-lengths)
+if Path('gorun_1/POSCAR').is_file():
+    vdir = IMDGVaspDir('gorun_1')
+    z_original = vdir['POSCAR'].structure.lattice.c
+else:
+    # Assume 'atoms' is your starting structure
+    z_original = atoms.cell[2, 2]
+# !! 5 POINTS!
+z_factors = np.linspace(1 - SCAN_THRESHOLD, 1 + SCAN_THRESHOLD, 5)
+energies = []
+volumes = []
+
+vdirs = []
+for d in Path(".").glob("gorun_*"):
+    if d.is_dir():
+        vdir = IMDGVaspDir(d)
+        if vdir.converged_electronic and vdir.converged_ionic:
+            vdirs.append(vdir)
+            print(f'Adding known data from {d}')
+
+for f in z_factors:
+    atoms.cell[2, 2] = z_original * f
+    # Important: scale_atoms=True moves atoms proportionally in z
+    atoms.set_cell(atoms.cell, scale_atoms=True)
+    found_existing = False
+    for vdir in vdirs:
+        if np.isclose(vdir.structure.lattice.c, atoms.cell[2, 2]):
+            energies.append(vdir.final_energy)
+            volumes.append(vdir.structure.volume)
+            found_existing = True
+            break
+    if not found_existing:
+        energy = atoms.get_potential_energy()
+        volume = atoms.get_volume()
+        d = IMDGVaspDir('.')
+        if not (d.converged_electronic and d.converged_ionic):
+             print('VASP not converged. Ignoring')
+        else:
+             energies.append(energy)
+             volumes.append(volume)
+    for f, energy in zip(z_factors, energies):
+        print(f"{z_original * f} {energy}")
+
+# 2. Fit the data
+# Even though we varied Z, we fit Energy vs. Volume
+eos = EquationOfState(volumes, energies)
+v0, e0, B = eos.fit()
+
+# 3. Calculate your optimal Z from the optimal Volume
+opt_z = v0 / (atoms.cell[0,0] * atoms.cell[1,1] * np.sin(np.deg2rad(atoms.cell.cellpar()[5])))
+
+atoms.cell[2, 2] = opt_z
+# Important: scale_atoms=True moves atoms proportionally in z
+atoms.set_cell(atoms.cell, scale_atoms=True)
+energies.append(atoms.get_potential_energy())
+print(f"Optimal z-length: {opt_z}, E = {energies[-1]}")
+for f, energy in zip(z_factors, energies):
+    print(f"{z_original * f} {energy}")
+print(f"{opt_z} {energies[-1]}")
+

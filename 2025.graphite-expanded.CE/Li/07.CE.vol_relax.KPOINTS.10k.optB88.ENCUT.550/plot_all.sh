@@ -1,0 +1,1 @@
+../../2025.graphite-exanded.Na.CE/07.CE.vol_relax.KPOINTS.10k.optB88.ENCUT.550/plot_all.sh

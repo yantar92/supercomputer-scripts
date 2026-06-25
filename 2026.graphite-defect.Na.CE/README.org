@@ -1,0 +1,883 @@
+# [[id:7f7cdaab-352b-4180-a730-4758343d4131][Na intercalation in expanded graphite in the presence of defects:1]]
+:LOGBOOK:
+CLOCK: [2025-12-30 Tue 14:47]--[2025-12-30 Tue 14:48] =>  0:01
+CLOCK: [2025-12-18 Thu 11:04]--[2025-12-18 Thu 11:29] =>  0:25
+CLOCK: [2025-12-18 Thu 09:09]--[2025-12-18 Thu 10:11] =>  1:02
+CLOCK: [2025-12-17 Wed 14:12]--[2025-12-17 Wed 15:53] =>  1:41
+CLOCK: [2025-12-17 Wed 13:19]--[2025-12-17 Wed 13:42] =>  0:23
+CLOCK: [2025-12-17 Wed 10:05]--[2025-12-17 Wed 11:04] =>  0:59
+CLOCK: [2025-12-17 Wed 08:47]--[2025-12-17 Wed 09:27] =>  0:40
+CLOCK: [2025-12-16 Tue 09:53]--[2025-12-16 Tue 11:29] =>  1:36
+CLOCK: [2025-12-15 Mon 12:24]--[2025-12-15 Mon 16:56] =>  4:32
+CLOCK: [2025-12-15 Mon 12:15]--[2025-12-15 Mon 12:21] =>  0:06
+CLOCK: [2025-12-15 Mon 09:52]--[2025-12-15 Mon 09:56] =>  0:04
+CLOCK: [2025-12-15 Mon 09:40]--[2025-12-15 Mon 09:52] =>  0:12
+CLOCK: [2025-12-15 Mon 09:17]--[2025-12-15 Mon 09:22] =>  0:05
+- Refiled on [2025-11-07 Fri 11:09]
+:END:
+ #project
+:server:
+#+begin_src org :noweb yes :tangle /ssh:helios:~/data/0000.lumi/2026.graphite-defect.Na.CE/README.org :mkdirp yes
+  <<7f7cdaab-352b-4180-a730-4758343d4131>>
+#+end_src
+:end:
+# A short summary about the project.
+The idea is to study how introducing defects into expanded carbon with
+various d-spacing affects the voltage profile.
+
+We are looking into common point defects:
+1. Mono-vacancy
+2. Bi-vacancy
+3. Stone-Wales
+
+We are also looking to varying d-spacing as we did in
+[[id:ArXiv-radchenko2025-rational-design-principles-ae9][Radchenko Malyi [ArXiv] (2025) Rational Design Principles for Na- and
+Li-ion Carbon Anodes from Interlayer Spacing Control]]
+
+There are also doped versions of point defects [[id:Wiley-Online-Library-tan2025-critical-role-of-05b][Xin Tan, Liangzhi Kou
+Angewandte Chemie International Edition 2025]] or 1d defects like grain
+boundaries, but we will ignore those.
+
+Potentially, there is also a curvature effect, but we also ignore it
+for now.
+
+# Measurable project outcomes
+1. Voltage profiles vs. defects for various d-spacing and defect density
+
+******* Motivation
+
+It is well-known that Na adsorption and intercalation are not
+favorable in pure graphite. The various defects present in hard carbon
+is what enables Na storage.  The Na storage is usually associated with
+3 well-known storage mechanisms: Na adsorption on defects, Na
+intercalation between graphitic layers with increased interlayer
+spacing, and Na filling into pores [[id:yang2025-recent-advances-of-5bc][Yang, He Advanced Functional
+Materials 2025]]. Understanding the overall Na storage thus requires
+clear picture of each storage mechanism and how it is related to
+the hard carbon defect structures.
+
+Probably the most studied mechanism is Na adsorption onto defects.
+This is thanks to its simplicity, where the storage is governed by
+point defects that are relatively easy to study from first principles.
+Numerous first-principle studies have calculated Na adsorption
+energies onto various defects in graphene [[id:Wiley-Online-Library-tan2025-critical-role-of-05b][Xin Tan, Liangzhi Kou
+Angewandte Chemie International Edition 2025]]; [[id:youn2021-nanometer-size-na-810][Youn, Tateyama npj
+Computational Materials 2021]]; bi-layer graphene [[id:tsai2015-ab-initio-study-ea8][Tsai, Yamada Journal
+of Materials Chemistry A 2015]], and, more rarely, graphite [[id:lin2025-unveiling-dominant-processes-721][Lin,
+Tateyama AEM 2025]].  These studies clearly show that Na adsorption
+energy (and the associated battery voltage) are strongly correlated to
+the defect types.
+
+Na intercalation is somewhat less studied. Most of the research is
+drawing analogies with the previous methods suitable for Li
+intercalation into graphite, often assuming similar intercalation
+structures and employing similar theoretical methods (like using
+cluster expansion to derive voltage vs. capacity). The common
+knowledge derived from these studies is that increased d-spacing in
+hard carbon is crucially important to allow Na intercalation.  The
+typical graphitic d-spacing simply cannot accommodate Na and
+distances close to 4.0A are required to allow Na intercalation even in
+the dilute limit. More sophisticated studies reveal that storing any
+significant Na concentrations require even larger d-spacing, above
+4.2A [[id:tsai2015-ab-initio-study-ea8][Tsai, Yamada Journal of Materials Chemistry A 2015]], [[id:ArXiv-radchenko2025-rational-design-principles-ae9][Radchenko
+Malyi [ArXiv] (2025) Rational Design Principles for Na- and Li-ion
+Carbon Anodes from Interlayer Spacing Control]]. In other words,
+d-spacing is considered the most important parameter enabling Na
+intercalation.
+
+Some studies explore Na intercalation in the presence of point
+defects, combining the knowledge from adsorption studies and the
+intercalation physics. For example, Tsai et al [[id:tsai2015-ab-initio-study-ea8][Tsai, Yamada Journal of
+Materials Chemistry A 2015]] reported (using a simplified intercalation
+structure of Na) that presence of single vacancy in bi-layer graphene
+can enable Na intercalation corresponding to low battery voltages.
+Datta et al performed a more systematic study (but on single-layer
+graphene) exploring a range of defect concentrations [[id:datta2014-defective-graphene-as-cd8][Datta, Shenoy ACS
+Applied Materials &amp; Interfaces 2014]]. These existing studies
+clearly show that presence of defects can additionally stabilize the
+intercalation compared to defect-free models that only feature the
+increased d-spacing.
+
+Indeed, the presence of point defects cannot be ignored in hard
+carbon. They produce a large portion of the Na capacity (via direct Na
+adsorption) and are an integral part of the microstructure, with both
+experimental TEM observations and MD-based structural models
+predicting defect concentrations as high as 18% [[id:wang2021-formation-and-topological-74f][Wang, Wu PCCP 2021]].
+Moreover, the defect density is sensitive to synthesis conditions, so
+understanding how intercalation is affected by presence of various
+numbers of defects might be critical to have a more complete picture
+of the Na storage in hard carbon.
+
+We thus aim to explore a dual role of d-spacing and various
+concentrations of point defects on Na intercalation in hard carbon.
+In particular, we are looking to understand how both experimentally
+measurable parameters (voltage profile) and low-level intercalation
+chemistry are affected. 
+
+Our idea is to add parameters in small increments, building up an
+understanding of how various aspects of the hard carbon structure
+affect Na storage. Unlike the more realistic models that aim to
+simulate hard carbon structures that are closer to reality, we are
+looking to provide a more synthetic but also controllable models,
+allowing to build scientific intuition how individual structural
+motifs in hard carbon affect Na storage and voltage profiles.
+
+******* Methods :REFILE:NOARCHIVE:
+:PROPERTIES:
+:ID:       d1c49c46-bbea-4a8e-b1f0-04b906852de6
+:END:
+# Nontrivial methods used to execute the action plan.
+
+[[id:Wiley-Online-Library-tan2025-critical-role-of-05b][Xin Tan, Liangzhi Kou Angewandte Chemie International Edition 2025]]
+gives us a good example of how people approach point defects
+systematically. They consider:
+1. Monovacancy
+2. Divacanacy (5-9-5 ring structure)
+3. Stone-Wales
+4. N- and O-doped monovacancies
+5. edges and larges vacancies
+6. All the above but on curved carbon surface
+
+Here, we are not interested in doping (maybe later) and edges.
+Let's also ignore larger vacancies for simplicity sake.
+
+So, we should look into vacancies and Stone-Wales.  However, let's
+systematically explore what is known about possible defects in hard
+carbon/graphite/graphene and their concentrations (that's what point
+defect studies often do not care about).
+
+[[id:7c66b642-fe2f-4db7-a4e4-90e129667eea][Deep research: Experimental data on defect concentration in hard
+carbon]] gives us an idea about the common defects - indeed, SW and
+vacancies. Vacancies are tricky. If we look closer into what is known
+about vacancies in graphene ([[id:57c25c32-cba0-4266-92a4-29a87f0037d9][Deep Research: Hard Carbon Vacancy
+Reconstruction Mechanisms]]; [[id:kotakoski2011-stone-wales-type-206][Kotakoski, Krasheninnikov PRB 2011]]), we
+will see that monovacancies are not the most stable variant - they
+agglomerate into divacancies that further dissociate into 5-8-5 (as
+in Xin et al) or, through high kinetic barrier, into 555-777 (the
+lowest-energy vacancy configuration that is known). SW may be
+considered straightforward - it is a 5-7-7-5 ring complex with net 0
+curvature, however detailed studies show that introducing curvature
+(up to 1.67A distortion!) can actually lower its energy, and form
+"sine" and "cosine" type of distortions [[id:ma2009-stone-wales-defects-a4f][Ma, Wang PRB 2009]]. Overall, we
+have:
+| Defect type | Ring signature | Formation energy, eV | Note                           | Buckling         |
+|-------------+----------------+----------------------+--------------------------------+------------------|
+| SW (flat)   |        5-7-7-5 |            4.82-5.53 | Depends on boundary conditions | none             |
+| SW (curved) |        5-7-7-5 |            4.59-5.26 | same                           | up to 1.67A      |
+| MV          |            5-9 |              7.3-7.8 | Magnetic!                      | local protrusion |
+| DV          |          5-8-5 |              7.2-8.0 |                                | none             |
+| DV          |        555-777 |              6.5-7.1 | high kinetic barrier           | yes              |
+| DV          |    5555-6-7777 |              6.7-7.3 |                                |                  |
+
+Curved SW is interesting. While I do not expect it to appear for small
+d-spacing because of geometric constraints, it may be something to
+consider for larger d-spacing. We may need to be mindful and use
+perturbations for every d-spacing rather than simply scaling up the
+relaxed systems and assume that the optimal geometry will be
+preserved.
+
+MV has been reported to be magnetic. This is important. I further
+checked what people report about Na adsorption on MV and found [[id:lin2025-unveiling-dominant-processes-721][Lin,
+Tateyama AEM 2025]] (Table S8) where they show -0.95eV (no ISPIN) vs
+-1.13eV (ISPIN) Na adsorption on MV. So, energetics is affected.
+MV is somewhat different from other graphite defects as they do not
+create dangling bonds, so we may not need magnetic calculations for DV
+and SW, but something to double-check for sure.
+
+[[id:lin2025-unveiling-dominant-processes-721][Lin, Tateyama AEM 2025]] also reported interesting observations about
+two MV located on top of each other in expanded graphite (they explore
+slit pore with d-spacings of 1.0, 1.5, and 2.0nm). They show that the
+second MV on top can induce a "bridge" of Na connecting the two MV
+defects. This means that MV-MV interaction may be extremely important.
+Indeed, it appears to be a common knowledge that defects in graphite
+are highly sensitive to self-interaction. [[id:ma2009-stone-wales-defects-a4f][Ma, Wang PRB 2009]] report as
+much as 0.5eV difference in SW formation energies depending on
+supercell choice. And it is not even only about supercell size, but
+even about the shape (square vs. hexagonal lattice vectors). So,
+relative positions of the defects may affect our results - both
+defects directly placed into the supercell and periodic images.
+
+To sum up, key factors to watch out:
+1. Everything should be perturbed, including out of plane.
+   Maybe even try in-phase/anti-phase perturbations (that's something
+   SW curvature is affected by)
+2. MV is magnetic. Others - need to double-check
+3. We need to do supercell studies.
+   Not just by size, but also by different aspect ratios.
+
+
+The supercell size dependence means that our reference "defected
+expanded graphite" energy will be highly sensitive to supercell size,
+which is a proxy for defect concentration. This is good - we can
+reasonably anticipate that Na intercalation will be strongly affected
+by the defect concentration (consistent with out observation in
+[[id:ArXiv-radchenko2025-rational-design-principles-ae9][Radchenko, Malyi ArXiv 2025]] that changes in carbon energy caused by
+d-spacing are one of the key factors stabilizing Na intercalation).
+But we also need to be careful using reasonable defect concentrations
+supported by literature - concentration range should correspond to
+real hard carbon, if possible.
+
+Unfortunately, I did not find good experimental data on the defect
+concentrations in hard carbon. The defects are clearly present,
+clearly abundant, clearly depend on the annealing temperature (and
+never fully "annealed away"), but no numbers. LLM ([[id:7c66b642-fe2f-4db7-a4e4-90e129667eea][Deep research:
+Experimental data on defect concentration in hard carbon]]) estimates
+between ~1%-4% of non-hexagonal rings judging from some TEM reports,
+but we can only get estimates like "X rings per nm of surface" from
+there - very rough estimate that is also not necessarily reliable due
+to the local nature of TEM probe.
+
+There is reverse diffraction fit presented in [[id:jurkiewicz2017-modelling-of-glass-f61][Jurkiewicz, Burian JAC
+2017]], but I am a bit skeptical about its results because they
+essentially use the same technique as in [[id:stratford2021-correlating-local-structure-14e][Stratford, Grey JACS 2021]]
+obtaining wildly different results. Anyway, Jurkiewicz gives some data
+on the fitted defect concentrations for hard carbons annealed at
+different temperatures, although they themselves put a big caveat
+behind exact defect types they have in the fit:
+| Hard carbon reference | MV |  SW | Total atoms | Defect concentration, % |
+|-----------------------+----+-----+-------------+-------------------------|
+| GC800                 | 30 |   0 |         777 |                    3.86 |
+| GC980                 |  6 |  15 |        1122 |                    1.87 |
+| GC1500                |  0 |  70 |        3123 |                    2.24 |
+| GC2000                |  0 |  75 |        4587 |                    1.64 |
+| GC2500                |  0 | 127 |        8398 |                    1.51 |
+#+tblfm: $5=($2+$3)*100.0/$4;%.2f
+
+A more promising approach is leveraging the large-scale atomic
+simulation models. [[id:de2016-graphitization-of-amorphous-189][Tomas, Marks Carbon 2016]] (review of different MD
+forces), [[id:putman2023-defining-graphenic-crystallites-7b3][Putman, Suarez-Martinez Carbon 2023]] and [[id:wang2021-formation-and-topological-74f][Wang, Wu PCCP 2021]]
+use molecular dynamics for different carbon densities and provide
+numbers on the number of 5-, 6-, 7-, 8-, and 9-rings.  Since we know
+that point defects dissociate into ring complexes, this ring data can
+give additional estimates on the concentration values.  For realistic
+hard carbon concentrations (1-1.5g/cm^3), the data is the following:
+| 5ring/atom, % |   7 |   8 |   9 | Source                              | 5 - 9 - 2*8 | delta 5/7a | delta 5/7b |
+|---------------+-----+-----+-----+-------------------------------------+-------------+------------+------------|
+|           9.2 | 8.0 | 3.4 |   0 | Wang, PCCP, early annealing         |         2.4 |       -1.2 |        5.6 |
+|           3.0 | 3.0 | 0.4 |   0 | Wang, PCCP, late annealing          |         2.2 |         0. |        0.8 |
+|           3.0 | 3.0 | 0.3 | 0.1 | Putman, final                       |         2.3 |         0. |        0.7 |
+|           1.2 | 9.7 | 7.4 | 7.2 | de Tomas review, Tersoff, 1.5g/cm^3 |       -20.8 |        8.5 |       30.5 |
+|           4.5 | 8.8 | 4.2 | 3.0 | de Tomas review, REBO-II            |        -6.9 |        4.3 |       15.7 |
+|           5.4 | 5.0 | 0.7 | 0.2 | de Tomas review, EDIP               |         3.8 |       -0.4 |        1.2 |
+|           8.3 | 9.2 | 1.8 | 0.8 | de Tomas review, ReaxFF             |         3.9 |        0.9 |        5.3 |
+#+tblfm: $6=$1-$4-2*$3::$7=$2-$1::$8=$2-$6
+
+From the above table, we can associate 9-rings with MV. I would not
+trust Tersoff/RBO-II/EDIP too much -- they give fairly small hexagon
+counts. Other data indicates very small concentrations, 0-0.8%. We can
+stretch it up to 3-4% if we trust reverse diffraction fit above for
+GC800 (low-temerature annealing), but I would expect [[id:wang2021-formation-and-topological-74f][Wang, Wu PCCP
+2021]] to plot it if 9-rings were observed in significant amounts at the
+early stages of the annealing, so the real upper bound is probably
+lower.
+
+8-rings are a signature of DV (5-8-5 variant); the range is -
+0.3-3.4%. Again, upper bound is a bit of a stretch here Maybe 1.8-2%
+is a more reasonable upper limit.
+
+SW and dissociated DV should contribute to 5- and 7-rings, creating
+equal amount of each. If all the defects in HC can be represented by
+MV, DV, and SW, we should expect that removing 5-8-5-bound and
+5-9-bound 5-rings from the total should leave us with equal amount of
+5- and 7-rings. This is clearly not the case, either because other,
+more exotic defects are present (e.g. complex sp3 3d-bonding, carbon
+edges, etc), or because some of the defects create complex clustering
+like 555-777 DV sharing one (or more) of its rings with 5-9 MV or
+5-8-5 DV. For simplicity, let's estimate the SW concentration range
+from 5-rings and 7-rings numbers as bounds (remember that 5-7-7-5
+consumes 2 rings each): 1.1-4.6% with 4.6% likely being an
+overestimation and more real range -- 1.1-2.0%. Note how we never get
+0% SW though - this may be important factor to consider, especially
+given potential strong defect-defect interactions. We likely need to
+build at least one test model that includes SW + some other
+defect. That should either be two isolated defects (e.g. SW + DV) or
+two defects sharing a ring. I am inclined to focus on the latter as it
+feels like something with lower energy -- will need to check defect
+reaction. Rough estimate of concentrations is "delta 5/7a": 0-1.2%.
+
+Takeaway about concentrations:
+| Defect type         | Min concentration | Max concentration | More realistic max |
+|---------------------+-------------------+-------------------+--------------------|
+| MV (5-9)            |                0% |                3% |               0.8% |
+| DV (5-8-5)          |              0.3% |              3.4% |               1.8% |
+| SW (5-7-7-5)        |              1.1% |              4.6% |               2.0% |
+| SW + MV (tentative) |                0% |              5.6% |               1.2% |
+
+The concentrations are very small. For realistic max MV concentration
+we need a supercell of at least 125 atoms. If we plan to use ATAT (or
+anything else that will make use of cluster expansion with full
+enumeration), enumerating large cell is practically limited around
+50-60 atoms, according to previous runs. So, realistic supercell we
+can manage is probably 4x4x2 (for AA graphite) and 4x4x1 (for AB
+graphite). That is 64 atoms, limiting our concentrations at 1.56%
+lower bound. If we go up to 6x6x2 (0.69%) even simple DFT relaxation
+becomes extremely slow, taking more than 12 hours for complex systems
+(with perturbation). So, something closer 1% (5x5x2) is probably the
+practical hard limit for DFT. If we want to look into smaller defect
+concentrations, using MACE will be a must.
+
+In any case, even if we do need to use MACE to full results, we need
+to have /some/ DFT runs at least to get the training data. We also
+need to see if ATAT can practically handle our system. So, we will
+first need to get a couple of trial calculations, starting from some
+fixed defect concentration, and testing all the steps to make sure
+that we know all the possible caveats that may show up.
+
+As the first cycle, let's choose 2 defects with constant density +
+fixed d-spacing and do all the anticipated calculation steps, aiming
+to produce voltage profile:
+1. SW defect with 1/64 concentration, d-spacing = 4.58Å
+2. MV defect with the same 1/64 concentration, d-spacing = 4.58Å
+
+ *Step 1*: Look into defect energy and geometry
+
+The aim here is getting a fully relaxed defect and configure DFT
+parameters we will be using later. Our starting point will be previous
+calculations from [[id:ArXiv-radchenko2025-rational-design-principles-ae9][Radchenko Malyi ArXiv 2025]] - we will reuse
+ENCUT=500eV, functional (=optB88-vdW=), and other parameters as the
+reference
+(=2025.graphite-exanded.Na.CE/08.CE.Me_pos_relax.KPOINTS.10k.optB88.ENCUT.550.scale.c.0.00/AA/d.4.58/0/ATAT=). We
+also start from AA stacking, because Na is expected to intercalate
+there easier and the ATAT fits may be faster.
+
+For 1/64 defect density (either SW or MV), we will need to create a
+supercell, and add a *single* defect inside. Consider multiple
+supercells: 4x4x2, 2x8x2, 4x2x4, 5x1x4 - formation energies may depend
+on the supercell shape, as reported in other studies. We also need to
+consider ISPIN 1 vs. 2 for magnetic vs. non-magnetic, especially for
+MV.
+: imdg derive <reference_system> supercell 4x4x2
+: <then also need to add a defect into the supercell>
+
+We cannot use the same relaxation constrains as in previous study -
+previously we could freeze carbons in place, but with the defect, we
+must allow carbons to move along all 3 dimensions, to find the optimal
+geometry. So, need to make sure that VASP inputs will not have any
+selective dynamics constrains. We thus need to fix the lattice
+vectors (ISIF=2), making sure that the AA stacking and d-spacing (at
+least, on average) do not change. *We still need to watch for
+stacking - AA may be unstable in the absence of Na. If AA is indeed
+unstable, may need to fix a single carbon in each layer to avoid
+AA->AB shifts.*
+
+It will be important to do the perturbation before relaxation of the
+pure defect. In my tests, 0.4Å was too much, 0.2Å is probably an
+optimal value:
+: imdg derive <supercell_with_vacancy_folder> perturb --distance 0.2
+
+Relaxed geometries are expected to form ring complexes as described in
+the literature. Note that what people call "5-rings" may not be
+displayed by VESTA - we may need to increase the bond length cutoff to
+see such rings. The exact cutoff will depend on the defect
+concentration with more isolated defects relaxing to smaller bond
+lengths. See [[id:8396c23b-dc1c-4218-97ce-68006379387f][[2025-12-17 Wed] vacancy, bi-vacancy perturbation,
+relaxation, Weekly report; 5-ring size correlates with supercell]].
+
+We also need to check and compare energies for different supercell
+shapes. If they are the same - good. If not, will need to discuss;
+probably we should better choose the same (and single) final supercell
+for next steps, maybe with the lowest energy.
+
+ *Step 2: Build Na sublattice and check adsorption energies*
+
+Once we have the supercell + defect geometry, we can put single Na
+inside and see where it goes.
+: imdg derive <supercell geometry output> ins --step=0.1 --multithread Na
+
+VASP parameters should mostly be good to go, so we just need to run
+things and see where Na goes. However, we will need to double-check
+the final unique sites for magnetic vs. non-magnetic (ISPIN) - Na
+adsorption on defect can be magnetic [[id:lin2025-unveiling-dominant-processes-721][Lin, Tateyama AEM 2025]]. If
+magnetism is important, will need to switch it on for all the
+subsequent runs.
+
+We expect that Na will have stable sites on top of the defect site -
+the energy should be low. The energy should also be consistent with
+literature. We can look into [[id:Wiley-Online-Library-tan2025-critical-role-of-05b][Lin Kou Angewandte Chemie International
+Edition 2025]] (maybe also find more papers) for comparison. The values
+will likely not be the same - most of the literature data is for
+graphene or for different d-spacing than hours. Additionally compare
+with [[id:youn2021-nanometer-size-na-810][Youn, Tateyama npj Computational Materials 2021]] (Fig. 5) and [[id:lin2025-unveiling-dominant-processes-721][Lin,
+Tateyama AEM 2025]] (supplementary) - they have expanded graphite data,
+although not always directly comparable.
+
+Also, literature consistently reports very specific cluster shapes on
+top of defects (see [[id:youn2021-nanometer-size-na-810][Youn, Tateyama npj Computational Materials 2021]]
+and [[id:lin2025-unveiling-dominant-processes-721][Lin, Tateyama AEM 2025]]), so it is a good idea to run Na insertion
+scan into graphite + defect + Na sitting on top of the defect
+system. I expect this to reveal additional sublattice sites in the
+vicinity of the adsorbed Na. If this turns out to be the case, we will
+need to discuss and maybe consider alternative way to build
+sublattice, iterating full Na insertion scan not just for single Na
+insertion, but also for multiple Na.
+
+ *Step 3: Fit the cluster expansion and compute voltage profile*
+
+Once we have possible Na sites, we can build a sublattice. ~imdg fill~
+command should auto-build the sublattice POSCAR with all possible Na
+sites occupied. Depending on the actual results, the sublattice may or
+may not be realistic - we may get Na sites close to each other. If we
+get non-trivial sublattice, will need to discuss and decide how to
+proceed. Tentatively, will remove some sites and see whether the fit
+can work.
+
+With POSCAR for sublattice, we can generate =lat.in= file for ATAT
+using pymatgen (=pmg convert= command can convert into ATAT
+format). That file can then be lightly cleaned up - we will need to
+mark Na sites as Vac, Na identifying the concentration scan.
+Then, with VASP input + lat.in file in place, ~gorun-maps~ command can
+automatically setup ATAT run. We will use 10000 kpoint density (same
+as in other calculations, but must be passed as parameter to
+~gorun-maps~ when processing ATAT-generated structures).
+
+We are not yet sure whether ATAT itself will work well for
+supercell. ATAT will certainly try to reduce the supercell into
+primitive lattice. However, with the defect, primitive lattice will
+likely be the supercell itself, so ATAT may actually work fine. But
+still need to watch for what kinds of structures ATAT will
+generate. If we start getting weird supercells, may need to switch to
+alternative structure generator. Most likely, it will be pymatgen's
+generator that can fully enumerate lattice. Will discuss if need to go
+this way. A preliminary expect that ATAT will actually run just fine
+with defect.
+
+Additionally, given that we are changing the relaxation constraints,
+we will need to repeat our calculations from [[id:ArXiv-radchenko2025-rational-design-principles-ae9][Radchenko Malyi ArXiv
+2025]] with defect-free expanded graphite. Here, we will definitely need
+pymatgen's generator to make sure that we directly compare for the
+same supercell. (In theory, it should not matter, however; but good
+idea to be careful).
+
+If everything works, well we should be able to fit the results and get
+voltage plots once the fit converges (=imdg visualize atat= command
+will show the current progress of the fit).
+
+ *Step 4: Repeat steps 1-3 for different graphite stacking, d-spacing,
+ defect concentrations, and maybe add more defect types*
+
+If everything works well, we can scale the calculations to other
+d-spacings, defect types, and defect concentrations.  We will likely
+be limited to increasing defect concentrations. For lower
+concentrations, we may need to consider MACE - will need to try and
+see.
+
+It may also be tempting to scale up the Na sublattices when changing
+d-spacing, but it might be a mistake - will need to re-check and see
+how Na positions are affected when the defect is getting further away
+from neighboring carbon layer. Also, defect geometries might change
+with d-spacing. So, should follow the steps carefully.
+
+******** Create vacancies
+
+#+begin_src bash :tangle no
+SOURCE="../2025.graphite-exanded.Na.CE/08.CE.Me_pos_relax.KPOINTS.10k.optB88.ENCUT.550.scale.c.0.00/AA/d.4.58/0/ATAT"
+REFERENCE="00.reference/graphite/AA/d.4.58"
+mkdir -p $REFERENCE
+cp ${SOURCE}/* $REFERENCE/
+#+end_src
+
+[2025-12-16 Tue] *We must use magnetic* for mono-vacancy
+
+#+begin_src bash :tangle no
+REFERENCE="00.reference/graphite/AA/d.4.58"
+cd ${REFERENCE}/../
+# 64 atoms, as in Eric's
+imdg derive d.4.58 supercell 4x4x2
+# manually remove selective dynamics - we alloc C to move; just fix lattice vectors to maintain overall d sum
+#+end_src
+
+Mono-vacancy
+#+begin_src bash :tangle no
+  REFERENCE="00.reference/graphite/AA/d.4.58"
+  cd ${REFERENCE}/../
+  SUPERCELL="5x5x2"
+  python << EOF
+  import random
+  from IMDgroup.pymatgen.io.vasp.sets import IMDDerivedInputSet
+  inputset = IMDDerivedInputSet(
+    directory="d.4.58.${SUPERCELL}",
+    inherit_prev_incarpy=False)
+  inputset.structure.remove_sites([random.randint(0,len(inputset.structure)-1)])
+  inputset.write_input(output_dir="d.4.58.${SUPERCELL}.delC")
+  EOF
+#+end_src
+
+Bi-vacancy
+#+begin_src bash :tangle no
+  REFERENCE="00.reference/graphite/AA/d.4.58"
+  cd ${REFERENCE}/../
+  SUPERCELL="5x5x2"
+  python << EOF
+  import random
+  from IMDgroup.pymatgen.io.vasp.sets import IMDDerivedInputSet
+  inputset = IMDDerivedInputSet(
+    directory="d.4.58.${SUPERCELL}",
+    inherit_prev_incarpy=False)
+  site_idx = random.randint(0,len(inputset.structure)-1)
+  nearby_idxs = inputset.structure.get_neighbors(inputset.structure[site_idx], 3.0)
+  nearby_idx = sorted(nearby_idxs, key=lambda neighbor: neighbor.nn_distance)[0].index
+  inputset.structure.remove_sites([site_idx, nearby_idx])
+  inputset.write_input(output_dir="d.4.58.${SUPERCELL}.del2C")
+  EOF
+#+end_src
+
+
+- *need perturb to make sure that vacancy is relaxed*
+  - [2025-12-17 Wed] At least perturb 0.4A to make things work (then, also need POTIM=0.1)
+- also need to allow all directions to move: z direction may have small curvature
+
+#+begin_src bash
+imdg derive d.4.58.4x4x2.delC perturb --distance 0.1
+# this may trigger AA->AB transition
+imdg derive d.4.58.4x4x2.delC perturb --distance 0.2
+#+end_src
+
+#+begin_src bash :tangle no
+DATA="00.reference/graphite/AA/d.4.58.3x2x2.delC"
+mkdir -p 01.graphite.Li/AA/d.4.58.3x2x2/
+cd 01.graphite.Li/AA/d.4.58.3x2x2/
+imdg derive ../../../${DATA} ins --step=0.1 --multithread Na
+#+end_src
+
+- then build convex hull
+
+- concentration of stone-wales to be comparable with [[id:wang2021-formation-and-topological-74f][Wang, Wu PCCP 2021]] paper
+  - probably around 8-10% (rings per atom, see Figure 2 in PCCP paper)
+    - 0.04 - 0.1 rings per atom
+
+- vacancy, Stone-Wales
+- f(defect concentration)
+- coordinate with Eric
+- focus: voltage evolution
+- net 0 curvature: SW should balance out (as it is)
+
+******* TODO Notes :REFILE:
+# Notes about what I think about the topic
+
+******* TODO Bookmarks references :NOARCHIVE:REFILE:
+# Notes about what is known about the topic
+
+******** DONE Deep research: Experimental data on defect concentration in hard carbon: no numbers; mostly just presence/correlations :note:ATTACH:
+CLOSED: [2025-12-16 Tue 09:53] SCHEDULED: <2025-12-16 Tue>
+:PROPERTIES:
+:CREATED:  [2025-12-15 Mon 09:49]
+:ID:       7c66b642-fe2f-4db7-a4e4-90e129667eea
+:DIR: nil
+:END:
+:LOGBOOK:
+- Refiled on [2025-12-30 Tue 16:12]
+- State "DONE"       from "NEXT"          [2025-12-16 Tue 09:53]
+CLOCK: [2025-12-16 Tue 09:51]--[2025-12-16 Tue 09:53] =>  0:02
+- Refiled on [2025-12-15 Mon 19:16]
+:END:
+[[attachment:Defect Structure of Hard Carbon: Vacancies and Stone–Wales Defects.pdf][Defect Structure of Hard Carbon: Vacancies and Stone–Wales Defects.pdf]]
+
+Main defects:
+- Stone-Wales (5-7 ring)
+- vacancy (mono- and di-)
+- no experimental data on specific concentrations
+******* NEXT Action plan :NOARCHIVE:REFILE:
+# Action plan to complete the project.
+
+******** NEXT Add tasks to the project and refile relevant info/tasks
+******** NEXT check USPEX, CALLIPSO
+******** NEXT try running ATAT, if we do not exceed 40 atoms/cell
+******** WAITING another idea is using MACE to screen random concentration structures; then confirm with DFT :WAITING:
+SCHEDULED: <2026-01-02 Fri>
+:PROPERTIES:
+:SUMMARY:  we are looking to compare DFT+D3 accuracy vs optB88-vdW
+:ID:       16c33982-4791-4fad-b1ed-1209ac26bf0b
+:SHOWFROMDATE: 2025-12-19 11:00
+:END:
+:LOGBOOK:
+- State "WAITING"    from "NEXT"       [2025-12-18 Thu 09:01]
+CLOCK: [2025-12-16 Tue 14:20]--[2025-12-16 Tue 16:05] =>  1:45
+:END:
+
+- Note taken on [2025-12-18 Thu 09:00] \\
+  we are looking to compare DFT+D3 accuracy vs optB88-vdW
+- Note taken on [2025-12-15 Mon 16:06] \\
+  finalize the plan, include Eric and Andres (maybe Zake)
+
+
+1. take structure from DFT, run MACE at non-0 temp: sample energies; find GS energy
+2. need to compare GS from DFT vs GS from MACE: should be consistent
+3. PBE-D3
+
+Plan:
+1. Do CE + opt (optB88), generate structures
+2. Use as input for MACE
+3. Get GS, calculate with PBE-D3, compare energies
+4. DFT relax -> put back to MACE, verify
+
+
+ *Considerations*
+- DFT+D3 is not yet accurate
+  1. very large d-spacing energy tail goes down (repulsion of carbon layers) - dispertion is good in limited range
+  2. consider spin-polarization; do we need or not; affects training
+******** DONE [#A] check with Eric about his paper; comment in SI :ATTACH:
+CLOSED: [2025-12-15 Mon 12:15] SCHEDULED: <2025-12-15 Mon>
+:PROPERTIES:
+:CREATED:  [2025-12-15 Mon 09:03]
+:ID:       88cefd71-7ee2-465c-bf50-9f1fa6814516
+:END:
+:LOGBOOK:
+- State "DONE"       from "NEXT"          [2025-12-15 Mon 12:15]
+CLOCK: [2025-12-15 Mon 10:32]--[2025-12-15 Mon 12:15] =>  1:43
+CLOCK: [2025-12-15 Mon 09:58]--[2025-12-15 Mon 10:02] =>  0:04
+- Refiled on [2025-12-15 Mon 09:16]
+:END:
+
+******** DONE Create folder on helios; add README
+CLOSED: [2025-12-15 Mon 12:57]
+:LOGBOOK:
+- State "DONE"       from "NEXT"          [2025-12-15 Mon 12:57]
+:END:
+******** DONE create script to introduce defects randomly into the smallest supercell (use large d-spacing)
+CLOSED: [2025-12-15 Mon 13:57]
+:LOGBOOK:
+- State "DONE"       from "NEXT"          [2025-12-15 Mon 13:57]
+:END:
+
+******** TODO Search more DFT papers on Na adsorption energy
+******** TODO maybe consider magnetic vs non-magnetic adsorption for Na
+:PROPERTIES:
+:CREATED:  [2025-12-18 Thu 14:37]
+:END:
+:LOGBOOK:
+- Refiled on [2025-12-19 Fri 08:54]
+:END:
+******** TODO look into relaxing x and y but not z (maybe fix atoms far away to fix AA)
+:PROPERTIES:
+:CREATED:  [2025-12-18 Thu 14:50]
+:END:
+:LOGBOOK:
+- Refiled on [2025-12-19 Fri 08:54]
+:END:
+******** TODO consider how to work only with supercell in ATAT, avoiding increasing/decreasin cell size (tentatively - limit max N atoms) 
+:PROPERTIES:
+:CREATED:  [2025-12-18 Thu 15:00]
+:END:
+:LOGBOOK:
+- Refiled on [2025-12-19 Fri 08:54]
+:END:
+******** TODO consider reference ATAT calculation without defects: same supercell without vacancy (this time C can move)
+:PROPERTIES:
+:CREATED:  [2025-12-18 Thu 15:02]
+:ID:       cc89adb0-9c8f-4a65-8991-f826bb4e71f0
+:END:
+:LOGBOOK:
+- Refiled on [2025-12-19 Fri 08:54]
+:END:
+******** TODO consider fixed supercell and use pymatgen to generate all possible structures manually - feed to atat manually
+:PROPERTIES:
+:CREATED:  [2025-12-18 Thu 15:08]
+:END:
+:LOGBOOK:
+- Refiled on [2025-12-19 Fri 08:55]
+:END:
+******** TODO do SW too for HC + defect CE; double-check Eric; talk with Eric - the idea is that we do different defect types both Li and Na; for paper: we take results for Na/Li at the end and try to work with them -> use at least one result from another person to make sure no mistakes
+:PROPERTIES:
+:CREATED:  [2025-12-18 Thu 15:26]
+:ID:       d5a8821c-2f9c-41d9-aae6-80d450b207c8
+:END:
+:LOGBOOK:
+- Refiled on [2025-12-19 Fri 08:55]
+:END:
+******** NEXT [#A] write a doc file or presentation with detailed project plan for graphite+defect+Na/Li (maybe use LLM) :CANCELLED:
+SCHEDULED: <2025-12-30 Tue>
+:PROPERTIES:
+:CREATED:  [2025-12-18 Thu 15:52]
+:SUMMARY:  create proper project
+:ID:       6cb8a9bb-7c2d-4898-9953-8e9414d4ad91
+:END:
+:LOGBOOK:
+CLOCK: [2025-12-31 Wed 09:23]
+CLOCK: [2025-12-30 Tue 14:48]--[2025-12-30 Tue 16:35] =>  1:47
+CLOCK: [2025-12-30 Tue 13:30]--[2025-12-30 Tue 14:47] =>  1:17
+CLOCK: [2025-12-30 Tue 09:10]--[2025-12-30 Tue 13:15] =>  4:05
+- State "CANCELLED"  from "TODO"       [2025-12-29 Mon 18:52]
+- State "CANCELLED"  from "TODO"       [2025-12-29 Mon 18:51]
+- State "CANCELLED"  from "TODO"          [2025-12-29 Mon 18:50]
+- State "FAILED"     from "TODO"       [2025-12-29 Mon 18:47]
+- State "CANCELLED"  from "TODO"       [2025-12-29 Mon 18:46]
+- State "CANCELLED"  from "TODO"       [2025-12-29 Mon 18:45]
+CLOCK: [2025-12-29 Mon 15:57]--[2025-12-29 Mon 16:41] =>  0:44
+- Refiled on [2025-12-19 Fri 08:55]
+:END:
+- Note taken on [2025-12-19 Fri 15:35] \\
+  create proper project
+
+
+******** TODO #vacancy #magnetic Valencia, Caldas [PRB] (2017) Single vacancy defect in graphene: Insights into its magnetic properties from theoretical modeling :BOOKMARK:article:ATTACH:
+:PROPERTIES:
+:TITLE:    Single vacancy defect in graphene: Insights into its magnetic properties from theoretical modeling
+:BTYPE:    article
+:ID:       valencia2017-single-vacancy-defect-c94
+:AUTHOR:   Valencia, A. M. and Caldas, M. J.
+:JOURNAL:  Physical Review B
+:YEAR:     2017
+:VOLUME:   96
+:NUMBER:   12
+:NOTE:     Online; accessed 19 December 2025
+:DOI:      10.1103/PhysRevB.96.125431
+:URL:      http://dx.doi.org/10.1103/PhysRevB.96.125431
+:HOWPUBLISHED: Journals.Aps
+:PUBLISHER: American Physical Society (APS)
+:CREATED:  [2025-12-19 Fri 09:25]
+:END:
+:LOGBOOK:
+- Refiled on [2025-12-19 Fri 21:22]
+:END:
+
+- [X] [[elisp:(browse-url (url-encode-url (format "https://sci-hub.se/%s" (org-entry-get nil "DOI"))))][downlaod and attach pdf]]
+- [ ] [[elisp:org-attach-open][read paper capturing interesting references]]
+- [ ] [[elisp:(browse-url (url-encode-url (format "https://www.semanticscholar.org/search?q=%s" (org-entry-get nil "TITLE"))))][check citing articles]]
+- [ ] [[elisp:(browse-url (url-encode-url (format "https://www.connectedpapers.com/search?q=%s" (org-entry-get nil "TITLE"))))][check related articles]]
+- [ ] check if bibtex entry has missing fields
+- [ ] Consider subscribing to new citations
+Following up: [[id:63e01b88-80e3-4715-bc90-dd4c2f2cf7ec][lookup good papers for graphene vacancies 10k points data]]
+******** TODO #vacancy_structure #5-9_ring El-Barbary, Briddon [PRB] (2003) Structure and energetics of the vacancy in graphite :BOOKMARK:article:ATTACH:
+:PROPERTIES:
+:TITLE:    Structure and energetics of the vacancy in graphite
+:BTYPE:    article
+:ID:       el-barbary2003-structure-and-energetics-31a
+:DIR: nil
+:AUTHOR:   El-Barbary, A. A. and Telling, R. H. and Ewels, C. P. and Heggie, M. I. and Briddon, P. R.
+:JOURNAL:  Physical Review B
+:YEAR:     2003
+:VOLUME:   68
+:NUMBER:   14
+:NOTE:     Online; accessed 19 December 2025
+:DOI:      10.1103/PhysRevB.68.144107
+:URL:      http://dx.doi.org/10.1103/PhysRevB.68.144107
+:HOWPUBLISHED: Journals.Aps
+:PUBLISHER: American Physical Society (APS)
+:CREATED:  [2025-12-19 Fri 09:34]
+:END:
+:LOGBOOK:
+- Refiled on [2025-12-19 Fri 21:22]
+:END:
+
+- [X] [[elisp:(browse-url (url-encode-url (format "https://sci-hub.se/%s" (org-entry-get nil "DOI"))))][downlaod and attach pdf]]
+- [ ] [[elisp:org-attach-open][read paper capturing interesting references]]
+- [ ] [[elisp:(browse-url (url-encode-url (format "https://www.semanticscholar.org/search?q=%s" (org-entry-get nil "TITLE"))))][check citing articles]]
+- [ ] [[elisp:(browse-url (url-encode-url (format "https://www.connectedpapers.com/search?q=%s" (org-entry-get nil "TITLE"))))][check related articles]]
+- [ ] check if bibtex entry has missing fields
+- [ ] Consider subscribing to new citations
+Following up: [[id:63e01b88-80e3-4715-bc90-dd4c2f2cf7ec][lookup good papers for graphene vacancies 10k points data]]
+******** TODO Meerholz, Sittert [Carbon Trends] (2025) Developing a density functional theory model of glassy carbon via carbon defect induction and relaxation :BOOKMARK:article:ATTACH:
+:PROPERTIES:
+:TITLE:    Developing a density functional theory model of glassy carbon via carbon defect induction and relaxation
+:BTYPE:    article
+:ID:       meerholz2025-developing-density-functional-95d
+:AUTHOR:   Meerholz, K. and Falch, A. and Van Sittert, C.G.C.E.
+:JOURNAL:  Carbon Trends
+:YEAR:     2025
+:VOLUME:   19
+:PAGES:    100466
+:NOTE:     Online; accessed 19 December 2025
+:DOI:      10.1016/j.cartre.2025.100466
+:URL:      http://dx.doi.org/10.1016/j.cartre.2025.100466
+:HOWPUBLISHED: Sciencedirect
+:PUBLISHER: Elsevier BV
+:CREATED:  [2025-12-19 Fri 10:22]
+:END:
+:LOGBOOK:
+- Refiled on [2025-12-19 Fri 21:22]
+:END:
+- I have to say that their 10% point defect figure is questionable. What they cite does not clearly claim this.
+
+
+- [X] [[elisp:(browse-url (url-encode-url (format "https://sci-hub.se/%s" (org-entry-get nil "DOI"))))][downlaod and attach pdf]]
+- [ ] [[elisp:org-attach-open][read paper capturing interesting references]]
+- [ ] [[elisp:(browse-url (url-encode-url (format "https://www.semanticscholar.org/search?q=%s" (org-entry-get nil "TITLE"))))][check citing articles]]
+- [ ] [[elisp:(browse-url (url-encode-url (format "https://www.connectedpapers.com/search?q=%s" (org-entry-get nil "TITLE"))))][check related articles]]
+- [ ] check if bibtex entry has missing fields
+- [ ] Consider subscribing to new citations
+******** TODO Deep Research: Hard Carbon Vacancy Reconstruction Mechanisms v2 :ATTACH:
+:PROPERTIES:
+:ID:       27454a33-1d42-4b9b-8a7a-89e62d4fbf3e
+:END:
+:LOGBOOK:
+- Refiled on [2025-12-19 Fri 21:22]
+:END:
+******** TODO Deep research: Cluster expansion in defective expanded graphite :ATTACH:
+:PROPERTIES:
+:ID:       07b8fb0e-a531-4fba-96a4-f737a9650846
+:END:
+:LOGBOOK:
+- Refiled on [2025-12-19 Fri 21:22]
+:END:
+******** NEXT [#A] consider youn's paper for cluster nucleation 
+SCHEDULED: <2025-12-30 Tue>
+:PROPERTIES:
+:CREATED:  [2025-12-29 Mon 15:19]
+:END:
+:LOGBOOK:
+- Refiled on [2025-12-30 Tue 14:52]
+- Refiled on [2025-12-29 Mon 15:21]
+:END:
+Following up: [[id:b36544c7-7a6d-462a-893d-3cfbcdc6e86a][andres: ask about paper with suppl info slope different pore size Deep research: the idea to study pore size dependence of Na nucleation]]
+
+
+******** NEXT [#A] Deep Research: Kinetics, nucleation, barrier; Sodium Storage and the Low-Voltage Plateau in Hard Carbon :ATTACH:
+SCHEDULED: <2025-12-30 Tue>
+:PROPERTIES:
+:ID:       e4426eab-765f-404a-9620-6dcab9432dab
+:DIR: nil
+:END:
+:LOGBOOK:
+- Refiled on [2025-12-30 Tue 14:52]
+- Refiled on [2025-12-29 Mon 18:43]
+:END:
+
+I am investigating pore filling mechanism during Na sodiation into
+hard carbon. It is generally believed that pore filling is associated
+with low, plateau voltage regime. Some papers claim that the
+underlying mechanistic picture is that Na nucleates and "wets" the
+pore edges, eventually overcoming nucleation barrier and not requiring
+energy to grow further. What appears to be missing though is the
+connection to the kinetics. It is also known for hard carbon + Na that
+low-voltage regime is associated with sloppy diffusion, but the origin
+of the slow diffusion is not clear, especially considering stable pore
+filling suggested by DFT calculations. I hypothesize that the key to
+this picture is nucleation barrier, which may depend on the pore size
+and needs to be overcame to induce stable pore filling - this barrier
+is higher than nominal voltage and is overcame stochastically, with
+pores randomly overcoming the barrier and beeing filled -- the process
+that requires time and is connected to standard nucleation theory
+frequencies. If my hypothesis is correct, we should experimentally see
+some correlation between diffusion coefficients and pore sizes (as
+pore size presumably controls the nucleation barrier with sub-0.5nm
+pores not allowing nucleation, ~1nm pores producing easy storage and
+large pores increasing the diffusion barriers). Please review the
+attached papers and ALSO LOOK INTO OTHER PUBLICATIONS. Analysize the
+possible contradictions with my ideas and highlight if similar ideas
+(kinetics & nucleation barriers) have been expressed.
+******* Sample condition :REFILE:NOARCHIVE:
+# Limited resources I need to complete the project.
+******* Raw data :REFILE:NOARCHIVE:
+# The raw data is stored here on per-experiment basis
+******* Results :REFILE:
+# The raw data is analysed here to be put into human-readable form (in non-trivial ways).
+# The data is organised by sample rather than by experiment to avoid dealing with experimental note mess.
+# Plots, important observations and thoughs are coming here.
+
+******** DONE [#A] [2025-12-17 Wed] vacancy, bi-vacancy perturbation, relaxation, Weekly report; 5-ring size correlates with supercell :meeting:ATTACH:
+CLOSED: [2025-12-19 Fri 10:08] SCHEDULED: <2025-12-18 Thu>
+:PROPERTIES:
+:ID:       8396c23b-dc1c-4218-97ce-68006379387f
+:DIR: nil
+:END:
+:LOGBOOK:
+- State "DONE"       from "NEXT"          [2025-12-19 Fri 10:08]
+CLOCK: [2025-12-19 Fri 10:07]--[2025-12-19 Fri 10:08] =>  0:01
+:END:
+******* Paperwork :REFILE:
+******* Presentations :REFILE:
+******* NEXT No deadline :NODEADLINE:SKIP:REFILE:
+:PROPERTIES:
+:LOGGING: DONE(!) FAILED(!) MERGED(!) WAITING(!) HOLD(!) CANCELLED(!)
+:END:
+# Na intercalation in expanded graphite in the presence of defects:1 ends here

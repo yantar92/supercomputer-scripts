@@ -1,0 +1,1 @@
+../07.CE.vol_relax.KPOINTS.10k.optB88.ENCUT.550/run_near_hull.sh
