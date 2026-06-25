@@ -14,5 +14,8 @@
 # but not
 .ipynb_checkpoints/
 0000.lumi
+/PATCHED_PYMATGEN
+2026.VASP.6.5.1/vasp651_intelmpi/build
+INCAR*py
 # special files
 !0000.scripts/walk-dirs-level
