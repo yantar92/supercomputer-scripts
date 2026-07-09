@@ -1984,8 +1984,6 @@ Bash config, including my personal aliases and conda auto-setup
   alias csl="cls"
   alias rsync="rsync -P"
 
-  <<tmux-bashrc>>
-
   export PATH="${HOME}/.local/bin:${HOME}/data/0000.scripts:$PATH"
 
   get_my_cpu_usage() {
@@ -2063,12 +2061,6 @@ Bash config, including my personal aliases and conda auto-setup
 :PROPERTIES:
 :ID:       304a828b-f6cc-42c7-83f2-0eef0cb5d31a
 :END:
-
-Setup local session to make it available from all the login nodes.
-#+name: tmux-bashrc
-#+begin_src bash :tangle no :noweb yes
-  alias tmux='tmux -S ~/.tmux-socket'
-#+end_src
 
 #+name: tmux-config
 #+begin_src bash :tangle no :noweb yes
