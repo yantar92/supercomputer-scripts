@@ -1989,11 +1989,12 @@ Bash config, including my personal aliases and conda auto-setup
   export PATH="${HOME}/.local/bin:${HOME}/data/0000.scripts:$PATH"
 
   get_my_cpu_usage() {
-      local usage=$(ps -u $USER -o pcpu --no-headers 2>/dev/null | awk '{sum+=$1} END {print sum+0}')
+      local usage=$(ps -u $USER -o pcpu= -o comm= 2>/dev/null \
+  		      | awk '$2!="ps" && $2!="awk" {sum+=$1} END {print sum+0}')
       if (( $(echo "$usage > 200" | bc -l) )); then
-          echo -e "\033[31m[CPU:${usage}%]\033[0m"  # Red when over quota
+          echo -e "\033[31m[Login node CPU:${usage}%]\033[0m"  # Red when over quota
       else
-          echo -e "\033[32m[CPU:${usage}%]\033[0m"  # Green when within quota
+          echo -e "\033[32m[Login node CPU:${usage}%]\033[0m"  # Green when within quota
       fi
   }
 
