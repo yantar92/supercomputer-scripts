@@ -118,6 +118,14 @@ even on LUMI where it is not available by default.
    "project_465002777"
   #+end_src
 
+- Slurm partitions (default, for interactive jobs)
+  We only need to specify on Lumi because specifying partition is
+  mandatory there.
+  #+name: slurm-default-partition-lumi
+  #+begin_src emacs-lisp
+   "standard"
+  #+end_src
+
 *** Reproducible software toolchain setup
 **** Common =bashrc= script
 :PROPERTIES:
@@ -208,8 +216,31 @@ The script sets up:
 
   # Common aliases
   alias q="squeue -o '%.10i %.22S %.10L %.6D %Z ' -u ${USER}"
-  alias scall="srun --account=${SLURM_ACCOUNT}"
-  alias sbash="scall -c 8 --time=24:00:00 --pty /bin/bash -l"
+
+  if [ -n "$SLURM_DEFAULT_PARTITION" ]; then
+      alias scall="srun --account=${SLURM_ACCOUNT} --partition=${SLURM_DEFAULT_PARTITION}"
+  else
+      alias scall="srun --account=${SLURM_ACCOUNT}"
+  fi
+
+  sbash() {
+      local cores=8 time=24:00:00
+      local -a pass_args=()
+      while (($#)); do
+  	case $1 in
+  	    -c)                         cores=$2; shift 2 ;;
+  	    -c*)                        cores="${1#-c}"; shift ;;
+  	    --cpus-per-task)            cores=$2; shift 2 ;;
+  	    --cpus-per-task=*)          cores="${1#--cpus-per-task=}"; shift ;;
+  	    -t)                         time=$2; shift 2 ;;
+  	    --time)                     time=$2; shift 2 ;;
+  	    --time=*)                   time="${1#--time=}"; shift ;;
+  	    ,*)                          pass_args+=("$1"); shift ;;
+  	esac
+      done
+      scall -c "$cores" --time="$time" --pty "${pass_args[@]}" /bin/bash -l
+  }
+
 #+end_src
 
 **** Installing Miniconda
@@ -1269,6 +1300,7 @@ Common =bashrc=:
   export IMDGroup="<<IMDGroup-lumi()>>"
   export SCRATCH="<<IMDGroup-scratch-lumi()>>"
   export SLURM_ACCOUNT="<<slurm-account-lumi()>>"
+  export SLURM_DEFAULT_PARTITION="<<slurm-default-partition-lumi()>>"
   export EBU_USER_PREFIX=<<IMDGroup-lumi()>>/dist/EasyBuild
   <<server-IMDGroup-bashrc>>
   module load LUMI/25.03 partition/C LMDB/0.9.31-cpeCray-25.03
