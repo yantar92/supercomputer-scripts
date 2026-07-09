@@ -10,14 +10,9 @@ This file contains the full configuration details for accessing the supercompute
 :END:
  #server #cluster #configuration #setup #DFT #VASP #plgrid #athena #ares #helios
 
-Server home dirs (replace my username with yours):
-- [[/ssh:plgyantar92@ares.cyfronet.pl:~]]
-- [[/ssh:plgyantar92@athena.cyfronet.pl:~]]
-- [[/ssh:plgyantar92@helios.cyfronet.pl:~]]
-- [[/ssh:radchenk@lumi.csc.fi:~]]
+Useful references:
 
-https://guide.plgrid.pl/en/
-
+Plgrid documentation: https://guide.plgrid.pl/en/
 Ares: https://docs.cyfronet.pl/display/~plgpawlik/Ares
 Athena: https://docs.cyfronet.pl/display/~plgpawlik/Athena
 Helios: https://docs.cyfronet.pl/display/~plgpawlik/Helios
@@ -30,7 +25,7 @@ https://www.lumi-supercomputer.eu/get-started-2021/users-in-poland/
 https://guide.plgrid.pl/en/grants/lumi/computing
 
 Directory structure:
-- Project folder: =$IMDGroup=
+- Project folder: =$IMDGroup= (group storage on clusters)
   - This project folder is shared across Athena and Ares clusters
   - Helios group folder is not shared with Ares and Athena
   - Lumi is also separate
@@ -41,11 +36,6 @@ Directory structure:
 : ssh plgyantar92@helios.cyfronet.pl
 : ssh radchenk@lumi.csc.fi
 
-Example tramp script
-#+begin_src bash :dir /ssh:ares:~ :results output
-ls -al
-#+end_src
-
 ** Common DFT toolchain shared across the group
 :PROPERTIES:
 :ID:       31b79802-ce1d-48b5-a537-abe30a9eb8c1
@@ -53,11 +43,10 @@ ls -al
 
  *Important*: Please, add =.bashrc= snippet described below to your
  local bashrc. Our scripts may not work if it is not done.
+ You can copy-paste the template from =<group folder>/dist/bashrc.example=
 
-=SCRATCH= environment will always point to the correct folder, even on LUMI
-where it is not available by default.
-
-
+=SCRATCH= environment variable will always point to the correct folder,
+even on LUMI where it is not available by default.
 
 - All the common software will be in
   : $IMDGroup/dist
@@ -70,6 +59,7 @@ where it is not available by default.
   - VASP potentials: =$IMDGroup/dist/vasp-potcar=
     Will be stored in =VASP_PSP_DIR= environment variable
   - Loading common =bashrc=; *please add the following to your local bashrc*
+    The same file can be found in =$IMDGroup/dist/bashrc.example=.
     #+name: IMDGroup-bashrc
     #+begin_src bash :tangle no
       # Ares, Athena, Helios
@@ -89,9 +79,12 @@ where it is not available by default.
     : (base) [ares][plgyantar92@login01 test_1_single_atom]$ q
     : JOBID             START_TIME  TIME_LEFT  NODES WORK_DIR 
     : 11339384    2024-09-11T09:59:14      14:59      1 /net/pr2/projects/plgrid/plggkeytech/yantar92/test/test_1_single_atom 
-  - =gorun= command will be made available to simplify job submission
+  - =gorun= command will be made available to simplify job submission.
+    Type ~gorun --help~ for details.
+  - =imdg= command can be used to work with Materials Project, and VASP inputs/outputs.
+    Type ~imdg --help~ for details.
 
-  - The following aliases are defined in the common bashrc:
+  - The following aliases are defined in the common =bashrc=:
     - =q= :: Print the current Slurm job queue for the user.
       Shorthand for =squeue -o '%.10i %.22S %.10L %.6D %Z ' -u ${USER}=.
     - =scall= :: Run =srun= with the group's Slurm account pre-configured
@@ -100,7 +93,8 @@ where it is not available by default.
     - =sbash= :: Start an interactive shell on a compute node.
       Equivalent to =scall -c 8 --time=24:00:00 --pty /bin/bash -l=.
       Gives 8 CPUs and 24-hour wall time.
-- Project directory
+
+- Project directories on clusters
   #+name: IMDGroup-plgrid
   #+begin_src emacs-lisp
    "$PLG_GROUPS_STORAGE/plggkeytech"
@@ -113,7 +107,8 @@ where it is not available by default.
   #+begin_src emacs-lisp
    "/scratch/project_465002777"
   #+end_src
-- Slurm account
+
+- Slurm account names
   #+name: slurm-account-plgrid
   #+begin_src emacs-lisp
    "plgkeytech2-cpu"
