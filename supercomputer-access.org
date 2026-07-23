@@ -277,15 +277,23 @@ dependencies:
 
 #+name: server-install-python-libs
 #+begin_src bash :tangle no
+  UPDATE_ONLY=false
+  if [[ "${1:-}" == "--update" ]]; then
+      UPDATE_ONLY=true
+      echo "Update mode: skipping fresh conda installation"
+  fi
+
   echo "IMD group dir: $IMDGroup"
   [[ -z "$IMDGroup" ]] && echo "Empty group directory" && exit 1
   mkdir -p "${IMDGroup}/dist"
   CONDA_LOCATION="${IMDGroup}/dist/miniconda3"
 
-  cd $SCRATCH
-  wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-  # Run in batch mode (-b), run tests (-t) to ensure that everything is fine
-  bash Miniconda3-latest-Linux-x86_64.sh -b -t -p $CONDA_LOCATION
+  if ! $UPDATE_ONLY; then
+      cd $SCRATCH
+      wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+      # Run in batch mode (-b), run tests (-t) to ensure that everything is fine
+      bash Miniconda3-latest-Linux-x86_64.sh -b -t -p $CONDA_LOCATION
+  fi
   # Load conda
   __conda_setup="$("${CONDA_LOCATION}/bin/conda" 'shell.bash' 'hook' 2> /dev/null)"
   if [ $? -eq 0 ]; then
@@ -1330,6 +1338,12 @@ https://docs.lumi-supercomputer.eu/software/installing/container-wrapper/
 
 #+header: :tangle (concat "/ssh:radchenk@lumi.csc.fi:" (org-babel-ref-resolve "IMDGroup-plgrid-lumi()") "/dist/python-install.sh") 
 #+begin_src bash :shebang #!/usr/bin/bash
+  UPDATE_ONLY=false
+  if [[ "${1:-}" == "--update" ]]; then
+      UPDATE_ONLY=true
+      echo "Update mode: using conda-containerize update"
+  fi
+
   echo "IMD group dir: $IMDGroup"
   [[ -z "$IMDGroup" ]] && echo "Empty group directory" && exit 1
   mkdir -p "${IMDGroup}/dist"
@@ -1337,18 +1351,26 @@ https://docs.lumi-supercomputer.eu/software/installing/container-wrapper/
 
   cd $SCRATCH
 
-  # On LUMI, they provide alternative way to install Conda
-
-  # wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-  # # Run in batch mode (-b), run tests (-t) to ensure that everything is fine
-  # bash Miniconda3-latest-Linux-x86_64.sh -b -t -p $CONDA_LOCATION
-
   mkdir -p "${CONDA_LOCATION}"
   cat <<EOF > env.yaml
   <<shared-env-yml>>
   EOF
+
   module load LUMI lumi-container-wrapper
-  conda-containerize new --prefix ${CONDA_LOCATION} env.yaml 
+
+  if ! $UPDATE_ONLY; then
+      # Fresh installation: wrap a new conda environment in a container
+      conda-containerize new --prefix ${CONDA_LOCATION} env.yaml
+  else
+      # Update existing container: conda-containerize creates a read-only
+      # container, so we use the update command with a post-install script.
+      # See https://docs.lumi-supercomputer.eu/software/installing/container-wrapper/
+      cat <<'POST' > post-install.sh
+#!/usr/bin/bash
+conda env update -n base -f env.yaml
+POST
+      conda-containerize update ${CONDA_LOCATION} --post-install post-install.sh
+  fi
 
   # Load conda
   __conda_setup="$("${CONDA_LOCATION}/bin/conda" 'shell.bash' 'hook' 2> /dev/null)"
