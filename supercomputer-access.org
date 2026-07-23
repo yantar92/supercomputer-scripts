@@ -263,16 +263,17 @@ group use consistent base Python setup.
 We use a standard set of libraries, with fixed versions
 #+name: shared-env-yml
 #+begin_src yaml :tangle no
-channels:
-  - conda-forge
-dependencies:
-  - python==3.12.4
-  - pymatgen==2025.10.7
-  - ase==3.23.0
-  - pip
-  - pip:
-    - "git+https://git.sr.ht/~yantar92/IMDgroup-pymatgen"
-    - "git+https://git.sr.ht/~yantar92/IMDgroup-gorun"
+  channels:
+    - conda-forge
+  dependencies:
+    - python==3.12.4
+    - pymatgen==2025.10.7
+    - ase==3.23.0
+    - phonopy
+    - pip
+    - pip:
+      - "git+https://git.sr.ht/~yantar92/IMDgroup-pymatgen"
+      - "git+https://git.sr.ht/~yantar92/IMDgroup-gorun"
 #+end_src
 
 #+name: server-install-python-libs
