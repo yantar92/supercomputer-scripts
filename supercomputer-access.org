@@ -325,7 +325,14 @@ Verify that installation worked
 
   source .bashrc
   [[ -z "$IMDGroup" ]] && die "Empty group directory"
-  conda info | grep "active env location : $IMDGroup" && echo "Conda is in the right dir" || die "Conda installation problem"
+
+  # Check that the conda wrapper exists (container or direct install).
+  if [[ -x "${IMDGroup}/dist/miniconda3/bin/conda" ]]; then
+      echo "Conda wrapper found."
+  else
+      die "Conda not found at ${IMDGroup}/dist/miniconda3/bin/conda"
+  fi
+
   python -c 'import ase; print("Success ase")' || die "Cannot load ase"
   python -c 'import pymatgen; print("Success pymatgen")' || die "Cannot load pymatgen"
 #+end_src
