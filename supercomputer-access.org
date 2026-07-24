@@ -554,11 +554,6 @@ Common script:
   export PATH="$IMDGroup/dist/airss-0.9.1/bin:$PATH"
   # This is needed to address complaints from Helios admins about excessive IO when using imdg tools and reading many VASP directories.
   module load GCCcore LMDB
-
-  # Containerized conda location (used when singularity/apptainer is available
-  # on compute nodes; falls back to standard miniconda3 otherwise).
-  # singularity is available as a plain executable on helios compute nodes.
-  export CONDA_SINGULARITY_LOCATION="${IMDGroup}/dist/miniconda3-singularity"
 #+end_src
 
 User =bashrc= example:
@@ -2166,6 +2161,11 @@ Bash config, including my personal aliases and conda auto-setup
   # GCC is needed to run ATAT from login node
   module load GCC/13.2.0
   <<yantar92-server-bashrc>>
+
+  # Containerized conda location (used when singularity/apptainer is available
+  # on compute nodes; falls back to standard miniconda3 otherwise).
+  # singularity is available as a plain executable on helios compute nodes.
+  export CONDA_SINGULARITY_LOCATION="${IMDGroup}/dist/miniconda3-singularity"
 #+end_src
 
 **** Lumi config
