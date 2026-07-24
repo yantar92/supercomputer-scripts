@@ -2067,7 +2067,7 @@ Bash config, including my personal aliases and conda auto-setup
   <<yantar92-server-bashrc>>
 #+end_src
 
-**** COMMENT Lumi config
+**** Lumi config
 :PROPERTIES:
 :ID:       a0422fd4-aebc-49c4-973a-802ff0d43c02
 :END:
