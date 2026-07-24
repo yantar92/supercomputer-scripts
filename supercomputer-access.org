@@ -163,7 +163,16 @@ The script sets up:
   if [[ ! -z "$IMDGroup" ]]; then
 
       # >>> conda initialize >>>
-      CONDA_LOCATION=${IMDGroup}/dist/miniconda3
+      # Prefer containerized conda when singularity/apptainer is available
+      # (e.g., on compute nodes). Set CONDA_SINGULARITY_LOCATION in the
+      # cluster-specific bashrc to enable this dual-path setup.
+      if [[ -n "${CONDA_SINGULARITY_LOCATION:-}" ]] \
+         && (command -v singularity &>/dev/null || command -v apptainer &>/dev/null) \
+         && [[ -d "${CONDA_SINGULARITY_LOCATION}" ]]; then
+          CONDA_LOCATION="${CONDA_SINGULARITY_LOCATION}"
+      else
+          CONDA_LOCATION="${IMDGroup}/dist/miniconda3"
+      fi
 
       if [[ ! -d "$CONDA_LOCATION" ]]; then
 
@@ -312,6 +321,73 @@ We use a standard set of libraries, with fixed versions
   <<shared-env-yml>>
   EOF
   conda env update -n base -f ${IMDGroup}/dist/env.yaml
+#+end_src
+
+***** Installing Miniconda via Singularity (preferred for LUSTRE clusters)
+:PROPERTIES:
+:ID:       cd63883b-12a0-48bf-a7e2-df1f42ae36dc
+:END:
+
+For clusters where LUSTRE struggles with many small files (Helios, Ares,
+Athena), use the LUMI container wrapper (Tykky) to package Miniconda into
+a Singularity/Apptainer container. This is the same tool used on LUMI
+itself, installed locally since these clusters do not provide it as a
+module.
+
+Wrapper scripts at =${IMDGroup}/dist/miniconda3/bin/= make the container
+transparent -- the existing bashrc continues to work without changes.
+
+#+name: server-install-python-singularity
+#+begin_src bash :tangle no
+  echo "IMD group dir: $IMDGroup"
+  [[ -z "$IMDGroup" ]] && echo "Empty group directory" && exit 1
+  mkdir -p "${IMDGroup}/dist"
+  CONDA_LOCATION="${CONDA_TARGET:-${IMDGroup}/dist/miniconda3}"
+
+  cd "${SCRATCH:-/tmp}"
+
+  # Locate singularity or apptainer.
+  if command -v singularity &>/dev/null; then
+      SINGULARITY="singularity"
+  elif command -v apptainer &>/dev/null; then
+      SINGULARITY="apptainer"
+  else
+      echo "ERROR: Neither singularity nor apptainer found."
+      echo "Run this script on a compute node where singularity is available."
+      exit 1
+  fi
+
+  echo "Using: $SINGULARITY"
+
+  # Install hpc-container-wrapper (Tykky), the same tool used on LUMI.
+  WRAPPER_DIR="${SCRATCH:-/tmp}/hpc-container-wrapper"
+  if [[ ! -d "${WRAPPER_DIR}" ]]; then
+      git clone https://github.com/CSCfi/hpc-container-wrapper "${WRAPPER_DIR}"
+  fi
+  cd "${WRAPPER_DIR}"
+
+  # Install with local config (works on any system with singularity/apptainer).
+  bash install.sh local
+
+  # Write env.yaml (doubles as reference for the group).
+  cat <<EOF > "${IMDGroup}/dist/env.yaml"
+  <<shared-env-yml>>
+  EOF
+
+  # Build the containerized conda environment.
+  # Tykky pulls a miniconda Docker image, installs packages from env.yaml,
+  # squashes the result into a .sqfs file, and auto-discovers all binaries
+  # to create wrapper scripts in ${CONDA_LOCATION}/bin/.
+  ./bin/conda-containerize new --prefix "${CONDA_LOCATION}" "${IMDGroup}/dist/env.yaml"
+
+  # Verify wrappers exist.
+  if [[ ! -x "${CONDA_LOCATION}/bin/python" ]]; then
+      echo "ERROR: wrapper not created at ${CONDA_LOCATION}/bin/python"
+      exit 1
+  fi
+
+  echo "Wrapper scripts installed in: ${CONDA_LOCATION}/bin/"
+  echo "Done."
 #+end_src
 
 Verify that installation worked
@@ -477,6 +553,11 @@ Common script:
   export PATH="$IMDGroup/dist/airss-0.9.1/bin:$PATH"
   # This is needed to address complaints from Helios admins about excessive IO when using imdg tools and reading many VASP directories.
   module load GCCcore LMDB
+
+  # Containerized conda location (used when singularity/apptainer is available
+  # on compute nodes; falls back to standard miniconda3 otherwise).
+  # singularity is available as a plain executable on helios compute nodes.
+  export CONDA_SINGULARITY_LOCATION="${IMDGroup}/dist/miniconda3-singularity"
 #+end_src
 
 User =bashrc= example:
@@ -494,12 +575,24 @@ User =bashrc= example:
 :ID:       cbb198eb-27c6-48b5-a1e9-0fbf94b24bef
 :END:
 
-Generic scripts should work.
-Unlike Ares and Athena, Helios uses a separate group folder.
+Helios does not have singularity on the login node -- it is only available
+as an executable on compute nodes. Install two conda environments in parallel:
+
+1. Standard miniconda at =${IMDGroup}/dist/miniconda3= (works from the login node).
+2. Containerized miniconda at =${IMDGroup}/dist/miniconda3-singularity=
+   (built via Tykky; run on a compute node). The bashrc auto-detects
+   singularity and prefers the containerized version when available.
 
 #+header: :tangle (concat "/ssh:plgyantar92@helios.cyfronet.pl:" (org-babel-ref-resolve "IMDGroup-plgrid-helios()") "/dist/python-install.sh") 
 #+begin_src bash :shebang #!/usr/bin/bash
 <<server-install-python-libs>>
+#+end_src
+
+#+header: :tangle (concat "/ssh:plgyantar92@helios.cyfronet.pl:" (org-babel-ref-resolve "IMDGroup-plgrid-helios()") "/dist/python-install-singularity.sh") 
+#+begin_src bash :shebang #!/usr/bin/bash
+# Run this on a compute node (sbash or srun).
+CONDA_TARGET="${IMDGroup}/dist/miniconda3-singularity"
+<<server-install-python-singularity>>
 #+end_src
 
 ****** Installing VASP on Helios
