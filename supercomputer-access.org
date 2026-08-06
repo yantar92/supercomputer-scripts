@@ -276,14 +276,20 @@ We use a standard set of libraries, with fixed versions
     - conda-forge
   dependencies:
     - python==3.12.4
-    - pymatgen==2025.10.7
-    - ase==3.23.0
-    - phonopy
     - pip
     - pip:
+      - pymatgen==2025.10.7
+      - ase==3.23.0
+      - phonopy
       - "git+https://git.sr.ht/~yantar92/IMDgroup-pymatgen"
       - "git+https://git.sr.ht/~yantar92/IMDgroup-gorun"
+      - airsspy==0.1.3
       - preloaded
+      - mp-api
+      - mace-torch==0.3.15
+      - torch-sim-atomistic==0.5.2
+      - torch-dftd
+      - mcpy
 #+end_src
 
 #+name: server-install-python-libs
