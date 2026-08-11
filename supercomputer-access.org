@@ -1469,9 +1469,9 @@ https://docs.lumi-supercomputer.eu/software/installing/container-wrapper/
       # container, so we use the update command with a post-install script.
       # See https://docs.lumi-supercomputer.eu/software/installing/container-wrapper/
       cat <<'POST' > post-install.sh
-#!/usr/bin/bash
-conda env update -n base -f env.yaml
-POST
+  #!/usr/bin/bash
+  conda env update -n base -f env.yaml
+  POST
       conda-containerize update ${CONDA_LOCATION} --post-install post-install.sh
   fi
 
