@@ -111,7 +111,7 @@ even on LUMI where it is not available by default.
 - Slurm account names
   #+name: slurm-account-plgrid
   #+begin_src emacs-lisp
-   "plgkeytech2-cpu"
+   "plgkeyteche3-cpu"
   #+end_src
   #+name: slurm-account-lumi
   #+begin_src emacs-lisp
