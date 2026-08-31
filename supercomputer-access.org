@@ -113,6 +113,10 @@ even on LUMI where it is not available by default.
   #+begin_src emacs-lisp
    "plgkeyteche3-cpu"
   #+end_src
+  #+name: slurm-account-athena
+  #+begin_src emacs-lisp
+   "plgkeyteche3-gpu-a100"
+  #+end_src
   #+name: slurm-account-lumi
   #+begin_src emacs-lisp
    "project_465002777"
@@ -1654,7 +1658,7 @@ Necessary modules:
 #+header: :tangle (concat "/ssh:plgyantar92@athena.cyfronet.pl:" (org-babel-ref-resolve "IMDGroup-plgrid-athena()") "/dist/bashrc-" (org-babel-ref-resolve "uname-athena()")) 
 #+begin_src bash :noweb yes
   export IMDGroup="<<IMDGroup-plgrid()>>"
-  export SLURM_ACCOUNT="<<slurm-account-plgrid()>>"
+  export SLURM_ACCOUNT="<<slurm-account-athena()>>"
   <<server-IMDGroup-bashrc>>
 #+end_src
 
