@@ -281,6 +281,8 @@ We use a standard set of libraries, with fixed versions
   dependencies:
     - python==3.12.4
     - pip
+    - xtb
+    - crest
     - pip:
       - pymatgen==2025.10.7
       - ase==3.23.0
@@ -294,6 +296,13 @@ We use a standard set of libraries, with fixed versions
       - torch-sim-atomistic==0.5.2
       - torch-dftd
       - mcpy
+      - rdkit==2026.3.5
+      - xgboost==3.2.0
+      - lightgbm==4.7.0
+      - catboost==1.2.10
+      - optuna==4.9.0
+      - shap==0.51.0
+      - icet==3.2
 #+end_src
 
 #+name: server-install-python-libs
