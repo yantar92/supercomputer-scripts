@@ -1,5 +1,3 @@
-# -*- after-save-hook: (org-md-export-to-markdown); -*-
-#+options: toc:nil
 #+TITLE: Python and Bash setup for the IMD Group
 #+AUTHOR: Ihor Radchenko
 #+EMAIL: yantar92@posteo.net
