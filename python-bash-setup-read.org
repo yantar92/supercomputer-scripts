@@ -1,9 +1,8 @@
-# -*- after-save-hook: (org-org-export-to-org); -*-
+# Created 2026-09-18 Fri 12:45
 #+options: toc:nil
-#+TITLE: Python and Bash setup for the IMD Group
-#+AUTHOR: Ihor Radchenko
-#+EMAIL: yantar92@posteo.net
-#+EXPORT_FILE_NAME: python-bash-setup-read.org
+#+title: Python and Bash setup for the IMD Group
+#+author: Ihor Radchenko
+#+export_file_name: python-bash-setup-read.org
 
 This guide walks you through setting up your shell so that you can use
 the group's shared Python (Conda) environments and helper commands on
@@ -12,14 +11,13 @@ each cluster. It assumes you already have an account and can log in.
 The full technical details (how the environments are built, VASP
 makefiles, etc.) live in [[file:supercomputer-access.org][supercomputer-access.org]]. This file is the
 step-by-step guide.
-
 * How the setup works
 
 All group software lives in a shared group directory, =IMDGroup=.
 Inside it, =dist/= holds:
 
 - =miniconda3= :: the shared Conda environment with the group's standard
-  Python libraries (the =base= environment).
+     Python libraries (the =base= environment).
 - =vasp.<version>-<cluster>= :: VASP binaries compiled for that cluster.
 - =vasp-potcar= :: VASP pseudopotentials.
 - =bashrc-<cluster>= :: the group shell configuration for that cluster.
@@ -28,12 +26,10 @@ You enable all of this by appending a short snippet to your own
 =~/.bashrc=. After that, every new login shell has Python, VASP, the
 potentials, and the helper commands ready to use. Nothing is installed
 in your home directory.
-
 * Step 1: add the group environment to your bashrc
 
 Log in to the cluster, then append the matching snippet to the end of
 your =~/.bashrc=.
-
 ** Ares, Athena, Helios (PLGrid)
 
 #+begin_src bash
@@ -45,7 +41,6 @@ your =~/.bashrc=.
 
 The same snippet is available as =$IMDGroup/dist/bashrc.example= if you
 prefer to copy it directly.
-
 ** LUMI
 
 #+begin_src bash
@@ -54,7 +49,6 @@ prefer to copy it directly.
   export CLUSTER_NAME="${CLUSTER_NAME:-lumi}"
   source ${IMDGroup}/dist/bashrc-${CLUSTER_NAME}
 #+end_src
-
 * Step 2: reload your shell and verify
 
 Log out and back in (or run =source ~/.bashrc=), then run:
@@ -70,7 +64,6 @@ Log out and back in (or run =source ~/.bashrc=), then run:
 
 If =which python= does not point into =$IMDGroup/dist=, your =.bashrc=
 snippet is not being sourced. See [[*Troubleshooting][Troubleshooting]].
-
 * What you get
 
 After the setup, each login shell has:
@@ -86,17 +79,47 @@ After the setup, each login shell has:
   - =q= :: print your Slurm job queue.
   - =scall= :: =srun= with the group's Slurm account already set.
   - =sbash= :: start an interactive shell on a compute node (8 CPUs,
-    24 h by default).
+       24 h by default).
   - =gorun= :: submit VASP jobs (and GPU jobs on LUMI, see below).
   - =imdg= :: work with Materials Project and VASP inputs/outputs.
-
 * Pinned Python libraries
 
 The Conda environment is shared and version-pinned for the whole group.
 This is the exact =env.yaml= that defines the =base= environment:
 
-#+INCLUDE: "supercomputer-access.org::shared-env-yml"
-
+#+name: shared-env-yml
+#+begin_src yaml :tangle no
+  channels:
+    - conda-forge
+  dependencies:
+    - python==3.12.4
+    - pip
+    - xtb
+    - crest
+    - pip:
+      - pymatgen==2026.5.4
+      - ase==3.23.0
+      - phonopy
+      - "git+https://github.com/yantar92/IMDgroup-pymatgen.git"
+      - "git+https://github.com/yantar92/IMDgroup-gorun.git"
+      - airsspy==0.1.3
+      - preloaded
+      - mp-api==0.46.4
+      - mace-torch==0.3.16
+      - torch-sim-atomistic==0.6.1
+      - torch-dftd==0.5.3
+      - torch-geometric==2.8.0.post1
+      - mcpy==2.0.0
+      - rdkit==2026.3.5
+      - xgboost==3.2.0
+      - lightgbm==4.7.0
+      - catboost==1.2.10
+      - optuna==4.9.0
+      - shap==0.51.0
+      - icet==3.2
+      - pandas==3.0.5
+      - pyarrow==25.0.0
+#+end_src
 * GPU and MACE on LUMI
 
 The shared =miniconda3= environment above is CPU-only (no PyTorch/MACE).
@@ -129,7 +152,6 @@ activate it with =source=:
 #+begin_src bash
   source ~/myenv/bin/activate
 #+end_src
-
 * Requesting new libraries
 
 The Conda environment is shared and version-pinned for the whole group.
@@ -141,7 +163,6 @@ When you do need your own environment (for example, inside the GPU
 container), create it with =--system-site-packages= so it reuses the
 existing libraries instead of duplicating them (and inflating the number
 of files). See [[*Installing your own virtual environment][Installing your own virtual environment]].
-
 * Advanced
 
 ** Installing your own virtual environment
@@ -161,7 +182,6 @@ already in the group environment, so =pip= only installs the difference
 instead of a full second copy. This keeps the environment small, which
 matters on Lustre filesystems where many small files slow things down.
 See [[*Requesting new libraries][Requesting new libraries]] for the shared-environment policy.
-
 ** Building custom containers
 
 For a substantially different stack (for example, a different PyTorch or
@@ -172,9 +192,9 @@ The group's own install scripts are the best reference -- they show the
 working commands on LUMI:
 
 - =$IMDGroup/dist/python-install.sh= :: builds the CPU Conda
-  environment via =conda-containerize=.
+     environment via =conda-containerize=.
 - =$IMDGroup/dist/python-install-gpu.sh= :: the GPU container, built on
-  top of the multitorch image.
+     top of the multitorch image.
 
 Follow the LUMI documentation:
 - https://docs.lumi-supercomputer.eu/software/installing/container-wrapper/
@@ -189,12 +209,11 @@ Two things to keep in mind:
 - A container image is read-only at run time, so install packages at
   build time, or use a virtual environment inside the container for
   anything you add at run time.
-
 * Troubleshooting
 
-- =which python= does not point into =$IMDGroup/dist= ::
-  Your =.bashrc= snippet is not being sourced. Check that it is at the
-  end of =~/.bashrc= and that =IMDGroup= matches the cluster you are on.
-- =!!! IMD Group env error= when opening a shell ::
-  =IMDGroup= or =CLUSTER_NAME= is not set. Re-check the snippet for the
-  cluster you are on.
+- =which python= does not point into =$IMDGroup/dist= :: 
+     Your =.bashrc= snippet is not being sourced. Check that it is at the
+     end of =~/.bashrc= and that =IMDGroup= matches the cluster you are on.
+- =!!! IMD Group env error= when opening a shell :: 
+     =IMDGroup= or =CLUSTER_NAME= is not set. Re-check the snippet for the
+     cluster you are on.
