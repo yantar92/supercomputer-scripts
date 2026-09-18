@@ -1539,6 +1539,127 @@ https://docs.lumi-supercomputer.eu/software/installing/container-wrapper/
   unset __conda_setup
 #+end_src
 
+****** Installing Python + multitorch + group packages on LUMI
+:PROPERTIES:
+:ID:       aff53534-7fe7-4e82-93d4-14afc880792e
+:END:
+
+LUMI provides pre-built multitorch SIF containers with ROCm-enabled
+PyTorch from the LAIF project (=/appl/local/laifs/containers/=).  We
+extend one of these containers with the group's Python packages using
+Singularity's unprivileged PRoot build (=singularity build=).
+
+The source of truth for which packages to install is the
+=shared-env-yml= block defined under [[id:d1e0d8b5-b87a-44cf-8c94-90892e20a708][Installing Miniconda]].  The build
+script extracts the pip-installable subset from it and bakes
+everything into the SIF.  This keeps the common package list in a
+single place.
+
+*Modules required for PRoot builds:*
+
+#+name: lumi-multitorch-modules
+#+begin_src bash :tangle no
+  module purge
+  module load CrayEnv
+  module load PRoot
+#+end_src
+
+*Pip-install the group packages inside the container (=%post= section):*
+
+Parses =shared-env-yml=, extracts all pip-installable dependencies
+(skipping =python= and =pip= as they are already in the container),
+and installs them.
+
+#+name: lumi-pip-install-from-env
+#+begin_src python :tangle no :results output :noweb-prefix no
+  import yaml, subprocess, sys
+
+  env = yaml.safe_load("""<<shared-env-yml>>""")
+  pkgs = []
+  for dep in env.get('dependencies', []):
+      # if isinstance(dep, str):
+      #     # Conda-style 'pkg==version' -- strip for name check,
+      #     # but pass the full spec to pip so the version is pinned.
+      #     name = dep.split('==')[0].split('<')[0].split('>')[0].split('!=')[0]
+      #     if name not in ('python', 'pip'):
+      #         pkgs.append(dep)
+      if isinstance(dep, dict) and 'pip' in dep:
+          pkgs.extend(dep['pip'])
+
+  print(f"pip install {' '.join(pkgs)}")
+#+end_src
+
+*Singularity definition file:*
+
+Generated from the multitorch SIF and =lumi-pip-install-from-env=.
+
+We install into a custom venv as otherwise there are problems with
+built-in version of container wrapper.
+#+name: lumi-container-def
+#+begin_src text :tangle no
+  Bootstrap: docker
+  From: docker.io/lumiaifactory/lumi-multitorch:torch
+
+  %environment
+      . /opt/venv2/bin/activate
+
+  %post
+      python -m venv /opt/venv2
+      . /opt/venv2/bin/activate
+      <<lumi-pip-install-from-env()>>
+#+end_src
+
+#+header: :tangle (concat "/ssh:radchenk@lumi.csc.fi:" (org-babel-ref-resolve "IMDGroup-plgrid-lumi()") "/dist/python-install-gpu.sh") 
+#+begin_src bash :shebang #!/usr/bin/bash :noweb yes
+      echo "IMD group dir: $IMDGroup"
+      [[ -z "$IMDGroup" ]] && echo "Empty group directory" && exit 1
+      mkdir -p "${IMDGroup}/dist"
+      # CONTAINER_SIF="${IMDGroup}/dist/lumi-python.sif"
+      CONTAINER_SIF="${SCRATCH}/lumi-python-gpu.sif"
+
+      # --- Build container ---
+      # Build into a staging file, then swap it into place. The live
+      # container at ${CONTAINER_SIF} is left untouched until the new one is
+      # fully built, so existing users are not affected.
+      STAGING="${CONTAINER_SIF}.new.$(date +%Y%m%d%H%M%S)"
+
+      cd $SCRATCH
+
+      # Load PRoot and Singularity modules.
+      <<lumi-multitorch-modules>>
+
+      # Generate the Singularity definition file.
+      # lumi-container-def uses Bootstrap: docker to pull the
+      # multitorch image, and lumi-pip-install-from-env parses
+      # shared-env-yml to pip-install the group's packages.
+      cat <<DEFEOF > /tmp/lumi-python.def
+  <<lumi-container-def>>
+  DEFEOF
+
+      echo "Building container from: docker.io/lumiaifactory/lumi-multitorch:torch"
+      echo "Definition file:"
+      cat /tmp/lumi-python.def
+
+      singularity build --fix-perms "${STAGING}" /tmp/lumi-python.def || {
+          echo "ERROR: container build failed" >&2
+          exit 1
+      }
+      echo "Container built: ${STAGING}"
+
+      # Atomically swap the old file out and the new one in. Both renames
+      # are on the same filesystem, so each mv is a single rename().
+      if [[ -f "${CONTAINER_SIF}" ]]; then
+          backup="${CONTAINER_SIF}.old.$(date +%Y%m%d%H%M%S)"
+          echo "Moving existing ${CONTAINER_SIF} -> ${backup}"
+          mv "${CONTAINER_SIF}" "${backup}"
+      fi
+      mv "${STAGING}" "${CONTAINER_SIF}"
+      echo "Container installed: ${CONTAINER_SIF}"
+
+      echo "Done."
+#+end_src
+
+
 ****** Installing VASP on Lumi
 :PROPERTIES:
 :ID:       f1e95e4d-2cb5-403d-85ec-2274e0a7045b
