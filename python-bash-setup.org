@@ -137,12 +137,55 @@ This keeps everyone on the same, tested setup.
 When you do need your own environment (for example, inside the GPU
 container), create it with =--system-site-packages= so it reuses the
 existing libraries instead of duplicating them (and inflating the number
-of files):
+of files). See [[*Installing your own virtual environment][Installing your own virtual environment]].
+
+* Advanced
+
+** Installing your own virtual environment
+
+The shared =base= environment is managed centrally, so do not install
+your own packages directly into it. If you need packages that are not in
+the group environment, create a virtual environment on top of it.
 
 #+begin_src bash
   python -m venv --system-site-packages ~/myenv
   source ~/myenv/bin/activate
+  pip install <your-package>
 #+end_src
+
+=--system-site-packages= lets the new environment see the libraries
+already in the group environment, so =pip= only installs the difference
+instead of a full second copy. This keeps the environment small, which
+matters on Lustre filesystems where many small files slow things down.
+See [[*Requesting new libraries][Requesting new libraries]] for the shared-environment policy.
+
+** Building custom containers
+
+For a substantially different stack (for example, a different PyTorch or
+ROCm version on LUMI), build your own container on top of the official
+images instead of modifying the shared one.
+
+The group's own install scripts are the best reference -- they show the
+working commands on LUMI:
+
+- =$IMDGroup/dist/python-install.sh= :: builds the CPU Conda
+  environment via =conda-containerize=.
+- =$IMDGroup/dist/python-install-gpu.sh= :: the GPU container, built on
+  top of the multitorch image.
+
+Follow the LUMI documentation:
+- https://docs.lumi-supercomputer.eu/software/installing/container-wrapper/
+- https://docs.lumi-supercomputer.eu/laif/software/ai-environment/#build-new-containers-based-on-the-images
+- https://docs.lumi-supercomputer.eu/laif/software/ai-environment/#add-more-pip-packages-to-container
+
+Two things to keep in mind:
+- Inside a =singularity shell= (the GPU container), Slurm commands
+  (=srun=, =sbatch=, =squeue=) are not available. Run them from a host
+  shell (the login node or outside the container); the container runs
+  only the Python/GPU work..
+- A container image is read-only at run time, so install packages at
+  build time, or use a virtual environment inside the container for
+  anything you add at run time.
 
 * Troubleshooting
 
