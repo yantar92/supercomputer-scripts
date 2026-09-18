@@ -398,13 +398,28 @@ transparent -- the existing bashrc continues to work without changes.
   # Tykky pulls a miniconda Docker image, installs packages from env.yaml,
   # squashes the result into a .sqfs file, and auto-discovers all binaries
   # to create wrapper scripts in ${CONDA_LOCATION}/bin/.
-  ./bin/conda-containerize new --prefix "${CONDA_LOCATION}" "${IMDGroup}/dist/env.yaml"
+  #
+  # Build into a staging directory, then swap it into place. The live
+  # environment at ${CONDA_LOCATION} is left untouched until the new one is
+  # fully built, so existing users are not affected.
+  STAGING="${CONDA_LOCATION}.new.$(date +%Y%m%d%H%M%S)"
+  mkdir -p "${STAGING}"
+  ./bin/conda-containerize new --prefix "${STAGING}" "${IMDGroup}/dist/env.yaml"
 
   # Verify wrappers exist.
-  if [[ ! -x "${CONDA_LOCATION}/bin/python" ]]; then
-      echo "ERROR: wrapper not created at ${CONDA_LOCATION}/bin/python"
+  if [[ ! -x "${STAGING}/bin/python" ]]; then
+      echo "ERROR: wrapper not created at ${STAGING}/bin/python"
       exit 1
   fi
+
+  # Atomically swap the old directory out and the new one in. Both renames
+  # are on the same filesystem, so each mv is a single rename().
+  if [[ -e "${CONDA_LOCATION}" ]]; then
+      backup="${CONDA_LOCATION}.old.$(date +%Y%m%d%H%M%S)"
+      echo "Moving existing ${CONDA_LOCATION} -> ${backup}"
+      mv "${CONDA_LOCATION}" "${backup}"
+  fi
+  mv "${STAGING}" "${CONDA_LOCATION}"
 
   echo "Wrapper scripts installed in: ${CONDA_LOCATION}/bin/"
   echo "Done."
@@ -1473,7 +1488,6 @@ https://docs.lumi-supercomputer.eu/software/installing/container-wrapper/
 
   cd $SCRATCH
 
-  mkdir -p "${CONDA_LOCATION}"
   cat <<EOF > env.yaml
   <<shared-env-yml>>
   EOF
@@ -1481,8 +1495,22 @@ https://docs.lumi-supercomputer.eu/software/installing/container-wrapper/
   module load LUMI lumi-container-wrapper
 
   if ! $UPDATE_ONLY; then
-      # Fresh installation: wrap a new conda environment in a container
-      conda-containerize new --prefix ${CONDA_LOCATION} env.yaml
+      # Fresh installation: build into a staging directory, then swap it into
+      # place. The live environment at ${CONDA_LOCATION} is left untouched until
+      # the new one is fully built, so existing users are not affected.
+      STAGING="${CONDA_LOCATION}.new.$(date +%Y%m%d%H%M%S)"
+      mkdir -p "${STAGING}"
+      conda-containerize new --prefix ${STAGING} env.yaml
+
+      # Atomically swap the old directory out and the new one in. Both
+      # renames are on the same filesystem, so each mv is a single rename().
+      if [[ -e "${CONDA_LOCATION}" ]]; then
+          backup="${CONDA_LOCATION}.old.$(date +%Y%m%d%H%M%S)"
+          echo "Moving existing ${CONDA_LOCATION} -> ${backup}"
+          mv "${CONDA_LOCATION}" "${backup}"
+      fi
+      mv "${STAGING}" "${CONDA_LOCATION}"
+      echo "Installed ${CONDA_LOCATION}"
   else
       # Update existing container: conda-containerize creates a read-only
       # container, so we use the update command with a post-install script.
