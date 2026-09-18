@@ -6,6 +6,7 @@
 !*.sh
 !*.gnuplot
 !*.org
+!*.md
 !README
 !README.*
 !img/*

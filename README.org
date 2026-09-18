@@ -20,6 +20,11 @@ experiments. Each project uses sequentially numbered steps
 unused results away from the main calculation sequence.
 
 * Supercomputer access
+
+If you just need to set up your shell to use the group's Python and
+bash environment, start with [[file:python-bash-setup.org][python-bash-setup.org]] (step-by-step
+student guide).
+
 See [[file:supercomputer-access.org][supercomputer-access.org]] for full cluster details, the shared DFT
 toolchain setup, VASP installation procedures (makefiles per cluster),
 and personal shell/tmux configuration.
